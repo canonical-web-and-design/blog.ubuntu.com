@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "test": "",
+    "build": "echo build",
+    "watch": "",
+    "clean": "rm -rf node_modules yarn-error.log static/css *.log *.sqlite _site/ build/ .jekyll-metadata"
+  },
+  "devDependencies": {
+    "node-sass": "^4.5.3",
+    "sass-lint": "^1.10.2"
+  }
+}
