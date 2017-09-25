@@ -1,0 +1,100 @@
+
+{
+    "_links": {
+        "about": [
+            {
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/types/post"
+            }
+        ],
+        "author": [
+            {
+                "embeddable": true,
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/users/520"
+            }
+        ],
+        "collection": [
+            {
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/posts"
+            }
+        ],
+        "curies": [
+            {
+                "href": "https://api.w.org/{rel}",
+                "name": "wp",
+                "templated": true
+            }
+        ],
+        "replies": [
+            {
+                "embeddable": true,
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/comments?post=80415"
+            }
+        ],
+        "self": [
+            {
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/posts/80415"
+            }
+        ],
+        "version-history": [
+            {
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/posts/80415/revisions"
+            }
+        ],
+        "wp:attachment": [
+            {
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/media?parent=80415"
+            }
+        ],
+        "wp:term": [
+            {
+                "embeddable": true,
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/categories?post=80415",
+                "taxonomy": "category"
+            },
+            {
+                "embeddable": true,
+                "href": "https://insights.ubuntu.com/wp-json/wp/v2/tags?post=80415",
+                "taxonomy": "post_tag"
+            }
+        ]
+    },
+    "author": 520,
+    "categories": [
+        1453
+    ],
+    "comment_status": "closed",
+    "content": {
+        "protected": false,
+        "rendered": "<p><img src=\"https://insights.ubuntu.com/wp-content/uploads/ab27/Screen-Shot-2017-09-19-at-2.42.23-PM.png\" alt=\"\" width=\"724\" height=\"402\" class=\"alignleft size-full wp-image-80427\" /><br />\n&nbsp;</p>\n<p><em>This article originally appeared on <a href=\"http://blog.dustinkirkland.com/2017/09/results-of-ubuntu-desktop-applications.html\">Dustin Kirkland&#8217;s blog</a></em></p>\n<p>I had the distinct honor to deliver the closing keynote of the <a href=\"http://ubucon.org/en/events/ubucon-europe/\">UbuCon Europe</a> conference in Paris a few weeks ago. &nbsp;First off &#8212; what a beautiful <a href=\"https://ubucon.paris/\">conference</a> and <a href=\"http://www.cite-sciences.fr/en/home/\">venue</a>! &nbsp;Kudos to the organizers who really put together a truly remarkable event. &nbsp;And many thanks to the gentleman (<em>Elias</em>?) who brought me a bottle of his family&#8217;s favorite champagne, as a gift on Day 2 🙂 &nbsp;I should give more talks in France!</p>\n<p>In my keynote, I presented the results of the <em><a href=\"http://blog.dustinkirkland.com/2017/07/ubuntu-1804-lts-desktop-default.html\">Ubuntu 18.04 LTS Default Desktops Applications Survey</a></em>, which was discussed at length on <a href=\"https://news.ycombinator.com/item?id=14819508\">HackerNews</a>, <a href=\"https://www.reddit.com/r/Ubuntu/comments/6on93z/ubuntu_1804_lts_desktop_default_application_survey/\">Reddit</a>, and <a href=\"https://news.slashdot.org/story/17/07/21/1258245/ask-slashdot-ubuntu-1804-lts-desktop-default-application-survey\">Slashdot</a>. &nbsp;With the help of the Ubuntu Desktop team (led by Will Cooke), we processed over 15,000 survey responses and in this presentation, I discussed some of the insights of the data.</p>\n<p>The team is now hard at work evaluating many of the suggested applications, for those of you that aren&#8217;t into the <a href=\"https://twitter.com/popey/status/906889259700903942\">all-Emacs spin of Ubuntu</a> 😉</p>\n<p>Moreover, we&#8217;re also investigating a potential approach to make the Ubuntu Desktop experience perhaps a bit like those <em><a href=\"https://en.wikipedia.org/wiki/Choose_Your_Own_Adventure\">Choose-Your-Own-Adventure</a></em> books we loved when we were kids, where users have the opportunity to select each of their prefer applications (or stick with the distro default) for a handful of categories, during installation.</p>\n<p>Marius Quabeck recorded the session and published the audio and video of the presentation <a href=\"https://youtu.be/AvJfvLxXNrE\">here on YouTube</a>:</p>\n<p>&nbsp;<br />\n<center><iframe src=\"https://www.youtube.com/embed/AvJfvLxXNrE\" width=\"560\" height=\"315\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\"></iframe></center><br />You can download the slides <a href=\"https://www.slideshare.net/dustinkirkland/lets-talk-about-the-ubuntu-1804-lts-roadmap\">here</a>, or peruse them below:</p>\n<p><center><br />\n<iframe allowfullscreen=\"\" frameborder=\"0\" height=\"485\" marginheight=\"0\" marginwidth=\"0\" scrolling=\"no\" src=\"//www.slideshare.net/slideshow/embed_code/key/u7qfdpNTQypQ6Z\" style=\"border-width: 1px; border: 1px solid #ccc; margin-bottom: 5px; max-width: 100%;\" width=\"595\"> </iframe><br />\n<strong> <a href=\"https://www.slideshare.net/dustinkirkland/lets-talk-about-the-ubuntu-1804-lts-roadmap\" target=\"_blank\" title=\"Let's talk about the Ubuntu 18.04 LTS Roadmap!\">Let&#8217;s talk about the Ubuntu 18.04 LTS Roadmap!</a> </strong> from <strong><a href=\"https://www.slideshare.net/dustinkirkland\" target=\"_blank\">Dustin Kirkland</a></strong><br />\n</center></p>\n"
+    },
+    "date": "2017-09-19T18:48:33",
+    "date_gmt": "2017-09-19T18:48:33",
+    "excerpt": {
+        "protected": false,
+        "rendered": "<p>I had the distinct honor to deliver the closing keynote of the UbuCon Europe conference in Paris a few weeks ago. &nbsp;First off &#8212; what a beautiful conference and venue! &nbsp;Kudos to the organizers who really put together a truly remarkable event. &#8230;</p>\n"
+    },
+    "featured_media": 0,
+    "format": "standard",
+    "guid": {
+        "rendered": "https://insights.ubuntu.com/?guid=df2440616937238946fd4698f9dc7b99"
+    },
+    "id": 80415,
+    "link": "https://insights.ubuntu.com/2017/09/19/results-of-the-ubuntu-desktop-applications-survey/",
+    "meta": [],
+    "modified": "2017-09-19T18:48:33",
+    "modified_gmt": "2017-09-19T18:48:33",
+    "ping_status": "closed",
+    "slug": "results-of-the-ubuntu-desktop-applications-survey",
+    "status": "publish",
+    "sticky": false,
+    "tags": [
+        2479,
+        1954,
+        2381
+    ],
+    "template": "",
+    "title": {
+        "rendered": "Results of the Ubuntu Desktop Applications Survey"
+    },
+    "type": "post"
+}
