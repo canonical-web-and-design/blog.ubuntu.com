@@ -2,7 +2,7 @@
 {% block body %}
   <ul class="entries">
     {% for post in posts %}
-        <li>{{ post.slug }}</li>
+        <li>{{ post.slug }}<br />{{ post.excerpt | safe }}</li>
     {% endfor %}
   </ul>
 {% endblock %}

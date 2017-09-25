@@ -1,4 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h1>{{ post.title.rendered }}</h1>
+<div class="p-strip">
+  <div class="row">
+    <div class="col-10">
+      <h1>{{ post.title.rendered }}</h1>
+      <p>by {{ post.author }}</p>
+      {{ post.content.rendered | safe }}
+    </div>
+  </div>
+</div>
 {% endblock %}
