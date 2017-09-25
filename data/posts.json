@@ -59,7 +59,33 @@
             }
         ]
     },
-    "author": 520,
+    "author":
+    {
+        "_links": {
+            "collection": [
+                {
+                    "href": "https://insights.ubuntu.com/wp-json/wp/v2/users"
+                }
+            ],
+            "self": [
+                {
+                    "href": "https://insights.ubuntu.com/wp-json/wp/v2/users/520"
+                }
+            ]
+        },
+        "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/c8a47be6f7b70f479ebcfd89305af60c?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/c8a47be6f7b70f479ebcfd89305af60c?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/c8a47be6f7b70f479ebcfd89305af60c?s=96&d=mm&r=g"
+        },
+        "description": "",
+        "id": 520,
+        "link": "https://insights.ubuntu.com/author/dustin-kirkland-2/",
+        "meta": [],
+        "name": "Dustin Kirkland",
+        "slug": "dustin-kirkland-2",
+        "url": "https://plus.google.com/106792112407039087692"
+    },
     "categories": [
         1453
     ],
