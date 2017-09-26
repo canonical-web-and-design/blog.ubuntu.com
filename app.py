@@ -12,10 +12,11 @@ app = flask.Flask(__name__)
 
 
 def _embed_post_data(post):
-    if post['_embedded']:
+    if '_embedded' not in post:
         return post
-    embedded = post['embedded']
+    embedded = post['_embedded']
     post['author'] = embedded['author']
+    print(post['author'])
     return post
 
 
@@ -23,6 +24,7 @@ def _normalise_post(post):
     link = post['link']
     path = urlsplit(link).path
     post['relative_link'] = path
+    post = _embed_post_data(post)
     return post
 
 
@@ -32,7 +34,6 @@ def index():
     json_path = os.path.join(SITE_ROOT, "data", "posts.json")
     with open(json_path) as json_data:
         data = json.load(json_data)
-        print(data)
     return flask.render_template('index.html', posts=data)
 
 
@@ -47,7 +48,6 @@ def index_dev():
     json_path = os.path.join(SITE_ROOT, "data", "posts.json")
     with open(json_path) as json_data:
         data = json.load(json_data)
-        print(data)
     for post in data:
         post = _normalise_post(post)
     return flask.render_template('index.html', posts=data)
@@ -56,9 +56,8 @@ def index_dev():
 @app.route('/2017/09/19/results-of-the-ubuntu-desktop-applications-survey/')
 def post_dev():
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-    json_path = os.path.join(SITE_ROOT, "data", "post.embedded.json")
+    json_path = os.path.join(SITE_ROOT, "data", "post.json")
     with open(json_path) as json_data:
         data = json.load(json_data)
-        print(data)
     data = _normalise_post(data)
     return flask.render_template('post.html', post=data)
