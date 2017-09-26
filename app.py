@@ -22,6 +22,19 @@ class RegexConverter(BaseConverter):
 app.url_map.converters['regex'] = RegexConverter
 
 
+def _get_user_recent_posts(user_id, limit=5):
+    api_url = '{api_url}/posts?embed&author={user_id}&per_page={limit}'.format(
+        api_url=INSIGHTS_URL,
+        user_id=user_id,
+        limit=limit,
+    )
+    response = requests.get(api_url)
+    posts = json.loads(response.text)
+    for post in posts:
+        post = _normalise_post(post)
+    return posts
+
+
 def _embed_post_data(post):
     if '_embedded' not in post:
         return post
@@ -34,6 +47,7 @@ def _normalise_user(user):
     link = user['link']
     path = urlsplit(link).path
     user['relative_link'] = path
+    user['recent_posts'] = _get_user_recent_posts(user['id'])
     return user
 
 
@@ -65,6 +79,39 @@ def post(year, month, day, slug):
     return flask.render_template('post.html', post=data)
 
 
+<<<<<<< HEAD
+=======
+@app.route('/author/<slug>/')
+def user(slug):
+    api_url = ''.join([INSIGHTS_URL, '/users?_embed&slug=', slug])
+    response = requests.get(api_url)
+    data = json.loads(response.text)[0]
+    data = _normalise_user(data)
+    return flask.render_template('author.html', author=data)
+
+
+@app.route('/desktop/')
+def index_dev():
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_path = os.path.join(SITE_ROOT, "data", "posts.json")
+    with open(json_path) as json_data:
+        data = json.load(json_data)
+    for post in data:
+        post = _normalise_post(post)
+    return flask.render_template('index.html', posts=data)
+
+
+@app.route('/2017/09/19/results-of-the-ubuntu-desktop-applications-survey/')
+def post_dev():
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_path = os.path.join(SITE_ROOT, "data", "post.json")
+    with open(json_path) as json_data:
+        data = json.load(json_data)
+    data = _normalise_post(data)
+    return flask.render_template('post.html', post=data)
+
+
+>>>>>>> Author page with recent posts
 @app.route('/author/dustin-kirkland-2/')
 def user_dev():
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
