@@ -3,20 +3,28 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-10">
-    <div class="p-media-object">
-        <img src="{{ author.avatar_urls.96 }}" class="p-media-object__image">
+      <div class="p-media-object">
+        <img src="{{ author.avatar_urls['96'] }}" class="p-media-object__image">
         <div class="p-media-object__details">
-          <h3 class="p-media-object__title">
+          <h1 class="p-media-object__title">
             {{ author.name }}
-          </h3>
-          <p class="p-media-object__content">{{ author.description }}</p>
+          </h1>
           <ul class="p-media-object__meta-list">
             <li class="p-media-object__meta-list-item">
               <a href="{{ author.url }}">Google+</a>
             </li>
           </ul>
+          <p class="p-media-object__content">{{ author.description }}</p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-strip u-no-padding--top">
+  <div class="row">
+    <div class="col-8">
+      <h3 class="p-heading--four">Latest posts</h3>
     </div>
   </div>
 </div>

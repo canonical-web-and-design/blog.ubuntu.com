@@ -29,6 +29,7 @@ pids
 # [deps] Local dependencies
 .bundle/
 node_modules/
+static/components/
 bower_components/
 vendor/
 # Normally lockfiles would be committed, but we use yarn instead of NPM for locking dependencies

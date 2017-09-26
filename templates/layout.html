@@ -17,6 +17,8 @@
     <link type="text/plain" rel="author" href="/static/files/humans.txt?v=ca18519" />
 
     <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="stylesheet" href="/static/components/canonical-cookie-policy/build/css/cookie-policy.css" />
+    <link rel="stylesheet" href="/static/components/canonical-global-nav/build/css/main.css" />
   </head>
 
   <body>
@@ -59,7 +61,7 @@
             <a href="#main-content">Jump to main content</a>
           </span>
           <ul class="p-navigation__links">
-            <li class="p-navigation__link"><a href="/2017/09/19/results-of-the-ubuntu-desktop-applications-survey/">Cloud and server</a></li>
+            <li class="p-navigation__link"><a href="/cloud-and-server">Cloud and server</a></li>
             <li class="p-navigation__link"><a href="/internet-of-things/">IoT</a></li>
             <li class="p-navigation__link"><a href="/desktop/">Desktop</a></li>
             <li class="p-navigation__link"><a href="/press-centre/">Press centre</a></li>
@@ -90,5 +92,15 @@
         </div>
       </footer>
     </div>
+    <script src="/static/components/canonical-cookie-policy/build/js/cookie-policy.js"></script>
+    <script src="/static/components/canonical-global-nav/build/js/global.js"></script>
+    <script>
+      var options = {
+        'content': 'We use cookies to improve your experience. By your continued use of this site you accept such use.<br /> This notice will disappear by itself. To change your settings please <a href="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy#cookies">see our policy</a>.',
+        'duration': 5000
+      }
+      ubuntu.cookiePolicy.setup(options);
+      ubuntu.globalNav.setup();
+    </script>
   </body>
 </html>

@@ -1,0 +1,27 @@
+{
+  "name": "ubuntu-insights",
+  "description": "Flask frontend website for insights.ubuntu.com",
+  "main": "index.js",
+  "authors": [
+    "Canonical webteam"
+  ],
+  "license": "LGPL v3",
+  "keywords": [
+    "website",
+    "ubuntu"
+  ],
+  "homepage": "https://insights.ubuntu.com/",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/components/"
+  ],
+  "dependencies": {
+    "canonical-global-nav": "~0.2.0",
+    "canonical-cookie-policy": "~1.0.2"
+  }
+}
