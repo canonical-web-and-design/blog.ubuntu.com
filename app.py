@@ -2,8 +2,17 @@ import flask
 import json
 import os
 
+from urllib.parse import urlsplit
+
 
 app = flask.Flask(__name__)
+
+
+def _normalise_post(post):
+    link = post['link']
+    path = urlsplit(link).path
+    post['relative_link'] = path
+    return post
 
 
 @app.route("/")
@@ -28,6 +37,8 @@ def index_dev():
     with open(json_path) as json_data:
         data = json.load(json_data)
         print(data)
+    for post in data:
+        post = _normalise_post(post)
     return flask.render_template('index.html', posts=data)
 
 
@@ -38,4 +49,5 @@ def post_dev():
     with open(json_path) as json_data:
         data = json.load(json_data)
         print(data)
+    data = _normalise_post(data)
     return flask.render_template('post.html', post=data)
