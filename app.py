@@ -5,7 +5,18 @@ import os
 from urllib.parse import urlsplit
 
 
+INSIGHTS_URL = 'https://insights.ubuntu.com/wp-json/wp/v2'
+
+
 app = flask.Flask(__name__)
+
+
+def _embed_post_data(post):
+    if post['_embedded']:
+        return post
+    embedded = post['embedded']
+    post['author'] = embedded['author']
+    return post
 
 
 def _normalise_post(post):
@@ -45,7 +56,7 @@ def index_dev():
 @app.route('/2017/09/19/results-of-the-ubuntu-desktop-applications-survey/')
 def post_dev():
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-    json_path = os.path.join(SITE_ROOT, "data", "post.json")
+    json_path = os.path.join(SITE_ROOT, "data", "post.embedded.json")
     with open(json_path) as json_data:
         data = json.load(json_data)
         print(data)
