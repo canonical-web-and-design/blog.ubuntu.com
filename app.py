@@ -79,8 +79,6 @@ def post(year, month, day, slug):
     return flask.render_template('post.html', post=data)
 
 
-<<<<<<< HEAD
-=======
 @app.route('/author/<slug>/')
 def user(slug):
     api_url = ''.join([INSIGHTS_URL, '/users?_embed&slug=', slug])
@@ -111,7 +109,6 @@ def post_dev():
     return flask.render_template('post.html', post=data)
 
 
->>>>>>> Author page with recent posts
 @app.route('/author/dustin-kirkland-2/')
 def user_dev():
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
