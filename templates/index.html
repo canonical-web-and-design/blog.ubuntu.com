@@ -1,8 +1,22 @@
 {% extends "layout.html" %}
 {% block body %}
-  <ul class="entries">
-    {% for post in posts %}
-        <li>{{ post.slug }}<br />{{ post.excerpt | safe }}</li>
-    {% endfor %}
-  </ul>
+  <div class="p-strip--accent">
+    <div class="row">
+      <div class="col-8">
+        <h1>Ubuntu Insights</h1>
+        <p>Your source for Ubuntu news, articles, tutorials, e-books and everything else in-between.</p>
+      </div>
+      <div class="col-4 u-align--center">
+        <img src="https://assets.ubuntu.com/v1/e2047558-pictogram-knowledge-orange-white-background.svg" width="200" alt="" />
+      </div>
+    </div>
+  </div>
+  {% for post in posts %}
+    <div class="p-strip is-shallow is-bordered">
+      <div class="row">
+        <h2 class="p-heading--three"><a href="{{ post.slug }}">{{ post.title.rendered }}</a></h2>
+        <p class="u-no-padding--bottom">{{ post.excerpt.rendered | safe }}</p>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}
