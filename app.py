@@ -15,9 +15,16 @@ def _embed_post_data(post):
     if '_embedded' not in post:
         return post
     embedded = post['_embedded']
-    post['author'] = embedded['author']
+    post['author'] = _normalise_user(embedded['author'])
     print(post['author'])
     return post
+
+
+def _normalise_user(user):
+    link = user['link']
+    path = urlsplit(link).path
+    user['relative_link'] = path
+    return user
 
 
 def _normalise_post(post):
@@ -61,3 +68,13 @@ def post_dev():
         data = json.load(json_data)
     data = _normalise_post(data)
     return flask.render_template('post.html', post=data)
+
+
+@app.route('/author/dustin-kirkland-2/')
+def user_dev():
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_path = os.path.join(SITE_ROOT, "data", "users.json")
+    with open(json_path) as json_data:
+        data = json.load(json_data)
+    data = _normalise_user(data)
+    return flask.render_template('author.html', author=data)
