@@ -103,7 +103,7 @@ def _get_posts(categories=[], tags=[], page=None):
     if tags:
         if isinstance(tags, list):
             tags = ','.join(str(tag) for tag in tags)
-        ''.join([api_url, '&tags=', tags])
+        ''.join([api_url, '&tags=', str(tags)])
 
     response = _get_from_cache(api_url)
 
@@ -177,7 +177,7 @@ def index(category=[]):
 
 @app.route('/tag/<slug>/')
 def tag_index(slug):
-    api_url = ''.join([INSIGHTS_URL, '/tags?_embed&slug=', slug])
+    api_url = ''.join([INSIGHTS_URL, '/tags?slug=', slug])
     response = _get_from_cache(api_url)
     tag = json.loads(response.text)[0]
 
