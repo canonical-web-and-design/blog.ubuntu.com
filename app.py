@@ -22,6 +22,18 @@ class RegexConverter(BaseConverter):
 app.url_map.converters['regex'] = RegexConverter
 
 
+def _get_posts(category=None, limit=10):
+    api_url = '{api_url}/posts?embed&per_page={limit}'.format(
+        api_url=INSIGHTS_URL,
+        limit=limit,
+    )
+    response = requests.get(api_url)
+    posts = json.loads(response.text)
+    for post in posts:
+        post = _normalise_post(post)
+    return posts
+
+
 def _get_user_recent_posts(user_id, limit=5):
     api_url = '{api_url}/posts?embed&author={user_id}&per_page={limit}'.format(
         api_url=INSIGHTS_URL,
@@ -61,13 +73,14 @@ def _normalise_post(post):
 
 @app.route("/")
 def index():
-    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-    json_path = os.path.join(SITE_ROOT, "data", "posts.json")
-    with open(json_path) as json_data:
-        data = json.load(json_data)
-    for post in data:
-        post = _normalise_post(post)
-    return flask.render_template('index.html', posts=data)
+    posts = _get_posts()
+    return flask.render_template('index.html', posts=posts)
+
+
+@app.route("/<category>/")
+def category(category):
+    posts = _get_posts(category=category)
+    return flask.render_template('index.html', posts=posts)
 
 
 @app.route('/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/<regex("[0-9]{2}"):day>/<slug>/')
