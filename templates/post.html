@@ -57,4 +57,21 @@
     </div>
   </div>
 </div>
+<div class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-8">
+      <ul class="p-list">
+        {% for related in post.related_posts %}
+          <li class="p-list__item">
+            <a href="{{ related.relative_link }}">
+              {{  related.title.rendered | safe  }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-4">
+    </div>
+  </div>
+</div>
 {% endblock %}
