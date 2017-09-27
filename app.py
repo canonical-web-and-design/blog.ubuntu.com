@@ -74,13 +74,13 @@ def _normalise_post(post):
 @app.route("/")
 def index():
     posts = _get_posts()
-    return flask.render_template('index.html', posts=posts)
+    return flask.render_template('index.html', posts=posts, category=None)
 
 
 @app.route("/<category>/")
 def category(category):
     posts = _get_posts(category=category)
-    return flask.render_template('index.html', posts=posts)
+    return flask.render_template('index.html', posts=posts, category=category)
 
 
 @app.route('/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/<regex("[0-9]{2}"):day>/<slug>/')
