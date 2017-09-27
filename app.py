@@ -90,16 +90,15 @@ class RegexConverter(BaseConverter):
 app.url_map.converters['regex'] = RegexConverter
 
 
-def _get_posts(categories=[], tags=[], limit=10):
-    if isinstance(categories, str):
-        category = [categories]
-
-    api_url = '{api_url}/posts?embed&per_page={limit}'.format(
+def _get_posts(categories=[], tags=[], page=None):
+    api_url = '{api_url}/posts?embed&page={page}'.format(
         api_url=INSIGHTS_URL,
-        limit=limit,
+        page=str(page or 1),
     )
-    for category in categories:
-        ''.join([api_url, '&category=', category])
+    # if categories:
+    #     if isinstance(categories, list):
+    #         categories = ','.join(str(category) for category in categories)
+    #     ''.join([api_url, '&categories=', categories])
 
     if tags:
         if isinstance(tags, list):
@@ -107,16 +106,26 @@ def _get_posts(categories=[], tags=[], limit=10):
         ''.join([api_url, '&tags=', tags])
 
     response = _get_from_cache(api_url)
+
+    headers = response.headers
+    metadata = {
+        'current_page': page or 1,
+        'total_pages': headers.get('X-WP-TotalPages'),
+        'total_posts': headers.get('X-WP-Total'),
+    }
+
     posts = json.loads(response.text)
     for post in posts:
         post = _normalise_post(post)
-    return posts
+
+    return posts, metadata
 
 
 def _get_related_posts(post):
     # TODO: Load tags from post
     tags = [1954, 2479]
-    return _get_posts(tags=tags)
+    posts, meta = _get_posts(tags=tags)
+    return posts
 
 
 def _get_user_recent_posts(user_id, limit=5):
@@ -159,11 +168,19 @@ def _normalise_post(post):
 @app.route('/')
 @app.route('/<category>/')
 def index(category=[]):
-    posts = _get_posts(categories=category)
-    return flask.render_template('index.html', posts=posts, category=category)
+    page = flask.request.args.get('page')
+    posts, metadata = _get_posts(categories=category, page=page)
+    return flask.render_template(
+        'index.html', posts=posts, category=category, **metadata
+    )
 
 
-@app.route('/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/<regex("[0-9]{2}"):day>/<slug>/')
+@app.route(
+    '/<regex("[0-9]{4}"):year>'
+    '/<regex("[0-9]{2}"):month>'
+    '/<regex("[0-9]{2}"):day>'
+    '/<slug>/'
+)
 def post(year, month, day, slug):
     api_url = ''.join([INSIGHTS_URL, '/posts?_embed&slug=', slug])
     response = _get_from_cache(api_url)
