@@ -22,16 +22,33 @@ class RegexConverter(BaseConverter):
 app.url_map.converters['regex'] = RegexConverter
 
 
-def _get_posts(category=None, limit=10):
+def _get_posts(categories=[], tags=[], limit=10):
+    if isinstance(categories, str):
+        category = [categories]
+
     api_url = '{api_url}/posts?embed&per_page={limit}'.format(
         api_url=INSIGHTS_URL,
         limit=limit,
     )
+    for category in categories:
+        ''.join([api_url, '&category=', category])
+
+    if tags:
+        if isinstance(tags, list):
+            tags = ','.join(str(tag) for tag in tags)
+        ''.join([api_url, '&tags=', tags])
+
     response = requests.get(api_url)
     posts = json.loads(response.text)
     for post in posts:
         post = _normalise_post(post)
     return posts
+
+
+def _get_related_posts(post):
+    # TODO: Load tags from post
+    tags = [1954, 2479]
+    return _get_posts(tags=tags)
 
 
 def _get_user_recent_posts(user_id, limit=5):
@@ -79,7 +96,7 @@ def index():
 
 @app.route("/<category>/")
 def category(category):
-    posts = _get_posts(category=category)
+    posts = _get_posts(categories=category)
     return flask.render_template('index.html', posts=posts, category=category)
 
 
@@ -89,6 +106,7 @@ def post(year, month, day, slug):
     response = requests.get(api_url)
     data = json.loads(response.text)[0]
     data = _normalise_post(data)
+    data['related_posts'] = _get_related_posts(data)
     return flask.render_template('post.html', post=data)
 
 
