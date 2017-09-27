@@ -156,14 +156,9 @@ def _normalise_post(post):
     return post
 
 
-@app.route("/")
-def index():
-    posts = _get_posts()
-    return flask.render_template('index.html', posts=posts, category=None)
-
-
-@app.route("/<category>/")
-def category(category):
+@app.route('/')
+@app.route('/<category>/')
+def index(category=[]):
     posts = _get_posts(categories=category)
     return flask.render_template('index.html', posts=posts, category=category)
 
