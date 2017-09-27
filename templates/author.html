@@ -24,7 +24,12 @@
 <div class="p-strip u-no-padding--top">
   <div class="row">
     <div class="col-8">
-      <h3 class="p-heading--four">Latest posts</h3>
+      <h3 class="p-heading--five">Recently posted by {{ author.name }}</h3>
+      <ul class="p-list--divided">
+      {% for post in author.recent_posts %}
+        <li class="p-list__item"><a href="{{ post.relative_link }}">{{ post.title.rendered }}</a></li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 </div>
