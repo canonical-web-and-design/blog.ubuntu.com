@@ -200,12 +200,19 @@ def index(category=[]):
         groups=[str(group['id']) for group in groups],
         page=page
     )
-    return flask.render_template(
-        'index.html',
-        posts=posts,
-        category=groups[0] if groups else None,
-        **metadata
-    )
+    if category:
+        return flask.render_template(
+            'group.html',
+            posts=posts,
+            category=groups[0] if groups else None,
+            **metadata
+        )
+    else:
+        return flask.render_template(
+            'index.html',
+            posts=posts,
+            **metadata
+        )
 
 
 @app.route('/tag/<slug>/')
