@@ -135,9 +135,17 @@ def _get_posts(groups=[], tags=[], page=None):
 
 
 def _get_related_posts(post):
-    # TODO: Load tags from post
-    tags = [1954, 2479]
-    posts, meta = _get_posts(tags=tags)
+    api_url = '{api_url}/tags?embed&post={post_id}'.format(
+        api_url=INSIGHTS_URL,
+        post_id=post['id'],
+    )
+    response = _get_from_cache(api_url)
+    tags = json.loads(response.text)
+
+    tag_ids = [tag['id'] for tag in tags]
+    posts, meta = _get_posts(tags=tag_ids)
+    for post in posts:
+        post = _normalise_post(post)
     return posts
 
 
