@@ -140,12 +140,22 @@ def _get_user_recent_posts(user_id, limit=5):
         post = _normalise_post(post)
     return posts
 
+def _get_tag_details_from_post(post_id):
+    api_url = '{api_url}/tags?post={post_id}'.format(
+        api_url=INSIGHTS_URL,
+        post_id=post_id,
+    )
+    response = _get_from_cache(api_url)
+    tags = json.loads(response.text)
+    return tags
+
 
 def _embed_post_data(post):
     if '_embedded' not in post:
         return post
     embedded = post['_embedded']
     post['author'] = _normalise_user(embedded['author'][0])
+    post['tags'] = _get_tag_details_from_post(post['id'])
     return post
 
 

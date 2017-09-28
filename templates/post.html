@@ -1,9 +1,26 @@
-{% extends "layout.html" %} {% block body %}
+{% extends "layout.html" %}
+
+{% block body %}
 <div class="p-strip--light  is-shallow">
   <div class="row">
     <div class="col-10">
-      <h1>{{ post.title.rendered }}</h1>
-      <p>by <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a></p>
+      <p><img src="{{ post.author.avatar_urls["48"] }}" alt="{{ post.author.name }}"> by <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-10">
+      <h1>{{ post.title.rendered | safe }}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-10">
+      <p>
+        <strong>Tags:</strong>
+        {% for tag in post.tags %}
+          <a href="/tag/{{ tag.slug }}">
+            {{ tag.name }}</a>{{ ',' if not loop.last }}
+        {% endfor %}
+      </ul>
     </div>
   </div>
   <div class="row">
@@ -11,8 +28,8 @@
       <ul class="p-inline-list">
         <li class="p-inline-list__item">
           <a class="p-social-icon--facebook" title="Share on Facebook" href="http://www.facebook.com/sharer.php?s=100&amp;p[url]=https://insights.ubuntu.com/?p={{ post.id }}&#9;&#9;&#9;&amp;p[title]={{ post.title.rendered }}&amp;p[summary]={{ post.excerpt.rendered | safe }}%26hellip%3B&amp;p[images][0]=">
-              Facebook
-            </a>
+            Facebook
+          </a>
         </li>
         <li class="p-inline-list__item">
           <a class="p-social-icon--twitter" title="Share on Twitter" href="http://twitter.com/share?text={{ post.title.rendered }}&amp;url=https://insights.ubuntu.com/?p={{ post.id }}&amp;hashtags=ubuntu">
