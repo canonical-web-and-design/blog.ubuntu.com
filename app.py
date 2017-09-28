@@ -90,20 +90,33 @@ class RegexConverter(BaseConverter):
 app.url_map.converters['regex'] = RegexConverter
 
 
-def _get_posts(categories=[], tags=[], page=None):
+def _get_groups_by_slug(slugs=[]):
+    if slugs:
+        if isinstance(slugs, list):
+            slugs = ','.join(slugs)
+    api_url = '{api_url}/group?slug={slug}'.format(
+        api_url=INSIGHTS_URL,
+        slug=slugs,
+    )
+    response = _get_from_cache(api_url)
+    groups = json.loads(response.text)
+    return groups
+
+
+def _get_posts(groups=[], tags=[], page=None):
     api_url = '{api_url}/posts?embed&page={page}'.format(
         api_url=INSIGHTS_URL,
         page=str(page or 1),
     )
-    # if categories:
-    #     if isinstance(categories, list):
-    #         categories = ','.join(str(category) for category in categories)
-    #     ''.join([api_url, '&categories=', categories])
+
+    if groups:
+        groups = ','.join(str(group) for group in groups)
+        api_url = ''.join([api_url, '&group=', groups])
 
     if tags:
         if isinstance(tags, list):
             tags = ','.join(str(tag) for tag in tags)
-        ''.join([api_url, '&tags=', str(tags)])
+        api_url = ''.join([api_url, '&tags=', str(tags)])
 
     response = _get_from_cache(api_url)
 
@@ -178,10 +191,20 @@ def _normalise_post(post):
 @app.route('/')
 @app.route('/<category>/')
 def index(category=[]):
+    groups = []
+    if category:
+        groups = _get_groups_by_slug(slugs=category)
+
     page = flask.request.args.get('page')
-    posts, metadata = _get_posts(categories=category, page=page)
+    posts, metadata = _get_posts(
+        groups=[str(group['id']) for group in groups],
+        page=page
+    )
     return flask.render_template(
-        'index.html', posts=posts, category=category, **metadata
+        'index.html',
+        posts=posts,
+        category=groups[0] if groups else None,
+        **metadata
     )
 
 
