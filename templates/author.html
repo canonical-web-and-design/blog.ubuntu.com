@@ -27,7 +27,7 @@
       <h3 class="p-heading--five">Recently posted by {{ author.name }}</h3>
       <ul class="p-list--divided">
       {% for post in author.recent_posts %}
-        <li class="p-list__item"><a href="{{ post.relative_link }}">{{ post.title.rendered }}</a></li>
+        <li class="p-list__item"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></li>
         {% endfor %}
       </ul>
     </div>
