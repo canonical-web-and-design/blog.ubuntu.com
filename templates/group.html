@@ -11,7 +11,7 @@
     <div class="p-strip is-shallow is-bordered">
       <div class="row">
         <div class="col-8">
-          <h2 class="p-heading--three"><a href="{{ post.relative_link }}">{{ post.title.rendered }}</a></h2>
+          <h2 class="p-heading--three"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></h2>
           <p class="u-no-padding--bottom">{{ post.excerpt.rendered | safe }}</p>
         </div>
       </div>
