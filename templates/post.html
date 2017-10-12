@@ -12,6 +12,7 @@
       <h1>{{ post.title.rendered | safe }}</h1>
     </div>
   </div>
+  {% if post.tags %}
   <div class="row">
     <div class="col-10">
       <p>
@@ -20,9 +21,10 @@
           <a href="/tag/{{ tag.slug }}">
             {{ tag.name }}</a>{{ ',' if not loop.last }}
         {% endfor %}
-      </ul>
+      </p>
     </div>
   </div>
+  {% endif %}
   <div class="row">
     <div class="col-10">
       <ul class="p-inline-list">
