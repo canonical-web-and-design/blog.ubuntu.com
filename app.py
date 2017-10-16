@@ -202,6 +202,15 @@ def index(category=[]):
     groups = []
     if category:
         groups = _get_groups_by_slug(slugs=category)
+        if not groups:
+            groups.append({
+                "id": -1,
+                "name": category
+            })
+
+            return flask.render_template(
+                '404.html'
+            )
 
     page = flask.request.args.get('page')
     posts, metadata = _get_posts(
