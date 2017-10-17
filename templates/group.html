@@ -3,7 +3,13 @@
   <div class="p-strip--light is-shallow">
     <div class="row">
       <div class="col-8">
-        <h1 class="u-no-margin--bottom">{{ category.name }}</h1>
+        <h1 class="u-no-margin--bottom">
+          {% if request.path == "/press-centre/" %}
+            Press centre
+          {% else %}
+            {{ category.name }}
+          {% endif %}
+        </h1>
       </div>
     </div>
   </div>
