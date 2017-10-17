@@ -1,0 +1,7 @@
+@mixin insights-p-rtp {
+  .rtp-banner {
+    &:empty {
+      display: none;
+    }
+  }
+}
