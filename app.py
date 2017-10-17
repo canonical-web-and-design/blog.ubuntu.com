@@ -4,7 +4,7 @@ import json
 import humanize
 import requests
 import requests_cache
-from dateutil import parser, relativedelta
+from dateutil import parser
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from urllib.parse import urlsplit
