@@ -1,8 +1,8 @@
-@charset "UTF-8";
+@charset 'UTF-8';
 
-// import vanilla-framework
 @import 'vanilla-framework/scss/build';
-@import '_pattern_social-share';
-
+@import 'pattern_social-share';
+@import 'pattern_rtp';
 
 @include insights-p-social-share;
+@include insights-p-rtp;
