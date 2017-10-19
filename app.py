@@ -127,9 +127,7 @@ def _get_posts(groups=[], tags=[], page=None):
         'total_posts': headers.get('X-WP-Total'),
     }
 
-    posts = json.loads(response.text)
-    for post in posts:
-        post = _normalise_post(post)
+    posts = _normalise_posts(json.loads(response.text))
 
     return posts, metadata
 
@@ -144,8 +142,7 @@ def _get_related_posts(post):
 
     tag_ids = [tag['id'] for tag in tags]
     posts, meta = _get_posts(tags=tag_ids)
-    for post in posts:
-        post = _normalise_post(post)
+    posts = _normalise_posts(posts)
     return posts
 
 
@@ -156,10 +153,10 @@ def _get_user_recent_posts(user_id, limit=5):
         limit=limit,
     )
     response = _get_from_cache(api_url)
-    posts = json.loads(response.text)
-    for post in posts:
-        post = _normalise_post(post)
+    posts = _normalise_posts(json.loads(response.text))
+
     return posts
+
 
 def _get_tag_details_from_post(post_id):
     api_url = '{api_url}/tags?post={post_id}'.format(
@@ -181,6 +178,22 @@ def _get_topic_details_from_post(post_id):
     return topics
 
 
+def _get_featured_post(groups=[], per_page=1):
+    api_url = '{api_url}/posts?embed&sticky=true&per_page={per_page}'.format(
+        api_url=INSIGHTS_URL,
+        per_page=per_page
+    )
+
+    if groups:
+        groups = ','.join(str(group) for group in groups)
+        api_url = ''.join([api_url, '&group=', groups])
+
+    response = _get_from_cache(api_url)
+    posts = _normalise_posts(json.loads(response.text))
+
+    return posts
+
+
 def _embed_post_data(post):
     if '_embedded' not in post:
         return post
@@ -199,6 +212,12 @@ def _normalise_user(user):
     return user
 
 
+def _normalise_posts(posts):
+    for post in posts:
+        post = _normalise_post(post)
+    return posts
+
+
 def _normalise_post(post):
     link = post['link']
     path = urlsplit(link).path
@@ -213,35 +232,38 @@ def index(category=[]):
     groups = []
     if category:
         if category == 'press-centre':
-            groups = _get_groups_by_slug(slugs='canonical-announcements')
-        else:
-            groups = _get_groups_by_slug(slugs=category)
-            if not groups:
-                groups.append({
-                    "id": -1,
-                    "name": category
-                })
+            category = 'canonical-announcements'
 
-                return flask.render_template(
-                    '404.html'
-                )
+        groups = _get_groups_by_slug(slugs=category)
+
+        if not groups:
+            return flask.render_template(
+                '404.html'
+            )
+
+    groups_id = [str(group['id']) for group in groups]
 
     page = flask.request.args.get('page')
     posts, metadata = _get_posts(
-        groups=[str(group['id']) for group in groups],
+        groups=groups_id,
         page=page
     )
+
+    featured_post = _get_featured_post(groups_id)
+
     if category:
         return flask.render_template(
             'group.html',
             posts=posts,
             category=groups[0] if groups else None,
+            featured_post=featured_post,
             **metadata
         )
     else:
         return flask.render_template(
             'index.html',
             posts=posts,
+            featured_post=featured_post,
             **metadata
         )
 
