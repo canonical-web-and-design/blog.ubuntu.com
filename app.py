@@ -1,8 +1,10 @@
 import datetime
 import flask
 import json
+import humanize
 import requests
 import requests_cache
+from dateutil import parser
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from urllib.parse import urlsplit
@@ -104,7 +106,7 @@ def _get_groups_by_slug(slugs=[]):
 
 
 def _get_posts(groups=[], tags=[], page=None):
-    api_url = '{api_url}/posts?embed&page={page}'.format(
+    api_url = '{api_url}/posts?_embed&page={page}'.format(
         api_url=INSIGHTS_URL,
         page=str(page or 1),
     )
@@ -222,6 +224,9 @@ def _normalise_post(post):
     link = post['link']
     path = urlsplit(link).path
     post['relative_link'] = path
+    post['formatted_date'] = humanize.naturaldate(
+        parser.parse(post['date'])
+    )
     post = _embed_post_data(post)
     return post
 
