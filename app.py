@@ -191,7 +191,7 @@ def _get_featured_post(groups=[], per_page=1):
     response = _get_from_cache(api_url)
     posts = _normalise_posts(json.loads(response.text))
 
-    return posts
+    return posts[0] if posts else None
 
 
 def _embed_post_data(post):

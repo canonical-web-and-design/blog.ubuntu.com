@@ -11,6 +11,17 @@
       </div>
     </div>
   </div>
+  {% if featured_post %}
+  <div class="p-strip is-shallow is-bordered">
+    <div class="row">
+      <div class="col-8">
+        <h3 class="p-heading--four">Featured article</h3>
+        <h2 class="p-heading-three"><a href="{{ featured_post.relative_link }}">{{ featured_post.title.rendered | safe }}</a></h2>
+        <p class="u-no-padding--bottom">{{ featured_post.excerpt.rendered | safe }}</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
   {#
   {{ current_page }}
