@@ -73,7 +73,7 @@
       {{ post.content.rendered | safe }}
     </div>
     <div class="col-4">
-      <div class="p-card" id="rtp-{{ post.topics[0].slug }}">
+      <div class="p-card" {% if post.topics[0] %} id="rtp-{{ post.topics[0].slug }}" {% endif %}>
         <h3>
           <a href="http://www.ubuntu.com/cloud" class="p-link--external">
             Ubuntu cloud
