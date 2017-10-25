@@ -1,4 +1,5 @@
 import datetime
+import urllib
 import flask
 import json
 import humanize
@@ -11,7 +12,8 @@ from urllib.parse import urlsplit
 from werkzeug.routing import BaseConverter
 
 
-INSIGHTS_URL = 'https://insights.ubuntu.com/wp-json/wp/v2'
+INSIGHTS_URL = 'https://insights.ubuntu.com'
+API_URL = INSIGHTS_URL + '/wp-json/wp/v2'
 
 
 app = flask.Flask(__name__)
@@ -97,7 +99,7 @@ def _get_groups_by_slug(slugs=[]):
         if isinstance(slugs, list):
             slugs = ','.join(slugs)
     api_url = '{api_url}/group?slug={slug}'.format(
-        api_url=INSIGHTS_URL,
+        api_url=API_URL,
         slug=slugs,
     )
     response = _get_from_cache(api_url)
@@ -107,7 +109,7 @@ def _get_groups_by_slug(slugs=[]):
 
 def _get_posts(groups=[], tags=[], page=None):
     api_url = '{api_url}/posts?_embed&page={page}'.format(
-        api_url=INSIGHTS_URL,
+        api_url=API_URL,
         page=str(page or 1),
     )
 
@@ -136,7 +138,7 @@ def _get_posts(groups=[], tags=[], page=None):
 
 def _get_related_posts(post):
     api_url = '{api_url}/tags?embed&post={post_id}'.format(
-        api_url=INSIGHTS_URL,
+        api_url=API_URL,
         post_id=post['id'],
     )
     response = _get_from_cache(api_url)
@@ -150,7 +152,7 @@ def _get_related_posts(post):
 
 def _get_user_recent_posts(user_id, limit=5):
     api_url = '{api_url}/posts?embed&author={user_id}&per_page={limit}'.format(
-        api_url=INSIGHTS_URL,
+        api_url=API_URL,
         user_id=user_id,
         limit=limit,
     )
@@ -162,7 +164,7 @@ def _get_user_recent_posts(user_id, limit=5):
 
 def _get_tag_details_from_post(post_id):
     api_url = '{api_url}/tags?post={post_id}'.format(
-        api_url=INSIGHTS_URL,
+        api_url=API_URL,
         post_id=post_id,
     )
     response = _get_from_cache(api_url)
@@ -172,7 +174,7 @@ def _get_tag_details_from_post(post_id):
 
 def _get_topic_details_from_post(post_id):
     api_url = '{api_url}/topic?post={post_id}'.format(
-        api_url=INSIGHTS_URL,
+        api_url=API_URL,
         post_id=post_id,
     )
     response = _get_from_cache(api_url)
@@ -182,7 +184,7 @@ def _get_topic_details_from_post(post_id):
 
 def _get_featured_post(groups=[], per_page=1):
     api_url = '{api_url}/posts?embed&sticky=true&per_page={per_page}'.format(
-        api_url=INSIGHTS_URL,
+        api_url=API_URL,
         per_page=per_page
     )
 
@@ -275,7 +277,7 @@ def index(category=[]):
 
 @app.route('/tag/<slug>/')
 def tag_index(slug):
-    api_url = ''.join([INSIGHTS_URL, '/tags?slug=', slug])
+    api_url = ''.join([API_URL, '/tags?slug=', slug])
     response = _get_from_cache(api_url)
 
     response_text = json.loads(response.text)
@@ -305,7 +307,7 @@ def tag_index(slug):
     '/<slug>/'
 )
 def post(year, month, day, slug):
-    api_url = ''.join([INSIGHTS_URL, '/posts?_embed&slug=', slug])
+    api_url = ''.join([API_URL, '/posts?_embed&slug=', slug])
     response = _get_from_cache(api_url)
     data = json.loads(response.text)[0]
     data = _normalise_post(data)
@@ -315,8 +317,21 @@ def post(year, month, day, slug):
 
 @app.route('/author/<slug>/')
 def user(slug):
-    api_url = ''.join([INSIGHTS_URL, '/users?_embed&slug=', slug])
+    api_url = ''.join([API_URL, '/users?_embed&slug=', slug])
     response = _get_from_cache(api_url)
     data = json.loads(response.text)[0]
     data = _normalise_user(data)
     return flask.render_template('author.html', author=data)
+
+
+@app.route('/admin/')
+@app.route('/feed/')
+@app.route('/wp-content/')
+@app.route('/wp-includes/')
+@app.route('/wp-login.php/')
+def redirect_wordpress_login():
+    path = flask.request.path
+    if (flask.request.args):
+        path = '?'.join([path, urllib.parse.urlencode(flask.request.args)])
+
+    return flask.redirect(INSIGHTS_URL + path)
