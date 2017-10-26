@@ -72,6 +72,8 @@ coverage.xml
 
 # Readmes
 README.md
+LICENSE
+LICENSE.md
 HACKING.md
 
 # The run script
@@ -90,6 +92,7 @@ yarn.lock
 .travis.yml
 docker-compose.yml
 .docker
+Dockerfile
 
 # Sphinx documentation
 docs/_build/
