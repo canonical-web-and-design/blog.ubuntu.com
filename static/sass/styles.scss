@@ -21,3 +21,106 @@
 pre {
   margin-top: 1rem;
 }
+
+/// XXX Navigation dropdown
+/// Temporary implementation of nav dropdown until implemented in Vanilla
+@media (min-width: $breakpoint-medium + 1) {
+  .p-navigation__link:hover .hover-menu {
+    display: block;
+  }
+}
+
+.p-navigation .p-navigation__nav ul li:hover ul::after {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QYODgYVPPJJpQAAAT9JREFUKM+dkD9IAnEUx7+/IkVxFaxoKYxIWhqKwJw0JAJ315Yac8+1tUFo6HCp34XRdRp11z+J4BzckqShPzdEQ5G/EhPO6V5Tcg3G0QcePHjvffjygB4oXAIApFMxyPlcWM7nwulU7NfMNQqXGABsZNcCCpcKtapBtapBCpcK2fXlAAAcy3vMlUxTdgEAO9ubybPiPjWFoE6nQ5ZlUfNDULl0RAdSPuncddL30+gnCgOAlngLaocyn4nG9fmFJXj9fhARAMDr82MuEcfk7LSuFQu8DTvovO1SuTxlAKCqPFO5Ov/6FIIsy/qzROOdrst6S1V5xunomo0LrT4yOh4JDg6BMXfvIdvGs/mExutLPZpYnAIAdmNUVuwBbI1NRODxePEf2u0WHu9u4ev3rTLTfKBQaNh1qp5piWCa9/gGBheo3r6AmYcAAAAASUVORK5CYII=') $sp-large bottom no-repeat;
+  content: '';
+  display: block;
+  height: $sp-x-small;
+  left: 0;
+  position: absolute;
+  top: -$sp-x-small;
+  width: 150px;
+  z-index: 999;
+}
+
+.hover-menu {
+  background: $color-light;
+  border: 1px solid $color-mid-light;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px -1px $color-mid-light;
+  display: none;
+  float: none;
+  margin: 0;
+  padding: $sp-x-small 0 $sp-medium;
+  position: absolute;
+  top: 50px;
+  width: 150px;
+  z-index: 1;
+
+  li {
+    font-size: .875rem;
+    padding: $sp-x-small $sp-small 0 $sp-small;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  a {
+    color: $color-dark;
+  }
+}
+
+/// XXX Small screen accordion
+/// Temporary fix until small screen nav accordion implemented in Vanilla
+.p-accordion__tab {
+  background-color: #f7f7f7;
+  font-size: 0.875rem;
+  padding: 1rem 2.5rem 1rem 8px;
+}
+
+.p-accordion__panel {
+  border: none;
+  padding: 0;
+
+  >.p-navigation__links>.p-navigation__link {
+    padding-left: 1rem;
+  }
+}
+
+
+.p-heading-icon__title {
+  font-size: 2.5rem;
+}
+
+.card-image {
+  box-shadow: 0 1px 5px 1px rgba(51, 51, 51, 0.2);
+  margin-top: 1.5rem !important;
+  max-height: 100%;
+}
+
+@media (min-width: $breakpoint-medium + 1) {
+  .card-image {
+    margin-top: 2.5rem !important;
+  }
+}
+
+.design-image {
+  padding-top: 1.5rem;
+  max-height: 100%;
+}
+
+@media (min-width: $breakpoint-medium + 1) {
+  .design-image {
+    padding-top: 2.5rem;
+  }
+}
+
+.header-strip {
+  height: inherit;
+}
+
+@media (min-width: $breakpoint-medium + 1) {
+  .header-strip {
+    height: 320px;
+  }
+}
