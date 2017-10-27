@@ -6,6 +6,7 @@ import humanize
 import requests
 import requests_cache
 from dateutil import parser
+from flask import url_for
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from urllib.parse import urlsplit
@@ -93,6 +94,17 @@ class RegexConverter(BaseConverter):
 
 app.url_map.converters['regex'] = RegexConverter
 
+def _get_categories_by_slug(slugs=[]):
+    if slugs:
+        if isinstance(slugs, list):
+            slugs = ','.join(slugs)
+    api_url = '{api_url}/categories?slug={slug}'.format(
+        api_url=API_URL,
+        slug=slugs,
+    )
+    response = _get_from_cache(api_url)
+    categories = json.loads(response.text)
+    return categories
 
 def _get_groups_by_slug(slugs=[]):
     if slugs:
@@ -107,7 +119,7 @@ def _get_groups_by_slug(slugs=[]):
     return groups
 
 
-def _get_posts(groups=[], tags=[], page=None):
+def _get_posts(groups=[], categories=[], tags=[], page=None):
     api_url = '{api_url}/posts?_embed&page={page}'.format(
         api_url=API_URL,
         page=str(page or 1),
@@ -116,6 +128,10 @@ def _get_posts(groups=[], tags=[], page=None):
     if groups:
         groups = ','.join(str(group) for group in groups)
         api_url = ''.join([api_url, '&group=', groups])
+
+    if categories:
+        categories = ','.join(str(category) for category in categories)
+        api_url = ''.join([api_url, '&categories=', categories])
 
     if tags:
         if isinstance(tags, list):
@@ -161,6 +177,14 @@ def _get_user_recent_posts(user_id, limit=5):
 
     return posts
 
+def _get_category_from_post(post_id):
+    api_url = '{api_url}/categories?post={post_id}'.format(
+        api_url=API_URL,
+        post_id=post_id,
+    )
+    response = _get_from_cache(api_url)
+    category = json.loads(response.text)[0]['slug']
+    return category
 
 def _get_tag_details_from_post(post_id):
     api_url = '{api_url}/tags?post={post_id}'.format(
@@ -182,7 +206,7 @@ def _get_topic_details_from_post(post_id):
     return topics
 
 
-def _get_featured_post(groups=[], per_page=1):
+def _get_featured_post(groups=[], categories=[], per_page=1):
     api_url = '{api_url}/posts?_embed&sticky=true&per_page={per_page}'.format(
         api_url=API_URL,
         per_page=per_page
@@ -191,6 +215,10 @@ def _get_featured_post(groups=[], per_page=1):
     if groups:
         groups = ','.join(str(group) for group in groups)
         api_url = ''.join([api_url, '&group=', groups])
+
+    if categories:
+        categories = ','.join(str(category) for category in categories)
+        api_url = ''.join([api_url, '&categories=', categories])
 
     response = _get_from_cache(api_url)
     posts = _normalise_posts(json.loads(response.text))
@@ -203,6 +231,7 @@ def _embed_post_data(post):
         return post
     embedded = post['_embedded']
     post['author'] = _normalise_user(embedded['author'][0])
+    post['category'] = _get_category_from_post(post['id'])
     post['tags'] = _get_tag_details_from_post(post['id'])
     post['topics'] = _get_topic_details_from_post(post['id'])
     return post
@@ -232,6 +261,14 @@ def _normalise_post(post):
     post = _embed_post_data(post)
     return post
 
+def _get_group_details(slug):
+    with open('data/groups.json') as file:
+        groups = json.load(file)
+
+    for group in groups:
+        if group['slug'] == slug:
+            return group
+
 def _get_topic_details(slug):
     with open('data/topics.json') as file:
         topics = json.load(file)
@@ -240,37 +277,47 @@ def _get_topic_details(slug):
         if topic['slug'] == slug:
             return topic
 
-
 @app.route('/')
-@app.route('/<category>/')
-def index(category=[]):
+@app.route('/<group>/')
+@app.route('/<group>/<category>/')
+def group_category(group=[], category='all'):
     groups = []
-    if category:
-        if category == 'press-centre':
-            category = 'canonical-announcements'
+    categories = []
 
-        groups = _get_groups_by_slug(slugs=category)
+    if group:
+        if group == 'press-centre':
+            group = 'canonical-announcements'
 
+        groups = _get_groups_by_slug(slugs=group)
         if not groups:
             return flask.render_template(
                 '404.html'
             )
+        group_details =_get_group_details(group)
+
+        categories = _get_categories_by_slug(slugs=category)
+        if not categories and category != 'all':
+            return flask.redirect(flask.url_for('group_category', group=group, category='all'))
 
     groups_id = [str(group['id']) for group in groups]
+    categories_id = [str(category['id']) for category in categories]
 
     page = flask.request.args.get('page')
     posts, metadata = _get_posts(
         groups=groups_id,
+        categories=categories_id if categories_id else None,
         page=page
     )
 
     featured_post = _get_featured_post(groups_id)
 
-    if category:
+    if group:
         return flask.render_template(
             'group.html',
             posts=posts,
-            category=groups[0] if groups else None,
+            group=groups[0] if groups else None,
+            group_details=group_details,
+            category=categories[0] if categories else None,
             featured_post=featured_post,
             **metadata
         )
