@@ -1,12 +1,12 @@
 {
   "scripts": {
-    "test": "",
+    "test": "sass-lint static/**/*.scss --verbose --no-exit",
     "build": "yarn run build-js && yarn run build-css",
     "copy-css": "cp node_modules/cookie-policy/build/css/cookie-policy.css static/css/modules && cp node_modules/global-nav/build/css/main.css static/css/modules",
     "build-css": "yarn run copy-css && node-sass --include-path node_modules static/sass --output static/css && postcss --use autoprefixer --replace 'static/css/**/*.css'",
     "build-js": "cp node_modules/cookie-policy/build/js/cookie-policy.js static/js/modules && cp node_modules/global-nav/build/js/global.js static/js/modules",
-    "watch": "watch -p 'static/sass/*.scss' -c 'yarn run build'",
-    "clean": "rm -rf node_modules yarn-error.log static/css/**/*.css *.log *.sqlite _site/ build/ .jekyll-metadata static/js/modules/*.js"
+    "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build'",
+    "clean": "rm -rf node_modules yarn-error.log static/css/**/*.css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle static/js/modules/*.js"
   },
   "author": "Canonical webteam",
   "devDependencies": {
