@@ -40,6 +40,7 @@ package-lock.json
 /build/
 _site/
 *.*.map
+static/js/modules/*.js
 
 # [env] Local environment settings
 .docker-project
