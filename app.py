@@ -183,7 +183,7 @@ def _get_topic_details_from_post(post_id):
 
 
 def _get_featured_post(groups=[], per_page=1):
-    api_url = '{api_url}/posts?embed&sticky=true&per_page={per_page}'.format(
+    api_url = '{api_url}/posts?_embed&sticky=true&per_page={per_page}'.format(
         api_url=API_URL,
         per_page=per_page
     )
@@ -232,6 +232,14 @@ def _normalise_post(post):
     post = _embed_post_data(post)
     return post
 
+def _get_topic_details(slug):
+    with open('data/topics.json') as file:
+        topics = json.load(file)
+
+    for topic in topics:
+        if topic['slug'] == slug:
+            return topic
+
 
 @app.route('/')
 @app.route('/<category>/')
@@ -275,14 +283,41 @@ def index(category=[]):
         )
 
 
+@app.route('/topics/<slug>/')
+def topic_name(slug):
+    topic = _get_topic_details(slug)
+
+    if topic:
+        api_url = ''.join([API_URL, '/tags?slug=', topic['slug']])
+        response = _get_from_cache(api_url)
+
+        response_json = json.loads(response.text)
+        if response_json:
+            tag = response_json[0]
+            page = flask.request.args.get('page')
+            posts, metadata = _get_posts(tags=tag['id'], page=page)
+        else:
+            return flask.render_template(
+                '404.html'
+            )
+
+        return flask.render_template(
+            'topics.html', topic=topic, posts=posts, tag=tag, **metadata
+        )
+    else:
+        return flask.render_template(
+            '404.html'
+        )
+
+
 @app.route('/tag/<slug>/')
 def tag_index(slug):
     api_url = ''.join([API_URL, '/tags?slug=', slug])
     response = _get_from_cache(api_url)
 
-    response_text = json.loads(response.text)
-    if response_text:
-        tag = response_text[0]
+    response_json = json.loads(response.text)
+    if response_json:
+        tag = response_json[0]
         page = flask.request.args.get('page')
         posts, metadata = _get_posts(tags=tag['id'], page=page)
 

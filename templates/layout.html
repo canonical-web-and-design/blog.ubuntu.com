@@ -70,11 +70,45 @@
           <span class="u-off-screen">
             <a href="#main-content">Jump to main content</a>
           </span>
-          <ul class="p-navigation__links">
-            <li class="p-navigation__link"><a href="/cloud-and-server">Cloud and server</a></li>
+          <ul class="p-navigation__links u-hide--small">
+            <li class="p-navigation__link"><a href="/cloud-and-server/">Cloud and server</a></li>
             <li class="p-navigation__link"><a href="/internet-of-things/">IoT</a></li>
             <li class="p-navigation__link"><a href="/desktop/">Desktop</a></li>
             <li class="p-navigation__link"><a href="/press-centre/">Press centre</a></li>
+            <li class="p-navigation__link">
+              <a href="#">Topics</a>
+              <ul class="hover-menu">
+                <li><a href="/topics/design/">Design</a></li>
+                <li><a href="/topics/juju/">Juju</a></li>
+                <li><a href="/topics/maas/">MAAS</a></li>
+                <li><a href="/topics/snappy/">Snappy</a></li>
+              </ul>
+            </li>
+          </ul>
+          <!-- Mobile Nav -->
+          <ul class="p-navigation__links u-hide--medium u-hide--large">
+            <li class="p-accordion__group">
+              <button class="p-accordion__tab" id="categories-tab" role="tab" aria-controls="#categories" aria-expanded="false">Categories</button>
+              <div class="p-accordion__panel" id="categories" role="tabpanel" aria-hidden="true" aria-labelledby="categories-tab">
+                <ul class="p-navigation__links">
+                  <li class="p-navigation__link"><a href="/cloud-and-server/">Cloud and server</a></li>
+                  <li class="p-navigation__link"><a href="/internet-of-things/">IoT</a></li>
+                  <li class="p-navigation__link"><a href="/desktop/">Desktop</a></li>
+                  <li class="p-navigation__link"><a href="/press-centre/">Press centre</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="p-accordion__group">
+              <button class="p-accordion__tab" id="topics-tab" role="tab" aria-controls="#topics" aria-expanded="false">Teams</button>
+              <div class="p-accordion__panel" id="teams" role="tabpanel" aria-hidden="true" aria-labelledby="teams-tab">
+                <ul class="p-navigation__links">
+                  <li class="p-navigation__link"><a href="/topics/design/">Design</a></li>
+                  <li class="p-navigation__link"><a href="/topics/juju/">Juju</a></li>
+                  <li class="p-navigation__link"><a href="/topics/maas/">MAAS</a></li>
+                  <li class="p-navigation__link"><a href="/topics/snappy/">Snappy</a></li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </nav>
       </div>
@@ -103,7 +137,7 @@
       </footer>
     </div>
     <script src="/static/js/modules/cookie-policy.js"></script>
-
+    <script src="/static/js/aria-controls.js"></script>
     <script src="/static/js/modules/global.js"></script>
     <script>
       var options = {
