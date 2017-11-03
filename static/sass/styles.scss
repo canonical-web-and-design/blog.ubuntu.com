@@ -115,6 +115,11 @@ pre {
   }
 }
 
+.group-image {
+  max-height: 240px;
+  padding-top: $sp-medium;
+}
+
 .header-strip {
   height: inherit;
 }

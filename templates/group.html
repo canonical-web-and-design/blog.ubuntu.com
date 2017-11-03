@@ -1,18 +1,37 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <div class="p-strip--light is-shallow">
-    <div class="row">
-      <div class="col-8">
-        <h1 class="u-no-margin--bottom">
-          {% if request.path == "/press-centre/" %}
+  <div class="p-strip--light is-shallow is-bordered" style="overflow: hidden;">
+    <div class="row u-equal-height u-vertically-center">
+      <div class="col-6">
+        <h1 class="p-heading--one">
+          {% if request.path.startswith("/press-centre/") %}
             Press centre
           {% else %}
-            {{ category.name }}
+            {{ group_details.name }}
           {% endif %}
         </h1>
-        <div id="rtp-banner" class="rtp-banner"></div>
+        {% if not category %}
+          <p class="p-heading--five">
+            {{ group_details.description }}
+          </p>
+          {% if group_details.url %}
+          <p>
+            <a class="p-link--external" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
+          </p>
+          {% endif %}
+        {% else %}
+          <p class="p-heading--four">
+            {{ category.name }}
+          </p>
+        {% endif %}
       </div>
+      <div class="col-5 prefix-1">
+        <img src="{{ group_details.hero_url }}"
+        class="group-image u-hidden--small"
+        alt="" />
+      </div>
+      <div id="rtp-banner" class="rtp-banner"></div>
     </div>
   </div>
 
