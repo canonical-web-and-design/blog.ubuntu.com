@@ -11,6 +11,7 @@ from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from urllib.parse import urlsplit
 from werkzeug.routing import BaseConverter
+import lib.get_feeds
 
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
@@ -276,6 +277,11 @@ def _get_topic_details(slug):
     for topic in topics:
         if topic['slug'] == slug:
             return topic
+
+def _load_rss_feed(url, limit):
+    feed_content = get_rss_feed_content(url, limit=limit)
+    return feed_content
+
 
 @app.route('/')
 @app.route('/<group>/')
