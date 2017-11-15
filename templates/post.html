@@ -85,6 +85,79 @@
         </p>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-8">
+        <div class="p-card">
+          <script>
+          function fieldValidate(field) {
+            /* call Mkto.setError(field, message) and return false to mark a field value invalid */
+            /* return 'skip' to bypass the built-in validations */
+            return true;
+          }
+          function getRequiredFieldMessage(domElement, label) {
+            return "This field is required";
+          }
+          function getTelephoneInvalidMessage(domElement, label) {
+            return "Please enter a valid telephone number";
+          }
+          function getEmailInvalidMessage(domElement, label) {
+            return "Please enter a valid email address";
+          }
+          </script>
+
+          <form class='p-form mktoForm mktoNoJS' action='https://pages.canonical.com/index.php/leadCapture/save' method='post'>
+            <h2>Sign up for email updates</h2>
+            <p>Choose the topics you're interested in</p>
+              <ul class="p-list">
+                <li class="p-list__item">
+                <div>
+                  <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="yes" {% if post.topics[0].slug == 'cloud' or 'server'  %} checked="checked"{% endif %} />
+                  <label for="insightscloudserver">Cloud and server</label>
+                </div>
+                </li>
+                <li class="p-list__item">
+                  <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="yes"{% if post.topics[0].slug == 'desktop' %} checked="checked"{% endif %} />
+                  <label for="insightsdesktop">Desktop</label>
+                </li>
+                <li class="p-list__item">
+                  <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="yes"{% if post.topics[0].slug == 'internet-of-things' %} checked="checked"{% endif %} />
+                  <label for="insightsiot">Internet of Things</label>
+                </li>
+              </ul>
+
+            <div class='mktoFormCol'>
+              <label class="off-left mktoLabel" for='Email'>Your email</label>
+              <input type="text" placeholder="Your email" class='mktoField mktoTextField' name='Email' id='Email' required>
+            </div>
+
+            <div class="mktField mktLblRight">
+              <span class="mktInput mktLblRight">
+                <input class="mktFormCheckbox" name="canonicalUpdatesOptIn" id="canonicalUpdatesOptIn" value="yes" tabindex="9" type="checkbox" />
+                <label for="" class="p-form__label">I would like to receive occasional updates from Canonical by email.</label>&nbsp;<span class="mktFormMsg"></span>
+              </span>
+            </div>
+
+            <div>
+              <span style="display:none;"><input type="text" name="_marketo_comments" value=""></span>
+              <span class='mktoButtonWrap'><button type='submit' class='mktoButton'>Subscribe now</button></span>
+              <input value="1959" class="mktoField mktoFieldDescriptor" name="lpId" type="hidden">
+              <input value="30" class="mktoField mktoFieldDescriptor" name="subId" type="hidden">
+              <input type="hidden" name="lpurl" value="https://pages.canonical.com/Insights-Subscription_Insights-Subscription-test.html?cr={creative}&amp;kw={keyword}" />
+              <input value="1212" class="mktoField mktoFieldDescriptor" name="formid" type="hidden">
+              <input type="hidden" name="ret" value="<?php $theurl = rtrim(get_permalink(),'/'); echo $theurl; ?>?digest=true" />
+              <input value="066-EOV-335" class="mktoField mktoFieldDescriptor" name="munchkinId" type="hidden">
+              <input type="hidden" name="kw" value=""/>
+              <input type="hidden" name="cr" value=""/>
+              <input type="hidden" name="searchstr" value=""/>
+              <input type="hidden" name="_mkt_disp" value="return"/>
+              <input type="hidden" name="_mkt_trk" value=""/>
+            </div>
+          </form>
+        </div>
+        <script language="JavaScript" src="https://app.marketo.com/js/public/jquery-latest.min.js" type="text/javascript"></script>
+      </div>
+    </div>
   </div>
 </div>
 <div class="p-strip--light is-shallow">
