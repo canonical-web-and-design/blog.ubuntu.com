@@ -111,20 +111,20 @@
             <ul class="p-list">
               <li class="p-list__item">
               <div>
-                <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="yes" {% if post.topics[0].slug == 'cloud' or 'server'  %} checked="checked"{% endif %} />
+                <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="Cloud and server" {% if post.topics[0].slug == 'cloud' or 'server'  %} checked="checked"{% endif %} />
                 <label for="insightscloudserver">Cloud and server</label>
               </div>
               </li>
               <li class="p-list__item">
-                <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="yes"{% if post.topics[0].slug == 'desktop' %} checked="checked"{% endif %} />
+                <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="Desktop"{% if post.topics[0].slug == 'desktop' %} checked="checked"{% endif %} />
                 <label for="insightsdesktop">Desktop</label>
               </li>
               <li class="p-list__item">
-                <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="yes"{% if post.topics[0].slug == 'internet-of-things' %} checked="checked"{% endif %} />
+                <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="Internet of Things"{% if post.topics[0].slug == 'internet-of-things' %} checked="checked"{% endif %} />
                 <label for="insightsiot">Internet of Things</label>
               </li>
               <li class="p-list__item">
-                  <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="yes" {% if post.topics[0].slug == 'tutorials' %} checked="checked" {% endif %}type="checkbox">
+                  <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="Tutorials" {% if post.topics[0].slug == 'tutorials' %} checked="checked" {% endif %}type="checkbox">
                   <label for="insightstutorials">Tutorials</label>
               </li>
             </ul>
@@ -136,8 +136,8 @@
 
           <div class="mktField mktLblRight">
             <span class="mktInput mktLblRight">
-              <input class="mktFormCheckbox" name="canonicalUpdatesOptIn" id="canonicalUpdatesOptIn" value="yes" tabindex="9" type="checkbox" />
-              <label for="" class="p-form__label">I would like to receive occasional updates from Canonical by email.</label>&nbsp;<span class="mktFormMsg"></span>
+              <input class="mktFormCheckbox" name="canonicalUpdatesOptIn" id="canonicalUpdatesOptIn" value="Receive updates" tabindex="9" type="checkbox" />
+              <label for="canonicalUpdatesOptIn" class="p-form__label">I would like to receive occasional updates from Canonical by email.</label>&nbsp;<span class="mktFormMsg"></span>
             </span>
           </div>
 
