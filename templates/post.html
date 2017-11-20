@@ -85,27 +85,12 @@
         </p>
       </div>
     </div>
-
+  </div>
+</div>
+<div class="p-strip is-shallow">
     <div class="row">
       <div class="col-8">
-        <script>
-        function fieldValidate(field) {
-          /* call Mkto.setError(field, message) and return false to mark a field value invalid */
-          /* return 'skip' to bypass the built-in validations */
-          return true;
-        }
-        function getRequiredFieldMessage(domElement, label) {
-          return "This field is required";
-        }
-        function getTelephoneInvalidMessage(domElement, label) {
-          return "Please enter a valid telephone number";
-        }
-        function getEmailInvalidMessage(domElement, label) {
-          return "Please enter a valid email address";
-        }
-        </script>
-
-        <form class='p-form mktoForm mktoNoJS' action='https://pages.canonical.com/index.php/leadCapture/save' method='post'>
+        <form action="https://pages.canonical.com/index.php/leadCapture/save" method="post" id="mktoForm_1212" novalidate="novalidate">
           <h2>Sign up for email updates</h2>
           <p>Choose the topics you're interested in</p>
             <ul class="p-list">
@@ -129,9 +114,9 @@
               </li>
             </ul>
 
-          <div class='mktoFormCol'>
-            <label class="off-left mktoLabel" for='Email'>Your email</label>
-            <input type="text" placeholder="Your email" class='mktoField mktoTextField' name='Email' id='Email' required>
+          <div class='mktFormReq mktField'>
+            <label for="Email" class="mktoLabel">Work email: <span>*</span></label>
+            <input required  id="Email" name="Email" maxlength="255" type="email" class="mktoField mktoEmailField  mktoRequired" />
           </div>
 
           <div class="mktField mktLblRight">
@@ -142,23 +127,29 @@
           </div>
 
           <div>
-            <span style="display:none;"><input type="text" name="_marketo_comments" value=""></span>
             <span class='mktoButtonWrap'><button type='submit' class='mktoButton'>Subscribe now</button></span>
             <input value="1959" class="mktoField mktoFieldDescriptor" name="lpId" type="hidden">
             <input value="30" class="mktoField mktoFieldDescriptor" name="subId" type="hidden">
-            <input type="hidden" name="lpurl" value="https://pages.canonical.com/Insights-Subscription_Insights-Subscription-test.html?cr={creative}&amp;kw={keyword}" />
+            <input name="lpurl" value="https://pages.canonical.com/Insights-Subscription_Insights-Subscription-test.html?cr={creative}&amp;kw={keyword}" type="hidden">
             <input value="1212" class="mktoField mktoFieldDescriptor" name="formid" type="hidden">
-            <input type="hidden" name="ret" value="http://insights.ubuntu.com{{request.path}}?digest=true" />
+            <input type="hidden" name="ret" value="{{request.host}}{{request.path}}?digest=true" />
             <input value="066-EOV-335" class="mktoField mktoFieldDescriptor" name="munchkinId" type="hidden">
-            <input type="hidden" name="kw" value=""/>
-            <input type="hidden" name="cr" value=""/>
-            <input type="hidden" name="searchstr" value=""/>
-            <input type="hidden" name="_mkt_disp" value="return"/>
-            <input type="hidden" name="_mkt_trk" value=""/>
+            <input name="kw" value="" type="hidden">
+            <input name="cr" value="" type="hidden">
+            <input name="searchstr" value="" type="hidden">
+            <input name="_mkt_disp" value="return" type="hidden">
+            <input name="_mkt_trk" value="id:066-EOV-335&amp;token:_mch-ubuntu.com-1473266321199-95160" type="hidden">
           </div>
         </form>
       </div>
-      <script language="JavaScript" src="https://app.marketo.com/js/public/jquery-latest.min.js" type="text/javascript"></script>
+      <script src="https://assets.ubuntu.com/v1/5d7e5bbf-jquery-2.2.0.min.js"></script>
+      <script src="https://assets.ubuntu.com/v1/d55f58bb-jquery.validate.js"></script>
+      <script>
+      $("#mktoForm_1212").validate({
+          errorElement: "span",
+          errorClass: "mktFormMsg mktError"
+      });
+      </script>
     </div>
   </div>
 </div>
