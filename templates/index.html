@@ -35,4 +35,28 @@
 
   {% include "posts.html" %}
 
+<div class="p-strip is-shallow is-bordered">
+  <div class="row">
+    <div class="col-8">
+      <h2>Webinars</h2>
+    {% for webinar in webinars %}
+      <div class="p-media-object" itemscope itemtype="http://schema.org/Event">
+        <div class="p-media-object__details">
+          <h3 class="p-media-object__title" itemprop="name">
+            <a href="{{ webinar.link | safe }}">{{ webinar.title | safe }}</a>
+          </h3>
+          <p class="p-media-object__content">{{ webinar.summary | safe }}</p>
+          <ul class="p-media-object__meta-list">
+            <li class="p-media-object__meta-list-item">
+              <span class="u-off-screen">Topic: </span>{{ webinar.category | safe }}
+            </li>
+            <li class="p-media-object__meta-list-item--date">
+              <span class="u-off-screen">Date: </span><a href="{{ webinar.brighttalk_calendar }}">{{ webinar.updated_datetime.strftime('%d %B %Y') }}</a>              </li>
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock %}
