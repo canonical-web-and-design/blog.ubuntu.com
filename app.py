@@ -11,6 +11,9 @@ from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from urllib.parse import urlsplit
 from werkzeug.routing import BaseConverter
+from lib.get_feeds import (
+    get_rss_feed_content
+)
 
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
@@ -277,6 +280,20 @@ def _get_topic_details(slug):
         if topic['slug'] == slug:
             return topic
 
+def _load_rss_feed(url, limit=5):
+    feed_content = get_rss_feed_content(url, limit=limit)
+    return feed_content
+
+def _normalise_post(post):
+    link = post['link']
+    path = urlsplit(link).path
+    post['relative_link'] = path
+    post['formatted_date'] = humanize.naturaldate(
+        parser.parse(post['date'])
+    )
+    post = _embed_post_data(post)
+    return post
+
 @app.route('/')
 @app.route('/<group>/')
 @app.route('/<group>/<category>/')
@@ -311,6 +328,8 @@ def group_category(group=[], category='all'):
 
     featured_post = _get_featured_post(groups_id)
 
+    webinars = _load_rss_feed('https://www.brighttalk.com/channel/6793/feed/rss')
+
     if group:
         return flask.render_template(
             'group.html',
@@ -326,6 +345,7 @@ def group_category(group=[], category='all'):
             'index.html',
             posts=posts,
             featured_post=featured_post,
+            webinars=webinars,
             **metadata
         )
 
