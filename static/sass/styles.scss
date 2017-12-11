@@ -1,5 +1,7 @@
 @charset 'UTF-8';
 
+$breakpoint-navigation-threshold: 990px;
+
 @import 'vanilla-framework/scss/build';
 @import 'pattern_social-share';
 @import 'pattern_rtp';
