@@ -1,0 +1,16 @@
+@mixin insights-p-form {
+  .p-form--search {
+    padding: .5rem 0;
+    margin-left: 1rem;
+
+    .p-form__control {
+      width: 9rem;
+      height: 2.1875rem;
+    }
+
+    [class^="p-button"] {
+      margin-left: .5rem;
+      padding: .53rem 1.5rem;
+    }
+  }
+}
