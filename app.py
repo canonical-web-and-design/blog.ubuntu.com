@@ -7,6 +7,7 @@ import requests
 import requests_cache
 from dateutil import parser
 from flask import url_for
+from flask import request
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from urllib.parse import urlsplit
@@ -301,6 +302,17 @@ def group_category(group=[], category='all'):
     groups = []
     categories = []
 
+    search = request.args.get('search')
+
+    if search:
+        result = {}
+        api_url = ''.join([API_URL, '/posts?_embed&search=', search])
+        response = _get_from_cache(api_url)
+        posts = _normalise_posts(json.loads(response.text))
+        result["posts"] = posts
+        result["count"] = len(posts)
+        result["query"] = search
+        return flask.render_template('search.html', result=result)
     if group:
         if group == 'press-centre':
             group = 'canonical-announcements'
@@ -375,7 +387,6 @@ def topic_name(slug):
         return flask.render_template(
             '404.html'
         )
-
 
 @app.route('/tag/<slug>/')
 def tag_index(slug):
