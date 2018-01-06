@@ -5,6 +5,7 @@ import json
 import humanize
 import requests
 import requests_cache
+import re
 from dateutil import parser
 from flask import url_for
 from flask import request
@@ -251,6 +252,8 @@ def _normalise_user(user):
 
 def _normalise_posts(posts):
     for post in posts:
+        if post['excerpt']['rendered']:
+            post['excerpt']['rendered'] = re.sub( r"\[\&hellip;\]", "&hellip;", post['excerpt']['rendered'] )
         post = _normalise_post(post)
     return posts
 
