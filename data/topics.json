@@ -2,8 +2,8 @@
     {
         "name": "Design",
         "slug": "design",
-        "subtitle": "Branding and Web Development",
-        "description": "Learn about the Design team and what they work on, including Ubuntu and Canonical branding, Vanilla and product photography.",
+        "subtitle": "Branding and web development",
+        "description": "All the latest news on the design team at Canonical.",
         "url": "https://design.ubuntu.com",
         "logo_url": "https://assets.ubuntu.com/v1/70041419-vanilla-framework.png",
         "hero_url": "https://assets.ubuntu.com/v1/78b7c44a-hero-dots.png"
@@ -12,7 +12,7 @@
         "name": "Juju",
         "slug": "juju",
         "subtitle": "Operate big software at scale on any cloud",
-        "description": "Exploring Juju and JAAS – open source application modelling tools used to deploy, configure, scale and operate your software on public and private clouds.",
+        "description": "All the latest news on Juju – the open source application modelling tool for public and private clouds.",
         "url": "https://jujucharms.com",
         "logo_url": "https://assets.ubuntu.com/v1/31c507a5-image-juju.svg",
         "hero_url": "https://assets.ubuntu.com/v1/e8b86f15-Juju-Visual-Screen.png?w=576"
@@ -20,8 +20,8 @@
     {
         "name": "MAAS",
         "slug": "maas",
-        "subtitle": "Machine-as-a-Service",
-        "description": "All you need to know about MAAS – the smartest way to manage bare metal. Big data, private cloud, PAAS and HPC all thrive on MAAS.",
+        "subtitle": "Metal as a Service",
+        "description": "All the latest news on MAAS – the smartest way to manage bare metal.",
         "url": "https://maas.io",
         "logo_url": "https://assets.ubuntu.com/v1/5f3d3c45-maas-logo-cropped.svg",
         "hero_url": "https://assets.ubuntu.com/v1/e6c6b98f-Maas-Visual-Screen.png?w=576"
@@ -29,8 +29,8 @@
     {
         "name": "Snappy",
         "slug": "snappy",
-        "subtitle": "A ‘snap’ is a universal Linux package",
-        "description": "News from the Snappy team – articles on application architecture, prototyping, packaging paradigms and more.",
+        "subtitle": "Package any app for any Linux platform and deliver updates directly",
+        "description": "All the latest from the Snappy team &mdash; articles on application architecture, prototyping, packaging paradigms and more.",
         "url": "https://snapcraft.io",
         "logo_url": "https://assets.ubuntu.com/v1/3075aa19-snappy-icon.svg",
         "hero_url": "https://assets.ubuntu.com/v1/a91f36a8-Snapcraft-Visual-Screen.png?w=576"
