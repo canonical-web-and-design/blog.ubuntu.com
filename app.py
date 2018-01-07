@@ -448,3 +448,15 @@ def redirect_wordpress_login():
         path = '?'.join([path, urllib.parse.urlencode(flask.request.args)])
 
     return flask.redirect(INSIGHTS_URL + path)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return flask.render_template('404.html'), 404
+
+@app.errorhandler(410)
+def page_not_found(e):
+    return flask.render_template('410.html'), 410
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return flask.render_template('500.html'), 500
