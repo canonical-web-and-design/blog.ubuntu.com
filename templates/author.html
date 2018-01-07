@@ -2,7 +2,7 @@
 {% block body %}
 <div class="p-strip">
   <div class="row">
-    <div class="col-10">
+    <div class="col-8">
       <div class="p-media-object">
         <img src="{{ author.avatar_urls['96'] }}" class="p-media-object__image">
         <div class="p-media-object__details">
@@ -21,9 +21,9 @@
   </div>
 </div>
 
-<div class="p-strip u-no-padding--top">
+<div class="p-strip--light">
   <div class="row">
-    <div class="col-8">
+    <div class="col-8 prefix-1">
       <h3 class="p-heading--five">Recently posted by {{ author.name }}</h3>
       <ul class="p-list--divided">
       {% for post in author.recent_posts %}
