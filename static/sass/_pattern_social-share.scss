@@ -49,15 +49,6 @@
     background-size: 70% 70%;
   }
 
-  .p-social-icon--instapaper  {
-    @extend %p-social-share;
-    background-color: #222;
-    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEwMCAxMDAiIGhlaWdodD0iMTAwcHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwcHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxkZWZzPjxyZWN0IGhlaWdodD0iMTAwIiBpZD0iU1ZHSURfMV8iIHdpZHRoPSIxMDAiLz48L2RlZnM+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTY5LDkyLjQ3NWMtNS41LTAuMzk2LTkuMDY2LTEuMjE5LTEwLjY5My0yLjQ3N2MtMS42MjctMS4yNTMtMi40NC00LjUwNC0yLjQ0LTkuNzQydi02MC41MSAgIGMwLTUuMDAzLDAuODEzLTguMjI0LDIuNDQtOS42NjRTNjMuNSw3Ljc4OSw2OSw3LjUyMlY1SDI5djIuNTIzYzUuNSwwLjI2Niw5LjA2NCwxLjEyLDEwLjY5NSwyLjU1OSAgIGMxLjYyOCwxLjQzOSwyLjQ0MSw0LjY2MSwyLjQ0MSw5LjY2NHY2MC41MWMwLDUuMjM4LTAuODEzLDguNDg5LTIuNDQxLDkuNzQyQzM4LjA2NCw5MS4yNTYsMzQuNSw5Mi4wNzgsMjksOTIuNDc1Vjk1aDQwVjkyLjQ3NXoiLz48L2c+PC9zdmc+");
-    background-size: 60% 60%;
-
-  }
-
-
   .p-social-icon--pocket {
    @extend %p-social-share;
    background-color: #e0e0e0;

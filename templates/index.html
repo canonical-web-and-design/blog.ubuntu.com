@@ -46,7 +46,7 @@
           <h3 class="p-media-object__title" itemprop="name">
             <a href="{{ webinar.link | safe }}">{{ webinar.title | safe }}</a>
           </h3>
-          <p class="p-media-object__content">{{ webinar.summary | safe }}</p>
+          <p class="p-media-object__content">{{ webinar.summary | truncate (250, False, '&hellip;') | safe }}</p>
           <ul class="p-media-object__meta-list">
             <li class="p-media-object__meta-list-item">
               Topic: {{ webinar.category | safe }}
