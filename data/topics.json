@@ -1,5 +1,14 @@
 [
     {
+        "name": "Ubuntu desktop",
+        "slug": "desktop",
+        "subtitle": "Powering millions of PCs and laptops around the world",
+        "description": "News from the Ubuntu desktop team.",
+        "url": "https://www.ubuntu.com/desktop",
+        "logo_url": "https://assets.ubuntu.com/v1/dc103ca9-picto-server-orange.svg",
+        "hero_url": "https://assets.ubuntu.com/v1/f1d1b842-desktop-overview-hardware.jpg"
+    },
+    {
         "name": "Design",
         "slug": "design",
         "subtitle": "Branding and Web Development",
@@ -18,6 +27,24 @@
         "hero_url": "https://assets.ubuntu.com/v1/e8b86f15-Juju-Visual-Screen.png?w=576"
     },
     {
+        "name": "Kernel",
+        "slug": "kernel",
+        "subtitle": "At the very heart of Ubuntu",
+        "description": "News from the Canonical kernel and foundation teams.",
+        "url": "https://wiki.ubuntu.com/Kernel",
+        "logo_url": "https://assets.ubuntu.com/v1/ed348358-logo-cof.svg",
+        "hero_url": "https://assets.ubuntu.com/v1/53616a73-pictogram-heart-orange.svg?w=576"
+    },
+    {
+        "name": "LXD",
+        "slug": "lxd",
+        "subtitle": "The container hypervisor",
+        "description": "News from the LXD team – articles on LXC and LXD.",
+        "url": "https://linuxcontainers.org",
+        "logo_url": "https://assets.ubuntu.com/v1/425efe3a-lxd.svg",
+        "hero_url": "https://assets.ubuntu.com/v1/d85ef015-image-lxd.svg?w=576"
+    },
+    {
         "name": "MAAS",
         "slug": "maas",
         "subtitle": "Machine-as-a-Service",
@@ -27,6 +54,15 @@
         "hero_url": "https://assets.ubuntu.com/v1/e6c6b98f-Maas-Visual-Screen.png?w=576"
     },
     {
+        "name": "Security",
+        "slug": "security",
+        "subtitle": "Keeping Ubuntu safe and secure",
+        "description": "News from the Canonical security team.",
+        "url": "https://usn.ubuntu.com/usn/",
+        "logo_url": "https://assets.ubuntu.com/v1/9e59756d-shield-ESM.svg",
+        "hero_url": "https://assets.ubuntu.com/v1/4e591f4a-padlock-chain-icon.png"
+    },
+    {
         "name": "Snappy",
         "slug": "snappy",
         "subtitle": "A ‘snap’ is a universal Linux package",
@@ -34,5 +70,14 @@
         "url": "https://snapcraft.io",
         "logo_url": "https://assets.ubuntu.com/v1/3075aa19-snappy-icon.svg",
         "hero_url": "https://assets.ubuntu.com/v1/a91f36a8-Snapcraft-Visual-Screen.png?w=576"
+    },
+    {
+        "name": "Ubuntu Server",
+        "slug": "server",
+        "subtitle": "The powerhouse of the datacentre and cloud",
+        "description": "News from the Ubuntu Server team – articles on server development, Netplan, cloud-init and more.",
+        "url": "https://www.ubuntu.com/server",
+        "logo_url": "https://assets.ubuntu.com/v1/dc103ca9-picto-server-orange.svg",
+        "hero_url": "https://assets.ubuntu.com/v1/ab812f69-image-hyperscale.svg"
     }
 ]
