@@ -6,6 +6,7 @@ import humanize
 import requests
 import requests_cache
 import re
+import textwrap
 from dateutil import parser
 from flask import url_for
 from flask import request
@@ -253,7 +254,9 @@ def _normalise_user(user):
 def _normalise_posts(posts):
     for post in posts:
         if post['excerpt']['rendered']:
+            post['excerpt']['rendered'] = textwrap.shorten(post['excerpt']['rendered'], width=250, placeholder="&hellip;")
             post['excerpt']['rendered'] = re.sub( r"\[\&hellip;\]", "&hellip;", post['excerpt']['rendered'] )
+            post['excerpt']['rendered'] = re.sub( r"h\d>", "p>", post['excerpt']['rendered'] )
         post = _normalise_post(post)
     return posts
 
