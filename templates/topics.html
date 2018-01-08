@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <div class="p-strip is-shallow is-bordered u-image-position" style="overflow: hidden;">
+  <div class="{% if topic.strip_css %}{{ topic.strip_css }}{% else %}p-strip{% endif %} is-shallow is-bordered u-image-position" style="overflow: hidden;">
     <div class="row header-strip u-equal-height">
       <div class="col-6">
         <div class="p-heading-icon">

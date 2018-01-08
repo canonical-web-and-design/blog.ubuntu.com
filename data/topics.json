@@ -29,10 +29,11 @@
     {
         "name": "Snappy",
         "slug": "snappy",
+        "strip_css": "p-strip--accent is-dark",
         "subtitle": "Package any app for any Linux platform and deliver updates directly",
         "description": "All the latest from the Snappy team &mdash; articles on application architecture, prototyping, packaging paradigms and more.",
         "url": "https://snapcraft.io",
-        "logo_url": "https://assets.ubuntu.com/v1/3075aa19-snappy-icon.svg",
+        "logo_url": "https://assets.ubuntu.com/v1/a861450c-snapcraft-logo.svg",
         "hero_url": "https://assets.ubuntu.com/v1/a91f36a8-Snapcraft-Visual-Screen.png?w=576"
     }
 ]
