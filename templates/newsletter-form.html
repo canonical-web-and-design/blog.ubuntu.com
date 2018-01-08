@@ -1,0 +1,62 @@
+  <div class="p-card">
+    <header>
+      <form action="https://pages.canonical.com/index.php/leadCapture/save" method="post" id="mktoForm_1212" novalidate="novalidate">
+      <h3 class="p-card--title p-heading--four">Sign up for email updates</h3>
+    </header>
+      <p class="p-card--content">Choose the topics you're interested in</p>
+        <ul class="p-list p-card--content">
+          <li class="p-list__item u-no-margin--top">
+            <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="Cloud and server" {% if post.topics[0].slug == 'cloud' or 'server'  %} checked="checked"{% endif %} />
+            <label class="u-no-margin--top" for="insightscloudserver">Cloud and server</label class="u-no-margin--top">
+          </li>
+          <li class="p-list__item u-no-margin--top">
+            <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="Desktop"{% if post.topics[0].slug == 'desktop' %} checked="checked"{% endif %} />
+            <label class="u-no-margin--top" for="insightsdesktop">Desktop</label class="u-no-margin--top">
+          </li>
+          <li class="p-list__item u-no-margin--top">
+            <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="Internet of Things"{% if post.topics[0].slug == 'internet-of-things' %} checked="checked"{% endif %} />
+            <label class="u-no-margin--top" for="insightsiot">Internet of Things</label class="u-no-margin--top">
+          </li>
+          <li class="p-list__item u-no-margin--top">
+              <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="Tutorials" {% if post.topics[0].slug == 'tutorials' %} checked="checked" {% endif %}type="checkbox">
+              <label class="u-no-margin--top" for="insightstutorials">Tutorials</label class="u-no-margin--top">
+          </li>
+        </ul>
+
+      <div class="mktFormReq mktField">
+        <label class="u-no-margin--top" for="Email" class="mktolabel class="u-no-margin--top"">Work email: <span>*</span></label class="u-no-margin--top">
+        <input required  id="Email" name="Email" maxlength="255" type="email" class="u-no-margin--top mktoField mktoEmailField  mktoRequired" />
+      </div>
+
+      <div class=" u-no-margin--topmktField mktLblRight">
+        <span class="mktInput mktLblRight">
+          <input class="u-no-margin--top mktFormCheckbox" name="canonicalUpdatesOptIn" id="canonicalUpdatesOptIn" value="Receive updates" type="checkbox" />
+          <label class="u-no-margin--top" for="canonicalUpdatesOptIn" class="p-form__label u-no-margin--top">I would like to receive occasional updates from Canonical by email.</label class="u-no-margin--top">&nbsp;<span class="mktFormMsg"></span>
+        </span>
+      </div>
+
+      <div class="u-no-margin--top">
+        <span class='u-no-margin--top mktoButtonWrap'><button type='submit' class='mktoButton'>Subscribe now</button></span>
+        <input value="1959" class="mktoField mktoFieldDescriptor" name="lpId" type="hidden">
+        <input value="30" class="mktoField mktoFieldDescriptor" name="subId" type="hidden">
+        <input name="lpurl" value="https://pages.canonical.com/Insights-Subscription_Insights-Subscription-test.html?cr={creative}&amp;kw={keyword}" type="hidden">
+        <input value="1212" class="mktoField mktoFieldDescriptor" name="formid" type="hidden">
+        <input type="hidden" name="ret" value="http://{{request.host}}{{request.path}}?newsletter=true" />
+        <input value="066-EOV-335" class="mktoField mktoFieldDescriptor" name="munchkinId" type="hidden">
+        <input name="kw" value="" type="hidden">
+        <input name="cr" value="" type="hidden">
+        <input name="searchstr" value="" type="hidden">
+        <input name="_mkt_disp" value="return" type="hidden">
+        <input name="_mkt_trk" value="id:066-EOV-335&amp;token:_mch-ubuntu.com-1473266321199-95160" type="hidden">
+      </div>
+    </form>
+  </div>
+  <script src="https://assets.ubuntu.com/v1/5d7e5bbf-jquery-2.2.0.min.js"></script>
+  <script src="https://assets.ubuntu.com/v1/d55f58bb-jquery.validate.js"></script>
+  <script>
+  $("#mktoForm_1212").validate({
+      errorElement: "span",
+      errorClass: "mktFormMsg mktError"
+  });
+  </script>
+</div>
