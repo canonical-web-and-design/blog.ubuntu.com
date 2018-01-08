@@ -409,14 +409,9 @@ def tag_index(slug):
             'tag.html', posts=posts, tag=tag, **metadata
         )
     else:
-        tag = {
-            "id": -1,
-            "name": slug
-        }
-
         return flask.render_template(
-            'tag.html', posts=[], tag=tag, **{}
-        ), 404
+            '404.html'
+        )
 
 
 @app.route(
