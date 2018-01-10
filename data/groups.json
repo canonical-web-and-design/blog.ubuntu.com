@@ -4,26 +4,26 @@
         "slug": "cloud-and-server",
         "description": "All you need to know about designing, building and managing your OpenStack cloud or Ubuntu Server scale-out deployment.",
         "url": "https://www.ubuntu.com/cloud",
-        "hero_url": "https://assets.ubuntu.com/v1/16adbb8d-cloud-hero-build-infographic.png"
+        "hero_url": "https://assets.ubuntu.com/v1/78c2eae0-image-server-room.jpg"
     },
     {
         "name": "Internet of Things",
         "slug": "internet-of-things",
         "description": "A new, snappy, transactionally updated Ubuntu for clouds and devices.",
         "url": "https://www.ubuntu.com/things",
-        "hero_url": "https://assets.ubuntu.com/v1/b181a602-iot_edge_gateways_infographic.svg"
+        "hero_url": "https://assets.ubuntu.com/v1/ee9a6ce3-drone-iceland-unsplash.jpg"
     },
     {
         "name": "Desktop",
         "slug": "desktop",
         "description": "All you need to know about the fast, free and user-friendly Ubuntu desktop operating system.",
         "url": "https://www.ubuntu.com/desktop",
-        "hero_url": "https://assets.ubuntu.com/v1/cf0a823f-image-tenders-with-ubuntu.svg"
+        "hero_url": "https://assets.ubuntu.com/v1/bf5e5af8-desktop-overview-hero.jpg"
     },
     {
         "name": "Press Centre",
         "slug": "canonical-announcements",
         "description": "Journalists and analysts seeking information should email pr@canonical.com",
-        "hero_url": "https://assets.ubuntu.com/v1/253da317-image-document-ubuntudocs.svg"
+        "hero_url": "https://assets.ubuntu.com/v1/f7fc5efe-image-partners.jpg"
     }
 ]
