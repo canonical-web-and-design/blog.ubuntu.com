@@ -133,3 +133,10 @@ pre {
     height: 320px;
   }
 }
+
+.u-position--bottom {
+  @media (min-width: $breakpoint-medium) {
+    bottom: 0;
+    position: absolute;
+  }
+}
