@@ -139,4 +139,8 @@ pre {
     bottom: 0;
     position: absolute;
   }
+
+  /// XXX remove whitespace under footer
+.p-footer {
+  padding-bottom: 2.5rem;
 }

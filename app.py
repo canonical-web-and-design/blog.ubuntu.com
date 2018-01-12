@@ -2,7 +2,6 @@ import datetime
 import urllib
 import flask
 import json
-import humanize
 import requests
 import requests_cache
 import re
@@ -265,9 +264,7 @@ def _normalise_post(post):
     link = post['link']
     path = urlsplit(link).path
     post['relative_link'] = path
-    post['formatted_date'] = humanize.naturaldate(
-        parser.parse(post['date'])
-    )
+    post['formatted_date'] = datetime.datetime.strftime(parser.parse(post['date']), "%d %B %Y").lstrip("0").replace(" 0", " ")
     post = _embed_post_data(post)
     return post
 
@@ -295,9 +292,7 @@ def _normalise_post(post):
     link = post['link']
     path = urlsplit(link).path
     post['relative_link'] = path
-    post['formatted_date'] = humanize.naturaldate(
-        parser.parse(post['date'])
-    )
+    post['formatted_date'] = datetime.datetime.strftime(parser.parse(post['date']), "%d %B %Y").lstrip("0").replace(" 0", " ")
     post = _embed_post_data(post)
     return post
 
@@ -409,14 +404,9 @@ def tag_index(slug):
             'tag.html', posts=posts, tag=tag, **metadata
         )
     else:
-        tag = {
-            "id": -1,
-            "name": slug
-        }
-
         return flask.render_template(
-            'tag.html', posts=[], tag=tag, **{}
-        ), 404
+            '404.html'
+        )
 
 
 @app.route(

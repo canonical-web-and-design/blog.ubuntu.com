@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <div class="p-strip--light is-shallow is-bordered" style="overflow: hidden;">
+  <div class="p-strip--image  is-dark" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">
     <div class="row u-equal-height u-vertically-center">
-      <div class="col-6">
+      <div class="col-6 p-card--overlay">
         <h1 class="p-heading--one">
           {% if request.path.startswith("/press-centre/") %}
             Press centre
@@ -12,24 +12,19 @@
           {% endif %}
         </h1>
         {% if not category %}
-          <p class="p-heading--five">
+          <h5 style="line-height: 1.75rem;">
             {{ group_details.description }}
-          </p>
+          </h5>
           {% if group_details.url %}
           <p>
             <a class="p-link--external" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
           </p>
           {% endif %}
         {% else %}
-          <p class="p-heading--four">
+          <h4>
             {{ category.name }}
-          </p>
+          </h4>
         {% endif %}
-      </div>
-      <div class="col-5 prefix-1">
-        <img src="{{ group_details.hero_url }}"
-        class="group-image u-hidden--small"
-        alt="" />
       </div>
       <div id="rtp-banner" class="rtp-banner"></div>
     </div>
