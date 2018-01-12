@@ -1,0 +1,44 @@
+@mixin insights-p-card {
+
+  %p-card__header {
+    color: $color-x-light;
+    margin: -21px -21px 21px -21px;
+    padding: 1rem;
+  }
+
+  .p-card__header--desktop {
+    @extend %p-card__header;
+    background-color: #749F8D;
+  }
+
+  .p-card__header--canonical-announcements {
+    @extend %p-card__header;
+    background-color: #FF8936 ;
+  }
+
+  .p-card__header--cloud-and-server {
+    @extend %p-card__header;
+    background-color: #48929B;
+  }
+
+  .p-card__header--internet-of-things {
+    @extend %p-card__header;
+    background-color: #A87CA0;
+  }
+
+  .p-card__header--phone-and-tablet {
+    @extend %p-card__header;
+    background-color: #8DB255;
+  }
+
+  .p-card__footer {
+    border-top: 1px dotted #cdcdcd;
+    height: $sp-x-large;
+    margin-top: $sp-x-large;
+    padding-top: $sp-xx-small;
+
+    > p {
+      color: $color-mid-dark;
+    }
+  }
+}

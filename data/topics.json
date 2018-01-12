@@ -11,6 +11,7 @@
     {
         "name": "Juju",
         "slug": "juju",
+        "strip_css": "p-strip--accent is-dark",
         "subtitle": "Operate big software at scale on any cloud",
         "description": "All the latest news on Juju – the open source application modelling tool for public and private clouds.",
         "url": "https://jujucharms.com",
@@ -20,6 +21,7 @@
     {
         "name": "MAAS",
         "slug": "maas",
+        "strip_css": "p-strip--accent is-dark",
         "subtitle": "Metal as a Service",
         "description": "All the latest news on MAAS – the smartest way to manage bare metal.",
         "url": "https://maas.io",
@@ -30,7 +32,7 @@
         "name": "Snappy",
         "slug": "snappy",
         "strip_css": "p-strip--accent is-dark",
-        "subtitle": "Package any app for any Linux platform and deliver updates directly",
+        "subtitle": "Package any app for any Linux platform",
         "description": "All the latest from the Snappy team &mdash; articles on application architecture, prototyping, packaging paradigms and more.",
         "url": "https://snapcraft.io",
         "logo_url": "https://assets.ubuntu.com/v1/a861450c-snapcraft-logo.svg",
