@@ -99,15 +99,6 @@ class RegexConverter(BaseConverter):
 
 app.url_map.converters['regex'] = RegexConverter
 
-def _get_categories():
-    api_url = '{api_url}/categories'.format(
-        api_url=API_URL,
-        slug=slugs,
-    )
-    response = _get_from_cache(api_url)
-    categories = json.loads(response.text)
-    return categories
-
 def _get_categories_by_slug(slugs=[]):
     if slugs:
         if isinstance(slugs, list):
@@ -134,7 +125,7 @@ def _get_groups_by_slug(slugs=[]):
 
 
 def _get_posts(groups=[], categories=[], tags=[], page=None):
-    api_url = '{api_url}/posts?_embed&per_page=12&page={page}'.format(
+    api_url = '{api_url}/posts?_embed&page={page}'.format(
         api_url=API_URL,
         page=str(page or 1),
     )
@@ -167,7 +158,7 @@ def _get_posts(groups=[], categories=[], tags=[], page=None):
 
 
 def _get_related_posts(post):
-    api_url = '{api_url}/tags?embed&per_page=3&post={post_id}'.format(
+    api_url = '{api_url}/tags?embed&post={post_id}'.format(
         api_url=API_URL,
         post_id=post['id'],
     )
@@ -220,16 +211,6 @@ def _get_topic_details_from_post(post_id):
     return topics
 
 
-def _get_group_details_from_post(post_id):
-    api_url = '{api_url}/group?post={post_id}'.format(
-        api_url=API_URL,
-        post_id=post_id,
-    )
-    response = _get_from_cache(api_url)
-    groups = json.loads(response.text)
-    return groups
-
-
 def _get_featured_post(groups=[], categories=[], per_page=1):
     api_url = '{api_url}/posts?_embed&sticky=true&per_page={per_page}'.format(
         api_url=API_URL,
@@ -258,7 +239,6 @@ def _embed_post_data(post):
     post['category'] = _get_category_from_post(post['id'])
     post['tags'] = _get_tag_details_from_post(post['id'])
     post['topics'] = _get_topic_details_from_post(post['id'])
-    post['groups'] = _get_group_details_from_post(post['id'])
     return post
 
 
@@ -273,14 +253,9 @@ def _normalise_user(user):
 def _normalise_posts(posts):
     for post in posts:
         if post['excerpt']['rendered']:
-            # replace headings (e.g. h1) to paragraphs
-            post['excerpt']['rendered'] = re.sub( r"h\d>", "p>", post['excerpt']['rendered'] )
-            # remove images
-            post['excerpt']['rendered'] = re.sub( r"<img(.[^>]*)?", "", post['excerpt']['rendered'] )
-            # shorten to 250 chars, on a wordbreak and with a ...
             post['excerpt']['rendered'] = textwrap.shorten(post['excerpt']['rendered'], width=250, placeholder="&hellip;")
-            # if there is a [...] replace with ...
             post['excerpt']['rendered'] = re.sub( r"\[\&hellip;\]", "&hellip;", post['excerpt']['rendered'] )
+            post['excerpt']['rendered'] = re.sub( r"h\d>", "p>", post['excerpt']['rendered'] )
         post = _normalise_post(post)
     return posts
 
@@ -313,6 +288,13 @@ def _load_rss_feed(url, limit=5):
     feed_content = get_rss_feed_content(url, limit=limit)
     return feed_content
 
+def _normalise_post(post):
+    link = post['link']
+    path = urlsplit(link).path
+    post['relative_link'] = path
+    post['formatted_date'] = datetime.datetime.strftime(parser.parse(post['date']), "%d %B %Y").lstrip("0").replace(" 0", " ")
+    post = _embed_post_data(post)
+    return post
 
 @app.route('/')
 @app.route('/<group>/')

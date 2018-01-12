@@ -1,27 +1,15 @@
 {% block posts %}
 
-<div class="p-strip is-bordered">
-{%- for post in posts %}
-  {% if loop.index0 % 3 == 0 %}
-  <div class="row u-equal-height u-clearfix">
-  {% endif %}
-    <div class="col-4 p-card">
-      <header class="p-card__header--{{ post.groups[0].slug }}">
-        <h5 class="p-muted-heading">{{ post.groups[0].name }}</h5>
-      </header>
-      <h2 class="p-card__title p-heading--four"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></h2>
-      <div class="p-card__content">
+{% for post in posts %}
+  <div class="p-strip is-shallow is-bordered">
+    <div class="row">
+      <div class="col-8">
+        <h2 class="p-heading--three"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></h2>
         <p>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.formatted_date }}</p>
-        <p class="u-no-padding--bottom">{{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+        <p class="u-no-padding--bottom">{{ post.excerpt.rendered | safe }}</p>
       </div>
-      <footer class="p-card__footer">
-        <p>{{ post.category | capitalize }}</p>
-      </footer>
     </div>
-  {% if loop.index0 % 3 == 2 or loop.last %}
   </div>
-  {% endif %}
-{%- endfor %}
-</div>
+{% endfor %}
 
 {% endblock %}

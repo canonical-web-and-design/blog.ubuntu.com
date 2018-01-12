@@ -21,13 +21,13 @@
 </div>
 
 {% if featured_post %}
-<div class="p-strip--light is-shallow">
+<div class="p-strip is-shallow is-bordered">
   <div class="row">
     <div class="col-8">
       <h3 class="p-heading--four">Featured article</h3>
       <h2 class="p-heading--three"><a href="{{ featured_post.relative_link }}">{{ featured_post.title.rendered | safe }}</a></h2>
       <p>By <a href="{{ featured_post.author.relative_link }}" title="More about {{ featured_post.author.name }}">{{ featured_post.author.name }}</a>, {{ featured_post.formatted_date }}</p>
-      <p class="u-no-padding--bottom">{{ featured_post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+      <p class="u-no-padding--bottom">{{ featured_post.excerpt.rendered | safe }}</p>
     </div>
   </div>
 </div>

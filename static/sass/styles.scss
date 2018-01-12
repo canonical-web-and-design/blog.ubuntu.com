@@ -6,12 +6,10 @@ $breakpoint-navigation-threshold: 990px;
 @import 'pattern_social-share';
 @import 'pattern_rtp';
 @import 'pattern_form';
-@import 'pattern_card';
 
 @include insights-p-social-share;
 @include insights-p-rtp;
 @include insights-p-form;
-@include insights-p-card;
 
 // Bug fixes
 // Each of the the rules below are bug fixes which need to be addressed further upstream
