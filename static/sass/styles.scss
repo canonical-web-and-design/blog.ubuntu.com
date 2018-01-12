@@ -134,7 +134,13 @@ pre {
   }
 }
 
-/// XXX remove whitespace under footer
+.u-position--bottom {
+  @media (min-width: $breakpoint-medium) {
+    bottom: 0;
+    position: absolute;
+  }
+
+  /// XXX remove whitespace under footer
 .p-footer {
   padding-bottom: 2.5rem;
 }
