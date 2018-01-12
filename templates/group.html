@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <div class="p-strip--image  is-dark" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">
+  <section class="p-strip--image  is-dark" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">
     <div class="row u-equal-height u-vertically-center">
       <div class="col-6 p-card--overlay">
         <h1 class="p-heading--one">
@@ -11,24 +11,44 @@
             {{ group_details.name }}
           {% endif %}
         </h1>
-        {% if not category %}
-          <h5 style="line-height: 1.75rem;">
-            {{ group_details.description }}
-          </h5>
-          {% if group_details.url %}
-          <p>
-            <a class="p-link--external" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
-          </p>
-          {% endif %}
-        {% else %}
-          <h4>
-            {{ category.name }}
-          </h4>
+        <h5 style="line-height: 1.75rem;">
+          {{ group_details.description }}
+        </h5>
+        {% if group_details.url %}
+        <p>
+          <a class="p-link--external" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
+        </p>
         {% endif %}
       </div>
       <div id="rtp-banner" class="rtp-banner"></div>
     </div>
-  </div>
+  </section>
+
+  <section class="p-strip is-shallow u-no-padding--top u-no-padding--bottom">
+    <nav class="p-tabs col-12">
+      <div class="row">
+        <ul class="p-tabs__list" role="tablist">
+          {% if group_details.slug != 'canonical-announcements' %}
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/all" class="p-tabs__link"  role="tab" aria-controls="section1" {% if category.slug is not defined %} aria-selected="true"{% endif %}>All</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/articles" class="p-tabs__link"  role="tab" aria-controls="section2" {% if category.slug == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/case-studies" class="p-tabs__link" role="tab" aria-controls="section3" {% if category.slug == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/videos" class="p-tabs__link"  role="tab" aria-controls="section4" {% if category.slug == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/webinars" class="p-tabs__link"  role="tab" aria-controls="section5" {% if category.slug == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </section>
 
   {% include "posts.html" %}
 
