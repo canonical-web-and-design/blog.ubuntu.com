@@ -28,53 +28,21 @@
     <nav class="p-tabs col-12">
       <div class="row">
         <ul class="p-tabs__list" role="tablist">
-          {% if group_details.slug == 'cloud-and-server' %}
+          {% if group_details.slug == 'cloud-and-server' or group_details.slug == 'internet-of-things' or group_details.slug == 'destkop' %}
           <li class="p-tabs__item" role="presentation">
-            <a href="/cloud-and-server/all" class="p-tabs__link" tabindex="0" role="tab" aria-controls="section1" {% if category.slug is not defined %} aria-selected="true"{% endif %}>All</a>
+            <a href="/{{ group_details.slug }}/all" class="p-tabs__link"  role="tab" aria-controls="section1" {% if category.slug is not defined %} aria-selected="true"{% endif %}>All</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/cloud-and-server/articles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section2" {% if category.slug == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
+            <a href="/{{ group_details.slug }}/articles" class="p-tabs__link"  role="tab" aria-controls="section2" {% if category.slug == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/cloud-and-server/case-studies" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section3" {% if category.slug == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
+            <a href="/{{ group_details.slug }}/case-studies" class="p-tabs__link" role="tab" aria-controls="section3" {% if category.slug == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/cloud-and-server/videos" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section4" {% if category.slug == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
+            <a href="/{{ group_details.slug }}/videos" class="p-tabs__link"  role="tab" aria-controls="section4" {% if category.slug == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/cloud-and-server/webinars" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section5" {% if category.slug == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
-          </li>
-          {% elif group_details.slug == 'internet-of-things' %}
-          <li class="p-tabs__item" role="presentation">
-            <a href="/internet-of-things/all" class="p-tabs__link" tabindex="0" role="tab" aria-controls="section1" {% if category.slug is not defined %} aria-selected="true"{% endif %}>All</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/internet-of-things/articles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section2" {% if category.slug == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/internet-of-things/case-studies" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section3" {% if category.slug == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/internet-of-things/videos" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section4" {% if category.slug == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/internet-of-things/webinars" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section5" {% if category.slug == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
-          </li>
-          {% elif group_details.slug == 'desktop' %}
-          <li class="p-tabs__item" role="presentation">
-            <a href="/desktop/all" class="p-tabs__link" tabindex="0" role="tab" aria-controls="section1" {% if category.slug is not defined %} aria-selected="true"{% endif %}>All</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/desktop/articles" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section2" {% if category.slug == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/desktop/case-studies" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section3" {% if category.slug == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/desktop/videos" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section4" {% if category.slug == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/desktop/webinars" class="p-tabs__link" tabindex="-1" role="tab" aria-controls="section5" {% if category.slug == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
+            <a href="/{{ group_details.slug }}/webinars" class="p-tabs__link"  role="tab" aria-controls="section5" {% if category.slug == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
           </li>
           {% endif %}
         </ul>
