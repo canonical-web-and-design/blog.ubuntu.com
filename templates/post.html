@@ -174,7 +174,7 @@
         </a>
       </h4>
       <p>
-        {{ related.excerpt.rendered | truncate (250, False, '&hellip;') | safe }}
+        {{ related.excerpt.rendered | truncate (250, False, '&hellip;') | striptags | urlize(30, true) }}
       </p>
     </div>
     {% endif %}
