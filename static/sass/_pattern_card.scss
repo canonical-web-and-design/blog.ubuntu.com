@@ -1,44 +1,80 @@
 @mixin insights-p-card {
 
-  %p-card__header {
-    color: $color-x-light;
-    margin: -21px -21px 21px -21px;
-    padding: 1rem;
-  }
+  .p-card__category {
+    background: url('#{$assets-path}ed42aefa-icon-resource-hub-icon-document.png') left center no-repeat;
+    color: $color-mid-dark;
+    font-size: $sp-medium;
+    line-height: 1.5;
+    padding: 0 0 0 $sp-large;
+    text-transform: uppercase;
 
-  .p-card__header--desktop {
-    @extend %p-card__header;
-    background-color: #749F8D;
-  }
-
-  .p-card__header--canonical-announcements {
-    @extend %p-card__header;
-    background-color: #FF8936 ;
-  }
-
-  .p-card__header--cloud-and-server {
-    @extend %p-card__header;
-    background-color: #48929B;
-  }
-
-  .p-card__header--internet-of-things {
-    @extend %p-card__header;
-    background-color: #A87CA0;
-  }
-
-  .p-card__header--phone-and-tablet {
-    @extend %p-card__header;
-    background-color: #8DB255;
-  }
-
-  .p-card__footer {
-    border-top: 1px dotted #cdcdcd;
-    height: $sp-x-large;
-    margin-top: $sp-x-large;
-    padding-top: $sp-xx-small;
-
-    > p {
+    > a:link,
+    > a:visited {
       color: $color-mid-dark;
+      text-decoration: none;
+    }
+
+    > a:hover,
+    > a:active {
+      color: $color-brand;
+      text-decoration: underline;
+    }
+  }
+
+  %resources-card-header {
+    border-radius: 2px;
+    padding: $sp-small $sp-medium;
+  }
+
+  .p-card--resources {
+    @extend .p-card--highlighted;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    > .p-card__content {
+      border-top: 1px dotted $color-mid-light;
+      margin: 0 $sp-x-small;
+      padding: $sp-x-small;
+      padding-bottom: 5rem;
+
+      > a, h3, p {
+        display: block;
+        margin: $sp-x-small 0;
+      }
+    }
+
+    .p-card__footer {
+      border-top: 1px dotted $color-mid-light;
+      bottom: 0;
+      font-size: .875rem;
+      margin: auto $sp-x-small 0;
+      max-width: inherit;
+      padding: $sp-medium $sp-x-small;
+      position: absolute;
+      width: 90%;
+    }
+  }
+
+  .p-card__header {
+    &--cloud-and-server {
+      @extend %resources-card-header;
+      border-top: 3px solid #2b939c;
+    }
+
+    &--desktop {
+      @extend %resources-card-header;
+      border-top: 3px solid #66a2c1;
+    }
+
+    &--internet-of-things {
+      @extend %resources-card-header;
+      border-top: 3px solid #b0709d;
+    }
+
+    &--canonical-announcements {
+      @extend %resources-card-header;
+      border-top: 3px solid #ff8936;
     }
   }
 }
