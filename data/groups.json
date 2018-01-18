@@ -2,7 +2,7 @@
     {
         "name": "Cloud and Server",
         "slug": "cloud-and-server",
-        "description": "All you need to know about designing, building and managing your OpenStack cloud or Ubuntu Server scale-out deployment.",
+        "description": "All you need to know about designing, building and managing your OpenStack cloud or Ubuntu Server scale&#8209;out deployment.",
         "url": "https://www.ubuntu.com/cloud",
         "hero_url": "https://assets.ubuntu.com/v1/78c2eae0-image-server-room.jpg"
     },
@@ -16,7 +16,7 @@
     {
         "name": "Desktop",
         "slug": "desktop",
-        "description": "All you need to know about the fast, free and user-friendly Ubuntu desktop operating system.",
+        "description": "All you need to know about the fast, free and user&#8209;friendly Ubuntu desktop operating system.",
         "url": "https://www.ubuntu.com/desktop",
         "hero_url": "https://assets.ubuntu.com/v1/bf5e5af8-desktop-overview-hero.jpg"
     },
