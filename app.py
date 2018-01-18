@@ -25,12 +25,14 @@ GROUPBYID = {
     1666: {'slug': 'internet-of-things', 'name': 'Internet of things'},
     1479: {'slug': 'desktop', 'name': 'Desktop'},
     2100: {'slug': 'canonical-announcements', 'name': 'Canonical announcements'},
+    1707: {'slug': 'phone-and-tablet', 'name': 'Phone and tablet'},
 }
-GROUPBYNAME = {
+GROUPBYSLUG = {
     'cloud-and-server': {'id': 1706, 'name': 'Cloud and server'},
     'internet-of-things': {'id': 1666, 'name': 'Internet of things'},
     'desktop': {'id': 1479, 'name': 'Desktop'},
     'canonical-announcements': {'id': 2100, 'name': 'Canonical announcements'},
+    'phone-and-tablet': {'id': 1707, 'name': 'Phone and tablet'},
 }
 CATEGORIESBYID = {
     1172: {'slug': 'case-studies', 'name': 'Case Study'},
@@ -300,8 +302,8 @@ def _get_group_by_id(group_id):
     return GROUPBYID[group_id]
 
 def _get_group_by_name(group_slug):
-    global GROUPBYNAME
-    return GROUPBYNAME[group_slug]
+    global GROUPBYSLUG
+    return GROUPBYSLUG[group_slug]
 
 def _get_topic_by_id(topic_id):
     global TOPICBYID

@@ -72,5 +72,10 @@
       @extend %resources-card-header;
       border-top: 3px solid #ff8936;
     }
+
+    &--phone-and-tablet {
+      @extend %resources-card-header;
+      border-top: 3px solid $color-mid-light;
+    }
   }
 }
