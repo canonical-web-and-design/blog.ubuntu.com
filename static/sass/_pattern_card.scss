@@ -28,7 +28,7 @@
 
   .p-card--resources {
     @extend .p-card--highlighted;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     padding: 0;
 
@@ -36,7 +36,6 @@
       border-top: 1px dotted $color-mid-light;
       margin: 0 $sp-x-small;
       padding: $sp-x-small;
-      padding-bottom: 5rem;
 
       > a, h3, p {
         display: block;
@@ -46,13 +45,10 @@
 
     .p-card__footer {
       border-top: 1px dotted $color-mid-light;
-      bottom: 0;
       font-size: .875rem;
       margin: auto $sp-x-small 0;
       max-width: inherit;
       padding: $sp-medium $sp-x-small;
-      position: absolute;
-      width: 90%;
     }
   }
 
