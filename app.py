@@ -20,7 +20,38 @@ from lib.get_feeds import (
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
 API_URL = INSIGHTS_URL + '/wp-json/wp/v2'
-
+GROUPBYID = {
+    1706: {'slug': 'cloud-and-server', 'name': 'Cloud and server'},
+    1666: {'slug': 'internet-of-things', 'name': 'Internet of things'},
+    1479: {'slug': 'desktop', 'name': 'Desktop'},
+    2100: {'slug': 'canonical-announcements', 'name': 'Canonical announcements'},
+}
+GROUPBYNAME = {
+    'cloud-and-server': {'id': 1706, 'name': 'Cloud and server'},
+    'internet-of-things': {'id': 1666, 'name': 'Internet of things'},
+    'desktop': {'id': 1479, 'name': 'Desktop'},
+    'canonical-announcements': {'id': 2100, 'name': 'Canonical announcements'},
+}
+CATEGORIESBYID = {
+    1172: {'slug': 'case-studies', 'name': 'Case Study'},
+    1187: {'slug': 'webinars', 'name': 'Webinar'},
+    1189: {'slug': 'news', 'name': 'News'},
+    1453: {'slug': 'articles', 'name': 'Article'},
+    1485: {'slug': 'whitepapers', 'name': 'Whitepaper'},
+    1509: {'slug': 'videos', 'name': 'Video'},
+}
+TOPICBYID = {
+    1979: {"name": "Big data", "slug": "big-data"},
+    1477: {"name": "Cloud", "slug": "cloud"},
+    2099: {"name": "Canonical announcements", "slug": "canonical-announcements"},
+    1921: {"name": "Desktop", "slug": "desktop"},
+    1924: {"name": "Internet of Things", "slug": "internet-of-things"},
+    2052: {"name": "People and culture", "slug": "people-and-culture"},
+    1340: {"name": "Phone", "slug": "phone"},
+    1922: {"name": "Server", "slug": "server"},
+    1481: {"name": "Tablet", "slug": "tablet"},
+    1482: {"name": "TV", "slug": "tv"},
+}
 
 app = flask.Flask(__name__)
 
@@ -38,7 +69,7 @@ uncached_session.mount(
 )
 
 # The cache expires after 10 minutes
-cached_session = requests_cache.CachedSession(expire_after=600)
+cached_session = requests_cache.CachedSession(expire_after=6000)
 
 # Requests should timeout after 2 seconds in total
 request_timeout = 10
@@ -138,7 +169,6 @@ def _get_posts(groups=[], categories=[], tags=[], page=None):
         api_url=API_URL,
         page=str(page or 1),
     )
-
     if groups:
         groups = ','.join(str(group) for group in groups)
         api_url = ''.join([api_url, '&group=', groups])
@@ -249,18 +279,52 @@ def _get_featured_post(groups=[], categories=[], per_page=1):
 
     return posts[0] if posts else None
 
+def _get_category_by_id(category_id):
+    global CATEGORIESBYID
+    category = CATEGORIESBYID[category_id]['name']
+    return category
+
+def _get_group_by_id(group_id):
+    global GROUPBYID
+    group = {
+        'name': GROUPBYID[group_id]['name'],
+        'slug': GROUPBYID[group_id]['slug'],
+    }
+    return group
+
+def _get_group_by_name(group_slug):
+    global GROUPBYNAME
+    group = {
+        'id': GROUPBYNAME[group_slug]['id'],
+        'name': GROUPBYNAME[group_slug]['name'],
+    }
+    return group
+
+def _get_topic_by_id(topic_id):
+    global TOPICBYID
+    topic = {
+        'name': TOPICBYID[topic_id]['name'],
+        'slug': TOPICBYID[topic_id]['slug'],
+    }
+    return topic
 
 def _embed_post_data(post):
     if '_embedded' not in post:
         return post
     embedded = post['_embedded']
-    post['author'] = _normalise_user(embedded['author'][0])
-    post['category'] = _get_category_from_post(post['id'])
+    post['author'] = _normalise_user_simple(embedded['author'][0])
+    post['category'] = _get_category_by_id(post['categories'][0])
     post['tags'] = _get_tag_details_from_post(post['id'])
-    post['topics'] = _get_topic_details_from_post(post['id'])
-    post['groups'] = _get_group_details_from_post(post['id'])
+    post['topics'] = _get_topic_by_id(post['topic'][0])
+    post['groups'] = _get_group_by_id(post['group'][0])
     return post
 
+
+def _normalise_user_simple(user):
+    link = user['link']
+    path = urlsplit(link).path
+    user['relative_link'] = path
+    return user
 
 def _normalise_user(user):
     link = user['link']
@@ -268,7 +332,6 @@ def _normalise_user(user):
     user['relative_link'] = path
     user['recent_posts'] = _get_user_recent_posts(user['id'])
     return user
-
 
 def _normalise_posts(posts):
     for post in posts:
@@ -336,18 +399,16 @@ def group_category(group=[], category='all'):
         if group == 'press-centre':
             group = 'canonical-announcements'
 
-        groups = _get_groups_by_slug(slugs=group)
+        groups = _get_group_by_name(group) #_get_groups_by_slug(slugs=group)
+
         if not groups:
             return flask.render_template(
                 '404.html'
             )
-        group_details =_get_group_details(group)
+        group_details =_get_group_details(group) # read the json file
 
-        categories = _get_categories_by_slug(slugs=category)
-        if not categories and category != 'all':
-            return flask.redirect(flask.url_for('group_category', group=group, category='all'))
+    groups_id = [groups['id']] if groups else None
 
-    groups_id = [str(group['id']) for group in groups]
     categories_id = [str(category['id']) for category in categories]
 
     page = flask.request.args.get('page')
@@ -365,7 +426,7 @@ def group_category(group=[], category='all'):
         return flask.render_template(
             'group.html',
             posts=posts,
-            group=groups[0] if groups else None,
+            group=groups if groups else None,
             group_details=group_details,
             category=categories[0] if categories else None,
             featured_post=featured_post,
