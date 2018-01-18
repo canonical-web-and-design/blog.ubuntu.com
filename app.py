@@ -40,6 +40,15 @@ CATEGORIESBYID = {
     1485: {'slug': 'whitepapers', 'name': 'Whitepaper'},
     1509: {'slug': 'videos', 'name': 'Video'},
 }
+CATEGORIESBYSLUG = {
+    'all': {'id': None, 'name': 'All'},
+    'case-studies': {'id': 1172, 'name': 'Case Study'},
+    'webinars': {'id': 1187, 'name': 'Webinar'},
+    'news': {'id': 1189, 'name': 'News'},
+    'articles': {'id': 1453, 'name': 'Article'},
+    'whitepapers': {'id': 1485, 'name': 'Whitepaper'},
+    'videos': {'id': 1509, 'name': 'Video'},
+}
 TOPICBYID = {
     1979: {"name": "Big data", "slug": "big-data"},
     1477: {"name": "Cloud", "slug": "cloud"},
@@ -52,6 +61,7 @@ TOPICBYID = {
     1481: {"name": "Tablet", "slug": "tablet"},
     1482: {"name": "TV", "slug": "tv"},
 }
+PAGE_TYPE = ""
 
 app = flask.Flask(__name__)
 
@@ -172,11 +182,9 @@ def _get_posts(groups=[], categories=[], tags=[], page=None):
     if groups:
         groups = ','.join(str(group) for group in groups)
         api_url = ''.join([api_url, '&group=', groups])
-
     if categories:
         categories = ','.join(str(category) for category in categories)
         api_url = ''.join([api_url, '&categories=', categories])
-
     if tags:
         if isinstance(tags, list):
             tags = ','.join(str(tag) for tag in tags)
@@ -281,40 +289,33 @@ def _get_featured_post(groups=[], categories=[], per_page=1):
 
 def _get_category_by_id(category_id):
     global CATEGORIESBYID
-    category = CATEGORIESBYID[category_id]['name']
-    return category
+    return CATEGORIESBYID[category_id]
+
+def _get_category_by_slug(category_name):
+    global CATEGORIESBYSLUG
+    return CATEGORIESBYSLUG[category_name]
 
 def _get_group_by_id(group_id):
     global GROUPBYID
-    group = {
-        'name': GROUPBYID[group_id]['name'],
-        'slug': GROUPBYID[group_id]['slug'],
-    }
-    return group
+    return GROUPBYID[group_id]
 
 def _get_group_by_name(group_slug):
     global GROUPBYNAME
-    group = {
-        'id': GROUPBYNAME[group_slug]['id'],
-        'name': GROUPBYNAME[group_slug]['name'],
-    }
-    return group
+    return GROUPBYNAME[group_slug]
 
 def _get_topic_by_id(topic_id):
     global TOPICBYID
-    topic = {
-        'name': TOPICBYID[topic_id]['name'],
-        'slug': TOPICBYID[topic_id]['slug'],
-    }
-    return topic
+    return TOPICBYID[topic_id]
 
 def _embed_post_data(post):
     if '_embedded' not in post:
         return post
+    global PAGE_TYPE
     embedded = post['_embedded']
     post['author'] = _normalise_user_simple(embedded['author'][0])
     post['category'] = _get_category_by_id(post['categories'][0])
-    post['tags'] = _get_tag_details_from_post(post['id'])
+    if PAGE_TYPE == "post":
+        post['tags'] = _get_tag_details_from_post(post['id'])
     post['topics'] = _get_topic_by_id(post['topic'][0])
     post['groups'] = _get_group_by_id(post['group'][0])
     return post
@@ -384,6 +385,9 @@ def group_category(group=[], category='all'):
     groups = []
     categories = []
 
+    global PAGE_TYPE
+    PAGE_TYPE = "group"
+
     search = request.args.get('search')
 
     if search:
@@ -408,13 +412,13 @@ def group_category(group=[], category='all'):
         group_details =_get_group_details(group) # read the json file
 
     groups_id = [groups['id']] if groups else None
-
-    categories_id = [str(category['id']) for category in categories]
+    categories = _get_category_by_slug(category)
+    categories_id = [categories['id']] if categories['id'] else None
 
     page = flask.request.args.get('page')
     posts, metadata = _get_posts(
         groups=groups_id,
-        categories=categories_id if categories_id else None,
+        categories=categories_id,
         page=page
     )
 
@@ -428,7 +432,7 @@ def group_category(group=[], category='all'):
             posts=posts,
             group=groups if groups else None,
             group_details=group_details,
-            category=categories[0] if categories else None,
+            category=category if category else None,
             featured_post=featured_post,
             **metadata
         )
@@ -445,6 +449,9 @@ def group_category(group=[], category='all'):
 @app.route('/topics/<slug>/')
 def topic_name(slug):
     topic = _get_topic_details(slug)
+
+    global PAGE_TYPE
+    PAGE_TYPE = "topic"
 
     if topic:
         api_url = ''.join([API_URL, '/tags?slug=', topic['slug']])
@@ -473,6 +480,9 @@ def tag_index(slug):
     api_url = ''.join([API_URL, '/tags?slug=', slug])
     response = _get_from_cache(api_url)
 
+    global PAGE_TYPE
+    PAGE_TYPE = "tag"
+
     response_json = json.loads(response.text)
     if response_json:
         tag = response_json[0]
@@ -495,6 +505,8 @@ def tag_index(slug):
     '/<slug>/'
 )
 def post(year, month, day, slug):
+    global PAGE_TYPE
+    PAGE_TYPE = "post"
     api_url = ''.join([API_URL, '/posts?_embed&slug=', slug])
     response = _get_from_cache(api_url)
     data = json.loads(response.text)[0]
@@ -505,6 +517,8 @@ def post(year, month, day, slug):
 
 @app.route('/author/<slug>/')
 def user(slug):
+    global PAGE_TYPE
+    PAGE_TYPE = "author"
     api_url = ''.join([API_URL, '/users?_embed&slug=', slug])
     response = _get_from_cache(api_url)
     data = json.loads(response.text)[0]

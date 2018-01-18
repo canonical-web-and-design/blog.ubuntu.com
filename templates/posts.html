@@ -14,7 +14,7 @@
         <p><em>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.formatted_date }}</em></p>
         <p class="u-no-padding--bottom">{{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
       </div>
-      <p class="p-card__footer">{{ post.category | capitalize }}</p>
+      <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
     </div>
   {% if loop.index0 % 3 == 2 or loop.last %}
   </div>
