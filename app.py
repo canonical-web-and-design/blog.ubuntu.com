@@ -64,6 +64,7 @@ TOPICBYID = {
     1482: {"name": "TV", "slug": "tv"},
 }
 PAGE_TYPE = ""
+GROUP = ""
 
 app = flask.Flask(__name__)
 
@@ -164,6 +165,7 @@ def _get_categories_by_slug(slugs=[]):
     return categories
 
 def _get_groups_by_slug(slugs=[]):
+    # NOT USED
     if slugs:
         if isinstance(slugs, list):
             slugs = ','.join(slugs)
@@ -301,7 +303,7 @@ def _get_group_by_id(group_id):
     global GROUPBYID
     return GROUPBYID[group_id]
 
-def _get_group_by_name(group_slug):
+def _get_group_by_slug(group_slug):
     global GROUPBYSLUG
     return GROUPBYSLUG[group_slug]
 
@@ -313,13 +315,18 @@ def _embed_post_data(post):
     if '_embedded' not in post:
         return post
     global PAGE_TYPE
+    global GROUP
     embedded = post['_embedded']
     post['author'] = _normalise_user(embedded['author'][0])
     post['category'] = _get_category_by_id(post['categories'][0])
     if PAGE_TYPE == "post":
         post['tags'] = _get_tag_details_from_post(post['id'])
     post['topics'] = _get_topic_by_id(post['topic'][0])
-    post['groups'] = _get_group_by_id(post['group'][0])
+    print ('group: x' + str(GROUP) + 'x')
+    if GROUP:
+        post['groups'] = _get_group_by_id(GROUP)
+    else:
+        post['groups'] = _get_group_by_id(post['group'][0])
     return post
 
 def _normalise_user(user):
@@ -400,7 +407,7 @@ def group_category(group=[], category='all'):
         if group == 'press-centre':
             group = 'canonical-announcements'
 
-        groups = _get_group_by_name(group)
+        groups = _get_group_by_slug(group)
 
         if not groups:
             return flask.render_template(
@@ -408,7 +415,10 @@ def group_category(group=[], category='all'):
             )
         group_details =_get_group_details(group) # read the json file
 
+    global GROUP
+    GROUP = groups['id'] if groups else None
     groups_id = [groups['id']] if groups else None
+
     categories = _get_category_by_slug(category)
     categories_id = [categories['id']] if categories['id'] else None
 
@@ -449,6 +459,9 @@ def topic_name(slug):
 
     global PAGE_TYPE
     PAGE_TYPE = "topic"
+
+    global GROUP
+    GROUP = ''
 
     if topic:
         api_url = ''.join([API_URL, '/tags?slug=', topic['slug']])
