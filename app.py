@@ -312,7 +312,7 @@ def _embed_post_data(post):
         return post
     global PAGE_TYPE
     embedded = post['_embedded']
-    post['author'] = _normalise_user_simple(embedded['author'][0])
+    post['author'] = _normalise_user(embedded['author'][0])
     post['category'] = _get_category_by_id(post['categories'][0])
     if PAGE_TYPE == "post":
         post['tags'] = _get_tag_details_from_post(post['id'])
@@ -320,18 +320,13 @@ def _embed_post_data(post):
     post['groups'] = _get_group_by_id(post['group'][0])
     return post
 
-
-def _normalise_user_simple(user):
-    link = user['link']
-    path = urlsplit(link).path
-    user['relative_link'] = path
-    return user
-
 def _normalise_user(user):
+    global PAGE_TYPE
     link = user['link']
     path = urlsplit(link).path
     user['relative_link'] = path
-    user['recent_posts'] = _get_user_recent_posts(user['id'])
+    if PAGE_TYPE == "author":
+        user['recent_posts'] = _get_user_recent_posts(user['id'])
     return user
 
 def _normalise_posts(posts):
@@ -403,7 +398,7 @@ def group_category(group=[], category='all'):
         if group == 'press-centre':
             group = 'canonical-announcements'
 
-        groups = _get_group_by_name(group) #_get_groups_by_slug(slugs=group)
+        groups = _get_group_by_name(group)
 
         if not groups:
             return flask.render_template(
