@@ -143,41 +143,6 @@ class RegexConverter(BaseConverter):
 
 app.url_map.converters['regex'] = RegexConverter
 
-def _get_categories():
-    api_url = '{api_url}/categories'.format(
-        api_url=API_URL,
-        slug=slugs,
-    )
-    response = _get_from_cache(api_url)
-    categories = json.loads(response.text)
-    return categories
-
-def _get_categories_by_slug(slugs=[]):
-    if slugs:
-        if isinstance(slugs, list):
-            slugs = ','.join(slugs)
-    api_url = '{api_url}/categories?slug={slug}'.format(
-        api_url=API_URL,
-        slug=slugs,
-    )
-    response = _get_from_cache(api_url)
-    categories = json.loads(response.text)
-    return categories
-
-def _get_groups_by_slug(slugs=[]):
-    # NOT USED
-    if slugs:
-        if isinstance(slugs, list):
-            slugs = ','.join(slugs)
-    api_url = '{api_url}/group?slug={slug}'.format(
-        api_url=API_URL,
-        slug=slugs,
-    )
-    response = _get_from_cache(api_url)
-    groups = json.loads(response.text)
-    return groups
-
-
 def _get_posts(groups=[], categories=[], tags=[], page=None):
     api_url = '{api_url}/posts?_embed&per_page=12&page={page}'.format(
         api_url=API_URL,
@@ -233,15 +198,6 @@ def _get_user_recent_posts(user_id, limit=5):
 
     return posts
 
-def _get_category_from_post(post_id):
-    api_url = '{api_url}/categories?post={post_id}'.format(
-        api_url=API_URL,
-        post_id=post_id,
-    )
-    response = _get_from_cache(api_url)
-    category = json.loads(response.text)[0]['slug']
-    return category
-
 def _get_tag_details_from_post(post_id):
     api_url = '{api_url}/tags?post={post_id}'.format(
         api_url=API_URL,
@@ -250,27 +206,6 @@ def _get_tag_details_from_post(post_id):
     response = _get_from_cache(api_url)
     tags = json.loads(response.text)
     return tags
-
-
-def _get_topic_details_from_post(post_id):
-    api_url = '{api_url}/topic?post={post_id}'.format(
-        api_url=API_URL,
-        post_id=post_id,
-    )
-    response = _get_from_cache(api_url)
-    topics = json.loads(response.text)
-    return topics
-
-
-def _get_group_details_from_post(post_id):
-    api_url = '{api_url}/group?post={post_id}'.format(
-        api_url=API_URL,
-        post_id=post_id,
-    )
-    response = _get_from_cache(api_url)
-    groups = json.loads(response.text)
-    return groups
-
 
 def _get_featured_post(groups=[], categories=[], per_page=1):
     api_url = '{api_url}/posts?_embed&sticky=true&per_page={per_page}'.format(
@@ -322,7 +257,6 @@ def _embed_post_data(post):
     if PAGE_TYPE == "post":
         post['tags'] = _get_tag_details_from_post(post['id'])
     post['topics'] = _get_topic_by_id(post['topic'][0])
-    print ('group: x' + str(GROUP) + 'x')
     if GROUP:
         post['groups'] = _get_group_by_id(GROUP)
     else:
