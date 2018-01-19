@@ -1,4 +1,4 @@
-{% if post.topics[0].slug == "cloud" %}
+{% if post.topics.slug == "cloud" %}
 <div class="p-card" id="rtp-cloud">
   <h3>
     <a href="http://www.ubuntu.com/cloud" class="p-link--external">
@@ -10,7 +10,7 @@
     services and support you need for your public and private clouds.
   </p>
 </div>
-{% elif post.topics[0].slug == "internet-of-things" %}
+{% elif post.topics.slug == "internet-of-things" %}
 <div class="p-card" id="rtp-iot">
   <h3>
     <a href="http://www.ubuntu.com/internet-of-things" class="p-link--external">
@@ -21,7 +21,7 @@
     From home control to drones, robots and industrial systems, Ubuntu Core and Snaps provide robust security, app stores and reliable updates for all your IoT devices.
   </p>
 </div>
-{% elif post.topics[0].slug == "support" %}
+{% elif post.topics.slug == "support" %}
 <div class="p-card" id="rtp-support">
   <h3>
     <a href="http://www.ubuntu.com/support" class="p-link--external">
@@ -32,7 +32,7 @@
     If you are running Ubuntu in your organisation, you should talk to us about getting Ubuntu Advantage support with Landscape management tools.
   </p>
 </div>
-{% elif post.topics[0].slug == "desktop" %}
+{% elif post.topics.slug == "desktop" %}
 <div class="p-card" id="rtp-desktop">
   <h3>
     <a href="http://www.ubuntu.com/desktop" class="p-link--external">
@@ -43,7 +43,7 @@
     Learn how the Ubuntu desktop operating system powers millions of PCs and laptops around the world.
   </p>
 </div>
-{% elif post.topics[0].slug == "server" %}
+{% elif post.topics.slug == "server" %}
 <div class="p-card" id="rtp-server">
   <h3>
     <a href="http://www.ubuntu.com/server" class="p-link--external">

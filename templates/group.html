@@ -12,7 +12,7 @@
           {% endif %}
         </h1>
         <h5 style="line-height: 1.75rem;">
-          {{ group_details.description }}
+          {{ group_details.description | safe }}
         </h5>
         {% if group_details.url %}
         <p>
@@ -30,19 +30,19 @@
         <ul class="p-tabs__list" role="tablist">
           {% if group_details.slug != 'canonical-announcements' %}
           <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/all" class="p-tabs__link"  role="tab" aria-controls="section1" {% if category.slug is not defined %} aria-selected="true"{% endif %}>All</a>
+            <a href="/{{ group_details.slug }}/all" class="p-tabs__link"  role="tab" aria-controls="section1" {% if category == 'all' %} aria-selected="true"{% endif %}>All</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/articles" class="p-tabs__link"  role="tab" aria-controls="section2" {% if category.slug == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
+            <a href="/{{ group_details.slug }}/articles" class="p-tabs__link"  role="tab" aria-controls="section2" {% if category == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/case-studies" class="p-tabs__link" role="tab" aria-controls="section3" {% if category.slug == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
+            <a href="/{{ group_details.slug }}/case-studies" class="p-tabs__link" role="tab" aria-controls="section3" {% if category == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/videos" class="p-tabs__link"  role="tab" aria-controls="section4" {% if category.slug == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
+            <a href="/{{ group_details.slug }}/videos" class="p-tabs__link"  role="tab" aria-controls="section4" {% if category == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
           </li>
           <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/webinars" class="p-tabs__link"  role="tab" aria-controls="section5" {% if category.slug == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
+            <a href="/{{ group_details.slug }}/webinars" class="p-tabs__link"  role="tab" aria-controls="section5" {% if category == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
           </li>
           {% endif %}
         </ul>
