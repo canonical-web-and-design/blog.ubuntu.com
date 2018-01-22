@@ -41,6 +41,7 @@ CATEGORIESBYID = {
     1453: {'slug': 'articles', 'name': 'Article'},
     1485: {'slug': 'whitepapers', 'name': 'Whitepaper'},
     1509: {'slug': 'videos', 'name': 'Video'},
+    2497: {'slug': 'tutorials', 'name': 'Tutorial'},
 }
 CATEGORIESBYSLUG = {
     'all': {'id': None, 'name': 'All'},
@@ -50,6 +51,7 @@ CATEGORIESBYSLUG = {
     'articles': {'id': 1453, 'name': 'Article'},
     'whitepapers': {'id': 1485, 'name': 'Whitepaper'},
     'videos': {'id': 1509, 'name': 'Video'},
+    'tutorials': {'id': 2497, 'name': 'Tutorial'},
 }
 TOPICBYID = {
     1979: {"name": "Big data", "slug": "big-data"},
