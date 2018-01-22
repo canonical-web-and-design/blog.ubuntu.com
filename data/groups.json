@@ -23,7 +23,7 @@
     {
         "name": "Press Centre",
         "slug": "canonical-announcements",
-        "description": "Journalists and analysts seeking information should email pr@canonical.com",
+        "description": "The home of Ubuntu media resources, news stories and press releases. Journalists seeking further information can contact <a href='mailto:pr@canonical.com'>pr@canonical.com</a>",
         "hero_url": "https://assets.ubuntu.com/v1/f7fc5efe-image-partners.jpg"
     }
 ]
