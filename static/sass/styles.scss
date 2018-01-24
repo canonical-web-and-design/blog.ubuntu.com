@@ -147,3 +147,45 @@ pre {
 .p-footer {
   padding-bottom: 2.5rem;
 }
+
+// XXX Ant - 22.01.18 This can be removed when this issue is resolved:
+// https://github.com/vanilla-framework/vanilla-framework/issues/1529
+.p-heading--one {
+  line-height: 1.3125;
+
+  @media (min-width: $breakpoint-medium) {
+    line-height: 1.25;
+  }
+}
+
+.p-heading--two {
+  line-height: 1.2857;
+
+  @media (min-width: $breakpoint-medium) {
+    line-height: 1.333;
+  }
+}
+
+.p-heading--three {
+  line-height: 1.333;
+
+  @media (min-width: $breakpoint-medium) {
+    line-height: 1.2857;
+  }
+}
+
+.p-heading--four {
+  line-height: 1.333;
+
+  @media (min-width: $breakpoint-medium) {
+    line-height: 1.4;
+  }
+}
+
+.p-heading--five {
+  line-height: 1.4;
+}
+
+.p-heading--six {
+  line-height: 1.5;
+}
