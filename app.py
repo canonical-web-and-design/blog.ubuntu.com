@@ -262,7 +262,8 @@ def _embed_post_data(post):
     if GROUP:
         post['groups'] = _get_group_by_id(GROUP)
     else:
-        post['groups'] = _get_group_by_id(post['group'][0])
+        if post['group']:
+            post['groups'] = _get_group_by_id(post['group'][0])
     return post
 
 def _normalise_user(user):
