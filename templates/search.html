@@ -4,8 +4,7 @@
   <section id="main-content" class="p-strip--accent is-dark is-deep">
     <div class="row">
       <div class="col-10">
-        <h1>Search</h1>
-        <p class="p-heading--five">We&rsquo;ve found  {{ result.count }} results for &ldquo;{{ result.query }}&rdquo;</p>
+        <h2>We&rsquo;ve found  {{ result.count }} results for &ldquo;{{ result.query }}&rdquo;</h2>
       </div>
     </div>
     <div class="row">
@@ -21,15 +20,22 @@
     </div>
   </section>
 
-  {% for post in result.posts %}
-  <div class="p-strip is-shallow is-bordered">
+
+  <section class="p-strip is-shallow is-bordered">
     <div class="row">
       <div class="col-8">
-        <h2 class="p-heading--three"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></h2>
-        <p>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.formatted_date }}</p>
-        <p class="u-no-padding--bottom">{{ post.excerpt.rendered | safe }}</p>
+        <ul class="p-list">
+          {% for post in result.posts %}
+          <li class="p-list__item">
+            <p style="padding-top: 1.5rem;">
+              <span class="p-heading--four"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></span><br />
+              <small>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.formatted_date }}</small><br />
+              {{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
-  </div>
-{% endfor %}
+  </section>
+
 {% endblock %}
