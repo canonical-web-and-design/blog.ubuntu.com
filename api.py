@@ -85,8 +85,6 @@ TOPICBYID = {
     1481: {"name": "Tablet", "slug": "tablet"},
     1482: {"name": "TV", "slug": "tv"},
 }
-PAGE_TYPE = ""
-GROUP = ""
 
 
 # Utility functions
@@ -141,33 +139,23 @@ def _get(url, json=None):
 def _embed_post_data(post):
     if '_embedded' not in post:
         return post
-    global PAGE_TYPE
-    global GROUP
     embedded = post['_embedded']
     post['author'] = _normalise_user(embedded['author'][0])
     post['category'] = get_category_by_id(post['categories'][0])
-    if PAGE_TYPE == "post":
-        post['tags'] = get_tag_details_from_post(post['id'])
     post['topics'] = get_topic_by_id(post['topic'][0])
-    if GROUP:
-        post['groups'] = get_group_by_id(GROUP)
-    else:
-        if post['group']:
-            post['groups'] = get_group_by_id(post['group'][0])
+    if 'groups' not in post and post['group']:
+        post['groups'] = get_group_by_id(int(post['group'][0]))
     return post
 
 
 def _normalise_user(user):
-    global PAGE_TYPE
     link = user['link']
     path = urlsplit(link).path
     user['relative_link'] = path
-    if PAGE_TYPE == "author":
-        user['recent_posts'] = get_user_recent_posts(user['id'])
     return user
 
 
-def _normalise_posts(posts):
+def _normalise_posts(posts, groups_id=None):
     for post in posts:
         if post['excerpt']['rendered']:
             # replace headings (e.g. h1) to paragraphs
@@ -194,11 +182,11 @@ def _normalise_posts(posts):
                 r"\[\&hellip;\]", "&hellip;",
                 post['excerpt']['rendered']
             )
-        post = _normalise_post(post)
+        post = _normalise_post(post, groups_id=groups_id)
     return posts
 
 
-def _normalise_post(post):
+def _normalise_post(post, groups_id=None):
     link = post['link']
     path = urlsplit(link).path
     post['relative_link'] = path
@@ -206,6 +194,10 @@ def _normalise_post(post):
         dateutil.parser.parse(post['date']),
         "%d %B %Y"
     ).lstrip("0").replace(" 0", " ")
+
+    if groups_id:
+        post['groups'] = get_group_by_id(groups_id)
+
     post = _embed_post_data(post)
     return post
 
@@ -235,28 +227,31 @@ def get_tag(slug):
 def get_post(slug):
     api_url = ''.join([API_URL, '/posts?_embed&slug=', slug])
     response = _get(api_url)
-    data = json.loads(response.text)[0]
-    data = _normalise_post(data)
-    data['related_posts'] = get_related_posts(data)
+    post = json.loads(response.text)[0]
+    post['tags'] = get_tag_details_from_post(post['id'])
+    post = _normalise_post(post)
+    post['related_posts'] = get_related_posts(post)
 
-    return data
+    return post
 
 
 def get_author(slug):
     api_url = ''.join([API_URL, '/users?_embed&slug=', slug])
     response = _get(api_url)
-    data = json.loads(response.text)[0]
-    data = _normalise_user(data)
+    user = json.loads(response.text)[0]
+    user = _normalise_user(user)
+    user['recent_posts'] = get_user_recent_posts(user['id'])
+
+    return user
 
 
-def get_posts(groups=[], categories=[], tags=[], page=None):
+def get_posts(groups_id=None, categories=[], tags=[], page=None):
     api_url = '{api_url}/posts?_embed&per_page=12&page={page}'.format(
         api_url=API_URL,
         page=str(page or 1),
     )
-    if groups:
-        groups = ','.join(str(group) for group in groups)
-        api_url = ''.join([api_url, '&group=', groups])
+    if groups_id:
+        api_url = ''.join([api_url, '&group=', str(groups_id)])
     if categories:
         categories = ','.join(str(category) for category in categories)
         api_url = ''.join([api_url, '&categories=', categories])
@@ -274,7 +269,7 @@ def get_posts(groups=[], categories=[], tags=[], page=None):
         'total_posts': headers.get('X-WP-Total'),
     }
 
-    posts = _normalise_posts(json.loads(response.text))
+    posts = _normalise_posts(json.loads(response.text), groups_id=groups_id)
 
     return posts, metadata
 
@@ -315,22 +310,21 @@ def get_tag_details_from_post(post_id):
     return tags
 
 
-def get_featured_post(groups=[], categories=[], per_page=1):
+def get_featured_post(groups_id=None, categories=[], per_page=1):
     api_url = '{api_url}/posts?_embed&sticky=true&per_page={per_page}'.format(
         api_url=API_URL,
         per_page=per_page
     )
 
-    if groups:
-        groups = ','.join(str(group) for group in groups)
-        api_url = ''.join([api_url, '&group=', groups])
+    if groups_id:
+        api_url = ''.join([api_url, '&group=', str(groups_id)])
 
     if categories:
         categories = ','.join(str(category) for category in categories)
         api_url = ''.join([api_url, '&categories=', categories])
 
     response = _get(api_url)
-    posts = _normalise_posts(json.loads(response.text))
+    posts = _normalise_posts(json.loads(response.text), groups_id=groups_id)
 
     return posts[0] if posts else None
 

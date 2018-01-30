@@ -32,9 +32,6 @@ def group_category(group=[], category='all'):
     groups = []
     categories = []
 
-    global PAGE_TYPE
-    PAGE_TYPE = "group"
-
     search = request.args.get('search')
 
     if search:
@@ -58,16 +55,14 @@ def group_category(group=[], category='all'):
             )
         group_details = api.get_group_details(group)  # read the json file
 
-    global GROUP
-    GROUP = groups['id'] if groups else None
-    groups_id = [groups['id']] if groups else None
+    groups_id = int(groups['id']) if groups else None
 
     categories = api.get_category_by_slug(category)
     categories_id = [categories['id']] if categories['id'] else None
 
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(
-        groups=groups_id,
+        groups_id=groups_id,
         categories=categories_id,
         page=page
     )
@@ -102,12 +97,6 @@ def group_category(group=[], category='all'):
 def topic_name(slug):
     topic = api.get_topic_details(slug)
 
-    global PAGE_TYPE
-    PAGE_TYPE = "topic"
-
-    global GROUP
-    GROUP = ''
-
     if topic:
         response_json = api.get_topic(topic['slug'])
 
@@ -131,9 +120,6 @@ def topic_name(slug):
 
 @app.route('/tag/<slug>/')
 def tag_index(slug):
-    global PAGE_TYPE
-    PAGE_TYPE = "tag"
-
     response_json = api.get_tag(slug)
 
     if response_json:
@@ -157,17 +143,11 @@ def tag_index(slug):
     '/<slug>/'
 )
 def post(year, month, day, slug):
-    global PAGE_TYPE
-    PAGE_TYPE = "post"
-
     return flask.render_template('post.html', post=api.get_post(slug))
 
 
 @app.route('/author/<slug>/')
 def user(slug):
-    global PAGE_TYPE
-    PAGE_TYPE = "author"
-
     return flask.render_template('author.html', author=api.get_author(slug))
 
 
