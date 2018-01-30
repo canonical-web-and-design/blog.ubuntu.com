@@ -6,14 +6,18 @@
       <div class="col-6">
         <div class="p-heading-icon">
           <div class="p-heading-icon__header">
+            {% if topic.name != 'Design' %}
+            <img class="p-topic-image" src="{{ topic.logo_url }}" alt=""/>
+            {% else %}
             <img class="p-heading-icon__img" src="{{ topic.logo_url }}" alt=""/>
             <h1 class="p-heading--one p-heading-icon__title">{{ topic.name }}</h1>
+            {% endif %}
           </div>
           <h2 class="p-heading--two">{{ topic.subtitle }}</h2>
           <p class="p-heading--five">{{ topic.description | safe }}</p>
         </div>
           <p>
-            <a class="p-link--external" href="{{ topic.url }}">Learn more about {{ topic.name }}</a>
+            <a class="p-link--external{% if topic.strip_css == 'p-strip--accent is-dark' %} p-link--inverted{% endif %}" href="{{ topic.url }}">Learn more about {{ topic.name }}</a>
           </p>
         </ul>
       </div>

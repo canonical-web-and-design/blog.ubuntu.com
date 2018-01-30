@@ -171,3 +171,11 @@ pre {
     display: none !important;
   }
 }
+
+.p-topic-image {
+  max-height: 2.5rem;
+
+  @media (min-width: $breakpoint-medium) {
+    max-height: 3.5rem;
+  }
+}
