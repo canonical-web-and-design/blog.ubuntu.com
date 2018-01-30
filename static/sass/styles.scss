@@ -171,3 +171,12 @@ pre {
     display: none !important;
   }
 }
+
+// XXX Caleb - Tabs padding fixes
+.p-tabs__list {
+  padding: 0;
+
+  @media (min-width: $breakpoint-medium) {
+    padding: 0;
+  }
+}
