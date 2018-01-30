@@ -92,7 +92,6 @@ def group_category(group=[], category='all'):
             **metadata
         )
 
-
 @app.route('/topics/<slug>/')
 def topic_name(slug):
     topic = api.get_topic_details(slug)
@@ -135,6 +134,10 @@ def tag_index(slug):
             '404.html'
         )
 
+@app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/')
+def archives(year, month):
+    result = api.get_archives(year, month)
+    return flask.render_template('archives.html', result=result)
 
 @app.route(
     '/<regex("[0-9]{4}"):year>'
