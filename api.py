@@ -280,7 +280,7 @@ def get_archives(year, month):
     after = datetime.datetime(int(year), int(month), 1)
     before = datetime.datetime(int(year), int(month), last_day)
     api_url = ''.join([API_URL, '/posts?_embed&after=', after.isoformat(), '&before=', before.isoformat(), '&per_page=100'])
-    response = _get_from_cache(api_url)
+    response = _get(api_url)
     posts = _normalise_posts(json.loads(response.text))
     result["year"] = year
     result["month"] = after.strftime("%B")
