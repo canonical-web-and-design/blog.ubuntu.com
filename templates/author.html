@@ -9,7 +9,7 @@
           <h1 class="p-media-object__title">
             {{ author.name }}
           </h1>
-          <p class="p-media-object__content">{{ author.description }}</p>
+          <p class="p-media-object__content">{{ author.description | safe }}</p>
         </div>
       </div>
     </div>
