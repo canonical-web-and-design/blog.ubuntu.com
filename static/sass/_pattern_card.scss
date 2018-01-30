@@ -21,12 +21,12 @@
     }
   }
 
-  %insights-card-header {
+  %post-card-header {
     border-radius: 2px;
     padding: $sp-small $sp-medium;
   }
 
-  .p-card--insights {
+  .p-card--post {
     @extend .p-card--highlighted;
     display: flex !important;
     flex-direction: column;
@@ -54,27 +54,27 @@
 
   .p-card__header {
     &--cloud-and-server {
-      @extend %insights-card-header;
+      @extend %post-card-header;
       border-top: 3px solid #a87ca0;
     }
 
     &--desktop {
-      @extend %insights-card-header;
+      @extend %post-card-header;
       border-top: 3px solid #48929b;
     }
 
     &--internet-of-things {
-      @extend %insights-card-header;
+      @extend %post-card-header;
       border-top: 3px solid #8db255;
     }
 
     &--canonical-announcements {
-      @extend %insights-card-header;
+      @extend %post-card-header;
       border-top: 3px solid #ff8936;
     }
 
     &--phone-and-tablet {
-      @extend %insights-card-header;
+      @extend %post-card-header;
       border-top: 3px solid $color-mid-light;
     }
   }
