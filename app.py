@@ -43,7 +43,7 @@ def homepage():
     posts, metadata = api.get_posts(page=page, per_page=13)
 
     webinars = get_rss_feed_content(
-        'https://www.brighttalk.com/channel/6793/feed/rss'
+        'https://www.brighttalk.com/channel/6793/feed'
     )
 
     featured_post = api.get_featured_post()

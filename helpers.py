@@ -17,7 +17,7 @@ cached_request = CachedSession(
 def monthname(month_number):
     return calendar.month_abbr[month_number]
 
-def get_rss_feed_content(url, offset=0, limit=5, exclude_items_in=None):
+def get_rss_feed_content(url, offset=0, limit=6, exclude_items_in=None):
     """
     Get the entries from an RSS feed
 
