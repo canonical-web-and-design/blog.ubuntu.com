@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
 
-  <section class="p-strip--image  is-dark" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">
+  <section class="p-strip--image is-dark suru" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">
     <div class="row u-equal-height u-vertically-center">
-      <div class="col-6 p-card--overlay">
+      <div class="col-6 p-card--suru">
         <h1 class="p-heading--one">
           {% if request.path.startswith("/press-centre/") %}
             Press centre
@@ -16,7 +16,7 @@
         </h5>
         {% if group_details.url %}
         <p>
-          <a class="p-link--external" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
+          <a class="p-link--external p-link--inverted" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
         </p>
         {% endif %}
       </div>
