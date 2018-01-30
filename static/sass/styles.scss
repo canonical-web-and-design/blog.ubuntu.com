@@ -35,6 +35,7 @@ pre {
 @media (min-width: $breakpoint-medium + 1) {
   .p-navigation__link:hover .hover-menu {
     display: block;
+    z-index: 10;
   }
 }
 
