@@ -8,28 +8,13 @@
     overflow: hidden;
 
     &::after {
-      background: rgba(17, 17, 17, 0.65);
+      background: linear-gradient(110deg, rgba(17, 17, 17,.65) 50%, rgba(255, 255, 255,0) 50%);
       content: '';
-      display: inline-block;
       height: 100%;
       position: absolute;
       top: 0;
       width: 100%;
       z-index: 0;
-
-      @media only screen and (min-width: $breakpoint-medium) {
-        bottom: 0;
-        height: 300%;
-        left: -95%;
-        right: 0;
-        -webkit-transform: rotate(300deg);
-        transform: rotate(300deg);
-        width: 200%;
-      }
-
-      @media only screen and (min-width: $breakpoint-large) {
-        left: -100%;
-      }
     }
   }
 
