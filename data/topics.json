@@ -5,7 +5,7 @@
         "subtitle": "Branding and web development",
         "description": "All the latest news on the design team at Canonical.",
         "url": "https://design.ubuntu.com",
-        "logo_url": "https://assets.ubuntu.com/v1/c5cb0f8e-picto-ubuntu.svg",
+        "logo_url": "https://assets.ubuntu.com/v1/70041419-vanilla-framework.png",
         "hero_url": "https://assets.ubuntu.com/v1/78b7c44a-hero-dots.png"
     },
     {
@@ -15,7 +15,7 @@
         "subtitle": "Operate big software at scale on any cloud",
         "description": "All the latest news on Juju – the open source application modelling tool for public and private clouds.",
         "url": "https://jujucharms.com",
-        "logo_url": "https://assets.ubuntu.com/v1/67057b2c-product-page-juju-logo.svg",
+        "logo_url": "https://assets.ubuntu.com/v1/31c507a5-image-juju.svg",
         "hero_url": "https://assets.ubuntu.com/v1/e8b86f15-Juju-Visual-Screen.png?w=576"
     },
     {
@@ -25,17 +25,17 @@
         "subtitle": "Metal as a Service",
         "description": "All the latest news on MAAS – the smartest way to manage bare metal.",
         "url": "https://maas.io",
-        "logo_url": "https://assets.ubuntu.com/v1/0228cce3-product-page-maas-logo.svg",
+        "logo_url": "https://assets.ubuntu.com/v1/5f3d3c45-maas-logo-cropped.svg",
         "hero_url": "https://assets.ubuntu.com/v1/e6c6b98f-Maas-Visual-Screen.png?w=576"
     },
     {
-        "name": "Snappy",
+        "name": "Snapcraft",
         "slug": "snappy",
         "strip_css": "p-strip--accent is-dark",
-        "subtitle": "Package any app for any Linux platform",
+        "subtitle": "Package any app for any Linux and deliver updates directly",
         "description": "All the latest from the Snappy team &mdash; articles on application architecture, prototyping, packaging paradigms and more.",
         "url": "https://snapcraft.io",
-        "logo_url": "https://assets.ubuntu.com/v1/a861450c-snapcraft-logo.svg",
+        "logo_url": "https://assets.ubuntu.com/v1/b46c8d7d-snapcraft-logo-hor-white.svg",
         "hero_url": "https://assets.ubuntu.com/v1/a91f36a8-Snapcraft-Visual-Screen.png?w=576"
     }
 ]
