@@ -1,6 +1,5 @@
 import feedparser
 import logging
-import json
 from datetime import datetime
 from requests_cache import CachedSession
 from time import mktime
@@ -15,36 +14,14 @@ cached_request = CachedSession(
 )
 
 
-def get_json_feed_content(url, offset=0, limit=None):
-    """
-    Get the entries in a JSON feed
-    """
-
-    end = limit + offset if limit is not None else None
-
-    try:
-        response = cached_request.get(url, timeout=requests_timeout)
-        response.raise_for_status()
-    except Exception as request_error:
-        logger.warning(
-            'Attempt to get feed failed: {}'.format(str(request_error))
-        )
-        return False
-
-    try:
-        content = json.loads(response.text)
-    except Exception as parse_error:
-        logger.warning(
-            'Failed to parse feed from {}: {}'.format(url, str(parse_error))
-        )
-        return False
-
-    return content[offset:end]
-
-
-def get_rss_feed_content(url, offset=0, limit=None, exclude_items_in=None):
+def get_rss_feed_content(url, offset=0, limit=5, exclude_items_in=None):
     """
     Get the entries from an RSS feed
+
+    Copied from https://github.com/canonical-webteam/get-feeds/,
+    minus Django-specific stuff.
+
+    In this case, we default "limit" to 5
     """
 
     end = limit + offset if limit is not None else None

@@ -1,21 +1,23 @@
+# Core
 import datetime
 import urllib
-import flask
 import json
-import requests
-import requests_cache
 import re
 import textwrap
+from urllib.parse import urlsplit
+
+# Third-party
+import flask
+import requests
+import requests_cache
 from dateutil import parser
-from flask import url_for
 from flask import request
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
-from urllib.parse import urlsplit
 from werkzeug.routing import BaseConverter
-from lib.get_feeds import (
-    get_rss_feed_content
-)
+
+# Local
+from helpers import get_rss_feed_content
 
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
@@ -24,7 +26,9 @@ GROUPBYID = {
     1706: {'slug': 'cloud-and-server', 'name': 'Cloud and server'},
     1666: {'slug': 'internet-of-things', 'name': 'Internet of things'},
     1479: {'slug': 'desktop', 'name': 'Desktop'},
-    2100: {'slug': 'canonical-announcements', 'name': 'Canonical announcements'},
+    2100: {
+        'slug': 'canonical-announcements', 'name': 'Canonical announcements'
+    },
     1707: {'slug': 'phone-and-tablet', 'name': 'Phone and tablet'},
 }
 GROUPBYSLUG = {
@@ -56,7 +60,9 @@ CATEGORIESBYSLUG = {
 TOPICBYID = {
     1979: {"name": "Big data", "slug": "big-data"},
     1477: {"name": "Cloud", "slug": "cloud"},
-    2099: {"name": "Canonical announcements", "slug": "canonical-announcements"},
+    2099: {
+        "name": "Canonical announcements", "slug": "canonical-announcements"
+    },
     1921: {"name": "Desktop", "slug": "desktop"},
     1924: {"name": "Internet of Things", "slug": "internet-of-things"},
     2052: {"name": "People and culture", "slug": "people-and-culture"},
@@ -145,6 +151,7 @@ class RegexConverter(BaseConverter):
 
 app.url_map.converters['regex'] = RegexConverter
 
+
 def _get_posts(groups=[], categories=[], tags=[], page=None):
     api_url = '{api_url}/posts?_embed&per_page=12&page={page}'.format(
         api_url=API_URL,
@@ -200,6 +207,7 @@ def _get_user_recent_posts(user_id, limit=5):
 
     return posts
 
+
 def _get_tag_details_from_post(post_id):
     api_url = '{api_url}/tags?post={post_id}'.format(
         api_url=API_URL,
@@ -208,6 +216,7 @@ def _get_tag_details_from_post(post_id):
     response = _get_from_cache(api_url)
     tags = json.loads(response.text)
     return tags
+
 
 def _get_featured_post(groups=[], categories=[], per_page=1):
     api_url = '{api_url}/posts?_embed&sticky=true&per_page={per_page}'.format(
@@ -228,25 +237,31 @@ def _get_featured_post(groups=[], categories=[], per_page=1):
 
     return posts[0] if posts else None
 
+
 def _get_category_by_id(category_id):
     global CATEGORIESBYID
     return CATEGORIESBYID[category_id]
+
 
 def _get_category_by_slug(category_name):
     global CATEGORIESBYSLUG
     return CATEGORIESBYSLUG[category_name]
 
+
 def _get_group_by_id(group_id):
     global GROUPBYID
     return GROUPBYID[group_id]
+
 
 def _get_group_by_slug(group_slug):
     global GROUPBYSLUG
     return GROUPBYSLUG[group_slug]
 
+
 def _get_topic_by_id(topic_id):
     global TOPICBYID
     return TOPICBYID[topic_id]
+
 
 def _embed_post_data(post):
     if '_embedded' not in post:
@@ -266,6 +281,7 @@ def _embed_post_data(post):
             post['groups'] = _get_group_by_id(post['group'][0])
     return post
 
+
 def _normalise_user(user):
     global PAGE_TYPE
     link = user['link']
@@ -275,17 +291,29 @@ def _normalise_user(user):
         user['recent_posts'] = _get_user_recent_posts(user['id'])
     return user
 
+
 def _normalise_posts(posts):
     for post in posts:
         if post['excerpt']['rendered']:
             # replace headings (e.g. h1) to paragraphs
-            post['excerpt']['rendered'] = re.sub( r"h\d>", "p>", post['excerpt']['rendered'] )
+            post['excerpt']['rendered'] = re.sub(
+                r"h\d>", "p>", post['excerpt']['rendered']
+            )
+
             # remove images
-            post['excerpt']['rendered'] = re.sub( r"<img(.[^>]*)?", "", post['excerpt']['rendered'] )
+            post['excerpt']['rendered'] = re.sub(
+                r"<img(.[^>]*)?", "", post['excerpt']['rendered']
+            )
+
             # shorten to 250 chars, on a wordbreak and with a ...
-            post['excerpt']['rendered'] = textwrap.shorten(post['excerpt']['rendered'], width=250, placeholder="&hellip;")
+            post['excerpt']['rendered'] = textwrap.shorten(
+                post['excerpt']['rendered'], width=250, placeholder="&hellip;"
+            )
+
             # if there is a [...] replace with ...
-            post['excerpt']['rendered'] = re.sub( r"\[\&hellip;\]", "&hellip;", post['excerpt']['rendered'] )
+            post['excerpt']['rendered'] = re.sub(
+                r"\[\&hellip;\]", "&hellip;", post['excerpt']['rendered']
+            )
         post = _normalise_post(post)
     return posts
 
@@ -294,9 +322,14 @@ def _normalise_post(post):
     link = post['link']
     path = urlsplit(link).path
     post['relative_link'] = path
-    post['formatted_date'] = datetime.datetime.strftime(parser.parse(post['date']), "%d %B %Y").lstrip("0").replace(" 0", " ")
+    post['formatted_date'] = datetime.datetime.strftime(
+        parser.parse(post['date']),
+        "%d %B %Y"
+    ).lstrip("0").replace(" 0", " ")
     post = _embed_post_data(post)
+
     return post
+
 
 def _get_group_details(slug):
     with open('data/groups.json') as file:
@@ -306,6 +339,7 @@ def _get_group_details(slug):
         if group['slug'] == slug:
             return group
 
+
 def _get_topic_details(slug):
     with open('data/topics.json') as file:
         topics = json.load(file)
@@ -313,10 +347,6 @@ def _get_topic_details(slug):
     for topic in topics:
         if topic['slug'] == slug:
             return topic
-
-def _load_rss_feed(url, limit=5):
-    feed_content = get_rss_feed_content(url, limit=limit)
-    return feed_content
 
 
 @app.route('/')
@@ -350,7 +380,7 @@ def group_category(group=[], category='all'):
             return flask.render_template(
                 '404.html'
             )
-        group_details =_get_group_details(group) # read the json file
+        group_details = _get_group_details(group)  # read the json file
 
     global GROUP
     GROUP = groups['id'] if groups else None
@@ -368,7 +398,9 @@ def group_category(group=[], category='all'):
 
     featured_post = _get_featured_post(groups_id)
 
-    webinars = _load_rss_feed('https://www.brighttalk.com/channel/6793/feed/rss')
+    webinars = get_rss_feed_content(
+        'https://www.brighttalk.com/channel/6793/feed/rss'
+    )
 
     if group:
         return flask.render_template(
@@ -421,6 +453,7 @@ def topic_name(slug):
         return flask.render_template(
             '404.html'
         )
+
 
 @app.route('/tag/<slug>/')
 def tag_index(slug):
@@ -485,14 +518,17 @@ def redirect_wordpress_login():
 
     return flask.redirect(INSIGHTS_URL + path)
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return flask.render_template('404.html'), 404
 
+
 @app.errorhandler(410)
-def page_not_found(e):
+def page_deleted(e):
     return flask.render_template('410.html'), 410
 
+
 @app.errorhandler(500)
-def page_not_found(e):
+def server_error(e):
     return flask.render_template('500.html'), 500
