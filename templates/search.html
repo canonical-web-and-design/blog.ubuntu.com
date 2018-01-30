@@ -9,13 +9,13 @@
     </div>
     <div class="row">
       <div class="col-10">
-        <form action="/" class="p-form p-form--inline p-form--search">
-          <div class="p-form__group">
-            <label for="search-input" class="u-off-screen">Search</label>
-            <input id="search-input" type="search" name="search" value="{{ result.query }}" class="p-form__control"/>
-          </div>
-          <button type="submit" alt="search" class="p-button--positive u-align--left">Search</button>
-        </form>
+        <div class="p-form__group">
+          <form class="p-search-box">
+            <input type="search" class="p-search-box__input" name="search" placeholder="Search" required="" value="{{ result.query }}" >
+            <button type="reset" class="p-search-box__reset" alt="reset"><i class="p-icon--close"></i></button>
+            <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
+          </form>
+        </div>
       </div>
     </div>
   </section>
