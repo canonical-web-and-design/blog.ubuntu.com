@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <section id="main-content" class="p-strip--accent is-dark is-deep">
+    <div class="row">
+      <div class="col-10">
+        <h1>Archives</h1>
+        <p>{{ result.count }} posts from {{result.month}} {{result.year}}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="p-strip is-shallow is-bordered">
+    <div class="row">
+      <div class="col-8">
+        {% for post in result.posts %}
+          <div class="p-media-object">
+            <div class="p-media-object__details">
+              <h3 class="p-media-object__title">
+                <a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a>
+              </h3>
+              <div class="p-media-object__content">
+                <p>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.formatted_date }}</p>
+                <p>{{ post.excerpt.rendered | safe }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="col-4">
+        <h3>Archives</h3>
+        {% include "archive-list.html" %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

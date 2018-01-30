@@ -1,5 +1,6 @@
 # Core
 import datetime
+import calendar
 import re
 import json
 import textwrap
@@ -273,6 +274,19 @@ def get_posts(groups_id=None, categories=[], tags=[], page=None):
 
     return posts, metadata
 
+def get_archives(year, month):
+    result = {}
+    last_day = calendar.monthrange(int(year), int(month))[1]
+    after = datetime.datetime(int(year), int(month), 1)
+    before = datetime.datetime(int(year), int(month), last_day)
+    api_url = ''.join([API_URL, '/posts?_embed&after=', after.isoformat(), '&before=', before.isoformat(), '&per_page=100'])
+    response = _get(api_url)
+    posts = _normalise_posts(json.loads(response.text))
+    result["year"] = year
+    result["month"] = after.strftime("%B")
+    result["posts"] = posts
+    result["count"] = len(posts)
+    return result
 
 def get_related_posts(post):
     api_url = '{api_url}/tags?embed&per_page=3&post={post_id}'.format(
