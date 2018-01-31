@@ -45,6 +45,7 @@ GROUPBYID = {
         'slug': 'canonical-announcements', 'name': 'Canonical announcements'
     },
     1707: {'slug': 'phone-and-tablet', 'name': 'Phone and tablet'},
+    2051: {'slug': 'people-and-culture', 'name': 'People and culture'},
 }
 GROUPBYSLUG = {
     'cloud-and-server': {'id': 1706, 'name': 'Cloud and server'},
@@ -52,6 +53,7 @@ GROUPBYSLUG = {
     'desktop': {'id': 1479, 'name': 'Desktop'},
     'canonical-announcements': {'id': 2100, 'name': 'Canonical announcements'},
     'phone-and-tablet': {'id': 1707, 'name': 'Phone and tablet'},
+    'people-and-culture': {'id': 2051, 'name': 'People and culture'},
 }
 CATEGORIESBYID = {
     1172: {'slug': 'case-studies', 'name': 'Case Study'},
@@ -275,16 +277,32 @@ def get_posts(groups_id=None, categories=[], tags=[], page=None, per_page=12):
 
     return posts, metadata
 
-def get_archives(year, month):
+def get_archives(year, month=None, group_id=None, categories=[], tags=[], page=None, per_page=10):
     result = {}
-    last_day = calendar.monthrange(int(year), int(month))[1]
-    after = datetime.datetime(int(year), int(month), 1)
-    before = datetime.datetime(int(year), int(month), last_day)
-    api_url = ''.join([API_URL, '/posts?_embed&after=', after.isoformat(), '&before=', before.isoformat(), '&per_page=100'])
+    startmonth = 1
+    endmonth = 12
+    if month:
+        startmonth = month
+        endmonth = month
+    last_day = calendar.monthrange(int(year), int(endmonth))[1]
+    after = datetime.datetime(int(year), int(startmonth), 1)
+    before = datetime.datetime(int(year), int(endmonth), last_day)
+    api_url = '{api_url}/posts?_embed&after={after}&before={before}&per_page={per_page}&page={page}'.format(
+        after=after.isoformat(),
+        before=before.isoformat(),
+        api_url=API_URL,
+        per_page=per_page,
+        page=str(page or 1),
+    )
+    if group_id:
+        api_url = ''.join([api_url, '&group=', str(group_id)])
+    print ('api: ' + api_url)
     response = _get(api_url)
     posts = _normalise_posts(json.loads(response.text))
-    result["year"] = year
-    result["month"] = after.strftime("%B")
+    if month:
+        result["date"] = after.strftime("%B") + ' ' + str(year)
+    else:
+        result["date"] = str(year)
     result["posts"] = posts
     result["count"] = len(posts)
     return result
