@@ -34,6 +34,9 @@
 
     > .p-card__content {
       border-top: 1px dotted $color-mid-light;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
       margin: 0 $sp-x-small;
       padding: $sp-x-small;
 
@@ -77,5 +80,17 @@
       @extend %post-card-header;
       border-top: 3px solid $color-mid-light;
     }
+
+    &--webinar {
+      @extend %post-card-header;
+      border-top: 3px solid #48929b;
+    }
+  }
+
+  .p-card__date {
+    @extend .p-media-object__meta-list;
+    display: flex;
+    margin-top: auto;
+    padding-top: $sp-medium;
   }
 }
