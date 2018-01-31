@@ -4,7 +4,7 @@
   <section id="main-content" class="p-strip--accent is-dark is-deep">
     <div class="row">
       <div class="col-10">
-        <h1>Archives</h1>
+        <h1>{{ result.title }}</h1>
         <p>{{ result.count }} posts from {{result.date}}</p>
       </div>
     </div>
@@ -21,7 +21,7 @@
               </h3>
               <div class="p-media-object__content">
                 <p>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.formatted_date }}</p>
-                <p>{{ post.excerpt.rendered | safe }}</p>
+                <p>{{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
               </div>
             </div>
           </div>

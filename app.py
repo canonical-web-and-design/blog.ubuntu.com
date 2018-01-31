@@ -185,18 +185,21 @@ def archives_year_month(year, month):
 
 @app.route('/archives/<group>/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/')
 def archives_group_year_month(group, year, month):
-    group = ''
+    group_id = ''
+    groups = []
     if group:
         if group == 'press-centre':
             group = 'canonical-announcements'
 
-        group = api.get_group_by_slug(group)
+        groups = api.get_group_by_slug(group)
+        group_id = int(groups['id']) if groups else None
+        group_name = groups['name'] if groups else None
 
         if not group_id:
             return flask.render_template(
                 '404.html'
             )
-    result = api.get_archives(year, month, group['id'])
+    result = api.get_archives(year, month, group_id, group_name)
     return flask.render_template('archives.html', result=result)
 
 @app.route(

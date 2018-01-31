@@ -277,7 +277,7 @@ def get_posts(groups_id=None, categories=[], tags=[], page=None, per_page=12):
 
     return posts, metadata
 
-def get_archives(year, month=None, group_id=None, categories=[], tags=[], page=None, per_page=10):
+def get_archives(year, month=None, group_id=None, group_name='Archives', categories=[], tags=[], page=None, per_page=100):
     result = {}
     startmonth = 1
     endmonth = 12
@@ -303,6 +303,9 @@ def get_archives(year, month=None, group_id=None, categories=[], tags=[], page=N
         result["date"] = after.strftime("%B") + ' ' + str(year)
     else:
         result["date"] = str(year)
+    if group_name != "Archives":
+        group_name = group_name + ' archives'
+    result["title"] = group_name
     result["posts"] = posts
     result["count"] = len(posts)
     return result
