@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <section class="p-strip--image  is-dark" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">
+    <div class="row u-equal-height u-vertically-center">
+      <div class="col-6 p-card--overlay">
+        <h1 class="p-heading--one">
+          Press centre
+        </h1>
+        <h5 style="line-height: 1.75rem;">
+          {{ group_details.description | safe }}
+        </h5>
+        {% if group_details.url %}
+        <p>
+          <a class="p-link--external" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
+        </p>
+        {% endif %}
+      </div>
+      <div id="rtp-banner" class="rtp-banner"></div>
+    </div>
+  </section>
+
+  <section class="p-strip is-shallow u-no-padding--top u-no-padding--bottom">
+    <nav class="p-tabs col-12">
+      <div class="row">
+        <ul class="p-tabs__list" role="tablist">
+          {% if group_details.slug != 'canonical-announcements' %}
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/all" class="p-tabs__link"  role="tab" aria-controls="section1" {% if category == 'all' %} aria-selected="true"{% endif %}>All</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/articles" class="p-tabs__link"  role="tab" aria-controls="section2" {% if category == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/case-studies" class="p-tabs__link" role="tab" aria-controls="section3" {% if category == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/videos" class="p-tabs__link"  role="tab" aria-controls="section4" {% if category == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
+          </li>
+          <li class="p-tabs__item" role="presentation">
+            <a href="/{{ group_details.slug }}/webinars" class="p-tabs__link"  role="tab" aria-controls="section5" {% if category == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </section>
+
+  <div class="p-strip is-bordered">
+    <div class="row">
+      <div class="col-8">
+
+
+  {%- for post in posts %}
+    {% if loop.index0 % 2 == 0 %}
+    <div class="row u-equal-height u-clearfix">
+    {% endif %}
+      <div class="col-4 p-card--post">
+        <header class="p-card__header--{{ post.groups.slug }}">
+          <h5 class="p-muted-heading">{{ post.groups.name }}</h5>
+        </header>
+        <div class="p-card__content">
+          <h3 class="p-heading--four"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></h3>
+          <p><em>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.formatted_date }}</em></p>
+          <p class="u-no-padding--bottom">{{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+        </div>
+        <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
+      </div>
+    {% if loop.index0 % 2 == 1 or loop.last %}
+    </div>
+    {% endif %}
+  {%- endfor %}
+  </div>
+  <div class="col-4">
+    <div class="p-card">
+      <h3>Logos</h3>
+      <ul class="p-list">
+        <li class="p-list__item is-ticked"><a href="https://insights.ubuntu.com/wp-content/uploads/226b/ubuntu-brandmark1.zip" title="Ubuntu logo pack zip file">Ubuntu logo pack [ZIP]&nbsp;&rsaquo;</a></li>
+        <li class="p-list__item is-ticked"><a href="https://insights.ubuntu.com/wp-content/uploads/226b/juju-brandmark1.zip" title="Juju logo pack zip file">Juju logo pack [ZIP]&nbsp;&rsaquo;</a></li>
+        <li class="p-list__item is-ticked"><a href="https://insights.ubuntu.com/wp-content/uploads/226b/canonical-brandmark1.zip" title="Canonical logo pack">Canonical logo pack [ZIP]&nbsp;&rsaquo;</a></li>
+      </ul>
+    </div>
+    <div class="p-card">
+      <h3>Follow us</h3>
+      <h5 class="p-muted-heading">Twitter</h5>
+      <ul class="p-inline-list--middot">
+        <li class="p-inline-list__item"><a href="https://twitter.com/canonical" title="Follow us on @Canonical twitter">@Canonical</a></li>
+        <li class="p-inline-list__item"><a href="https://twitter.com/" title="Follow us on @Ubuntu twitter">@Ubuntu</a></li>
+        <li class="p-inline-list__item"><a href="https://twitter.com/Ubuntuappdev" title="Follow us on @Ubuntuappdev twitter">@Ubuntuappdev</a></li>
+        <li class="p-inline-list__item"><a href="https://www.facebook.com/ubuntulinux" title="Follow us on facebook">Ubuntu</a></li>
+      </ul>
+      <h5 class="p-muted-heading">Google+</h5>
+      <ul class="p-inline-list--middot">
+        <li class="p-inline-list__item"><a href="https://plus.google.com/+Ubuntu/posts" title="Follow us on Google+">Ubuntu</a></li>
+      </ul>
+      <h5 class="p-muted-heading">YouTube</h5>
+      <ul class="p-inline-list--middot">
+        <li class="p-inline-list__item"><a href="http://www.youtube.com/celebrateubuntu" title="Follow us on YouTube">Celebrate Ubuntu</a></li>
+      </ul>
+      <h5 class="p-muted-heading">Twitter</h5>
+      <ul class="p-inline-list--middot">
+        <li class="p-inline-list__item"><a href="https://twitter.com/Ubuntudev" title="Follow us on @Ubuntudev twitter">@Ubuntudev</a></li>
+        <li class="p-inline-list__item"><a href="https://twitter.com/UbuntuCloud" title="Follow us on @UbuntuCloud twitter">@UbuntuCloud</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

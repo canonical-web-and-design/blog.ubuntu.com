@@ -5,11 +5,7 @@
     <div class="row u-equal-height u-vertically-center">
       <div class="col-6 p-card--suru">
         <h1 class="p-heading--one">
-          {% if request.path.startswith("/press-centre/") %}
-            Press centre
-          {% else %}
-            {{ group_details.name }}
-          {% endif %}
+          {{ group_details.name }}
         </h1>
         <h5 style="line-height: 1.75rem;">
           {{ group_details.description | safe }}
