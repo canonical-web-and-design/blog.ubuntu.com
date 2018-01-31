@@ -246,9 +246,10 @@ def get_author(slug):
     return user
 
 
-def get_posts(groups_id=None, categories=[], tags=[], page=None):
-    api_url = '{api_url}/posts?_embed&per_page=12&page={page}'.format(
+def get_posts(groups_id=None, categories=[], tags=[], page=None, per_page=12):
+    api_url = '{api_url}/posts?_embed&per_page={per_page}&page={page}'.format(
         api_url=API_URL,
+        per_page=per_page,
         page=str(page or 1),
     )
     if groups_id:
