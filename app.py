@@ -73,7 +73,17 @@ def group_category(group=[], category='all'):
         'https://www.brighttalk.com/channel/6793/feed/rss'
     )
 
-    if group:
+    if group == 'canonical-announcements':
+        return flask.render_template(
+            'press-centre.html',
+            posts=posts,
+            group=groups if groups else None,
+            group_details=group_details,
+            category=category if category else None,
+            featured_post=featured_post,
+            **metadata
+        )
+    elif group:
         return flask.render_template(
             'group.html',
             posts=posts,
