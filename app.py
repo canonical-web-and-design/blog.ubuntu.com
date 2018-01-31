@@ -26,12 +26,7 @@ app.url_map.converters['regex'] = RegexConverter
 
 
 @app.route('/')
-@app.route('/<group>/')
-@app.route('/<group>/<category>/')
-def group_category(group=[], category='all'):
-    groups = []
-    categories = []
-
+def homepage():
     search = request.args.get('search')
 
     if search:
@@ -43,6 +38,36 @@ def group_category(group=[], category='all'):
         result["count"] = len(posts)
         result["query"] = search
         return flask.render_template('search.html', result=result)
+
+    page = flask.request.args.get('page')
+    posts, metadata = api.get_posts(page=page, per_page=13)
+
+    webinars = get_rss_feed_content(
+        'https://www.brighttalk.com/channel/6793/feed/rss'
+    )
+
+    featured_post = api.get_featured_post()
+    homepage_posts = []
+
+    for post in posts:
+        if post['id'] != featured_post['id']:
+            homepage_posts.append(post)
+
+    return flask.render_template(
+        'index.html',
+        posts=homepage_posts[:12],
+        featured_post=featured_post,
+        webinars=webinars,
+        **metadata
+    )
+
+
+@app.route('/<group>/')
+@app.route('/<group>/<category>/')
+def group_category(group=[], category='all'):
+    groups = []
+    categories = []
+
     if group:
         if group == 'press-centre':
             group = 'canonical-announcements'
@@ -64,13 +89,17 @@ def group_category(group=[], category='all'):
     posts, metadata = api.get_posts(
         groups_id=groups_id,
         categories=categories_id,
-        page=page
+        page=page,
+        per_page=12
     )
 
-    featured_post = api.get_featured_post(groups_id)
-
-    webinars = get_rss_feed_content(
-        'https://www.brighttalk.com/channel/6793/feed/rss'
+    return flask.render_template(
+        'group.html',
+        posts=posts,
+        group=groups if groups else None,
+        group_details=group_details,
+        category=category if category else None,
+        **metadata
     )
 
     if group == 'canonical-announcements':
