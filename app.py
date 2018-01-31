@@ -93,15 +93,6 @@ def group_category(group=[], category='all'):
         per_page=12
     )
 
-    return flask.render_template(
-        'group.html',
-        posts=posts,
-        group=groups if groups else None,
-        group_details=group_details,
-        category=category if category else None,
-        **metadata
-    )
-
     if group == 'canonical-announcements':
         return flask.render_template(
             'press-centre.html',
@@ -109,7 +100,6 @@ def group_category(group=[], category='all'):
             group=groups if groups else None,
             group_details=group_details,
             category=category if category else None,
-            featured_post=featured_post,
             **metadata
         )
     elif group:
@@ -119,7 +109,6 @@ def group_category(group=[], category='all'):
             group=groups if groups else None,
             group_details=group_details,
             category=category if category else None,
-            featured_post=featured_post,
             **metadata
         )
     else:
