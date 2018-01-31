@@ -26,12 +26,7 @@ app.url_map.converters['regex'] = RegexConverter
 
 
 @app.route('/')
-@app.route('/<group>/')
-@app.route('/<group>/<category>/')
-def group_category(group=[], category='all'):
-    groups = []
-    categories = []
-
+def homepage():
     search = request.args.get('search')
 
     if search:
@@ -43,6 +38,36 @@ def group_category(group=[], category='all'):
         result["count"] = len(posts)
         result["query"] = search
         return flask.render_template('search.html', result=result)
+
+    page = flask.request.args.get('page')
+    posts, metadata = api.get_posts(page=page, per_page=13)
+
+    webinars = get_rss_feed_content(
+        'https://www.brighttalk.com/channel/6793/feed'
+    )
+
+    featured_post = api.get_featured_post()
+    homepage_posts = []
+
+    for post in posts:
+        if post['id'] != featured_post['id']:
+            homepage_posts.append(post)
+
+    return flask.render_template(
+        'index.html',
+        posts=homepage_posts[:12],
+        featured_post=featured_post,
+        webinars=webinars,
+        **metadata
+    )
+
+
+@app.route('/<group>/')
+@app.route('/<group>/<category>/')
+def group_category(group=[], category='all'):
+    groups = []
+    categories = []
+
     if group:
         if group == 'press-centre':
             group = 'canonical-announcements'
@@ -64,13 +89,17 @@ def group_category(group=[], category='all'):
     posts, metadata = api.get_posts(
         groups_id=groups_id,
         categories=categories_id,
-        page=page
+        page=page,
+        per_page=12
     )
 
-    featured_post = api.get_featured_post(groups_id)
-
-    webinars = get_rss_feed_content(
-        'https://www.brighttalk.com/channel/6793/feed/rss'
+    return flask.render_template(
+        'group.html',
+        posts=posts,
+        group=groups if groups else None,
+        group_details=group_details,
+        category=category if category else None,
+        **metadata
     )
 
     if group == 'canonical-announcements':
@@ -144,9 +173,33 @@ def tag_index(slug):
             '404.html'
         )
 
+@app.route('/archives/<regex("[0-9]{4}"):year>/')
+def archives_year(year):
+    result = api.get_archives(year)
+    return flask.render_template('archives.html', result=result)
+
 @app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/')
-def archives(year, month):
+def archives_year_month(year, month):
     result = api.get_archives(year, month)
+    return flask.render_template('archives.html', result=result)
+
+@app.route('/archives/<group>/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/')
+def archives_group_year_month(group, year, month):
+    group_id = ''
+    groups = []
+    if group:
+        if group == 'press-centre':
+            group = 'canonical-announcements'
+
+        groups = api.get_group_by_slug(group)
+        group_id = int(groups['id']) if groups else None
+        group_name = groups['name'] if groups else None
+
+        if not group_id:
+            return flask.render_template(
+                '404.html'
+            )
+    result = api.get_archives(year, month, group_id, group_name)
     return flask.render_template('archives.html', result=result)
 
 @app.route(
