@@ -1,11 +1,11 @@
 <ul class="p-list">
   {% for year in range(today.year,2006,-1) %}
-  <li class="p-list__item">{{ year }}
+  <li class="p-list__item"><h5><a class="p-link--soft" href="/archives/{{ year }}/">{{ year }}</a></h5>
     <ul class="p-inline-list--middot">
     {% for month in range(1, 13, 1) %}
-      {% if today.year == year and month > today.month %}
-      {% else %}
-      <li class="p-inline-list__item"><a href="/archives/{{ year }}/{% if month < 10 %}0{% endif %}{{ month }}">{{ month | monthname }}</a></li>
+      {# need to skip months in the current year that haven't occured #}
+      {% if today.year != year or (today.year == year and month <= today.month) %}
+        <li class="p-inline-list__item"><a class="p-link--soft" href="/archives/{{ year }}/{% if month < 10 %}0{% endif %}{{ month }}">{{ month | monthname }}</a></li>
       {% endif %}
     {% endfor %}
     </li>
