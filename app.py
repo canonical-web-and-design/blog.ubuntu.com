@@ -78,15 +78,14 @@ def group_category(group_slug, category_slug='all'):
     if not group:
         flask.abort(404)
 
-    group_details = local_data.get_group_details(group)  # read the json file
+    group_details = local_data.get_group_details(group_slug)
 
     category = local_data.get_category_by_slug(category_slug)
-    category_ids = [category['id']] if category else []
 
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(
         groups_id=group['id'],
-        categories=category_ids,
+        categories=[category['id']] if category and category['id'] else [],
         page=page,
         per_page=12
     )
@@ -97,7 +96,7 @@ def group_category(group_slug, category_slug='all'):
             posts=posts,
             group=group,
             group_details=group_details,
-            category=category if category else None,
+            category=category_slug if category_slug else None,
             **metadata
         )
     else:
@@ -106,7 +105,7 @@ def group_category(group_slug, category_slug='all'):
             posts=posts,
             group=group,
             group_details=group_details,
-            category=category if category else None,
+            category=category_slug if category_slug else None,
             **metadata
         )
 
