@@ -165,7 +165,7 @@ def tag_index(slug):
 @app.route('/archives/<regex("[0-9]{4}"):year>/')
 def archives_year(year):
     result = api.get_archives(year)
-    return flask.render_template('archives.html', result=result)
+    return flask.render_template('archives.html', result=result, today=datetime.utcnow())
 
 @app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/')
 def archives_year_month(year, month):
@@ -189,7 +189,7 @@ def archives_group_year_month(group, year, month):
                 '404.html'
             )
     result = api.get_archives(year, month, group_id, group_name)
-    return flask.render_template('archives.html', result=result)
+    return flask.render_template('archives.html', result=result, today=datetime.utcnow())
 
 @app.route(
     '/<regex("[0-9]{4}"):year>'
