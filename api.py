@@ -8,28 +8,17 @@ from urllib.parse import urlsplit
 
 # Third party
 import dateutil.parser
-import requests
 import requests_cache
 
 
 API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
 
 
-# Setup session to retry requests 5 times
-uncached_session = requests.Session()
-retries = requests.packages.urllib3.util.retry.Retry(
-    total=5,
-    backoff_factor=0.1,
-    status_forcelist=[500, 502, 503, 504]
-)
-uncached_session.mount(
-    'https://api.snapcraft.io',
-    requests.adapters.HTTPAdapter(max_retries=retries)
-)
-
 # Set cache expire time
 cached_session = requests_cache.CachedSession(
-    expire_after=datetime.timedelta(hours=1)
+    name="hour-cache",
+    expire_after=datetime.timedelta(hours=1),
+    old_data_on_error=True
 )
 
 # Requests should timeout after 2 seconds in total
@@ -99,42 +88,9 @@ def _get(url, json=None):
     If it gets an error, it will use the cached response, if it exists.
     """
 
-    request_error = False
+    response = cached_session.get(url)
 
-    method = "POST" if json else "GET"
-
-    request = cached_session.prepare_request(
-        requests.Request(
-            method=method,
-            url=url,
-            json=json
-        )
-    )
-
-    cache_key = cached_session.cache.create_key(request)
-    response, timestamp = cached_session.cache.get_response_and_time(
-        cache_key
-    )
-
-    if response:
-        age = datetime.datetime.utcnow() - timestamp
-
-        if age > cached_session._cache_expire_after:
-            try:
-                new_response = uncached_session.send(
-                    request,
-                    timeout=request_timeout
-                )
-                if response.status_code >= 500:
-                    new_response.raise_for_status()
-            except:
-                request_error = True
-            else:
-                response = new_response
-    else:
-        response = cached_session.send(request)
-
-    response.old_data_from_error = request_error
+    response.raise_for_status()
 
     return response
 
