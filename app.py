@@ -93,15 +93,32 @@ def group_category(group=[], category='all'):
         per_page=12
     )
 
-    return flask.render_template(
-        'group.html',
-        posts=posts,
-        group=groups if groups else None,
-        group_details=group_details,
-        category=category if category else None,
-        **metadata
-    )
-
+    if group == 'canonical-announcements':
+        return flask.render_template(
+            'press-centre.html',
+            posts=posts,
+            group=groups if groups else None,
+            group_details=group_details,
+            category=category if category else None,
+            **metadata
+        )
+    elif group:
+        return flask.render_template(
+            'group.html',
+            posts=posts,
+            group=groups if groups else None,
+            group_details=group_details,
+            category=category if category else None,
+            **metadata
+        )
+    else:
+        return flask.render_template(
+            'index.html',
+            posts=posts,
+            featured_post=featured_post,
+            webinars=webinars,
+            **metadata
+        )
 
 @app.route('/topics/<slug>/')
 def topic_name(slug):
