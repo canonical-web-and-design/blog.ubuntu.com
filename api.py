@@ -10,6 +10,9 @@ from urllib.parse import urlsplit
 import dateutil.parser
 import requests_cache
 
+# Local
+from helpers import join_ids, build_url
+
 
 API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
 
@@ -81,12 +84,14 @@ TOPICBYID = {
 
 # Utility functions
 
-def _get(url, json=None):
+def _get(endpoint, parameters={}):
     """
     Retrieve the response from the requests cache.
     If the cache has expired then it will attempt to update the cache.
     If it gets an error, it will use the cached response, if it exists.
     """
+
+    url = build_url(API_URL, endpoint, parameters)
 
     response = cached_session.get(url)
 
@@ -101,7 +106,8 @@ def _embed_post_data(post):
     embedded = post['_embedded']
     post['author'] = _normalise_user(embedded['author'][0])
     post['category'] = get_category_by_id(post['categories'][0])
-    post['topics'] = get_topic_by_id(post['topic'][0])
+    if post['topic']:
+        post['topics'] = get_topic_by_id(post['topic'][0])
     if 'groups' not in post and post['group']:
         post['groups'] = get_group_by_id(int(post['group'][0]))
     return post
@@ -162,30 +168,26 @@ def _normalise_post(post, groups_id=None):
 
 
 def search_posts(search):
-    api_url = ''.join([API_URL, '/posts?_embed&search=', search])
-    response = _get(api_url)
+    response = _get('posts', {'_embed': True, 'search': search})
     posts = _normalise_posts(json.loads(response.text))
 
     return posts
 
 
 def get_topic(slug):
-    api_url = ''.join([API_URL, '/tags?slug=', slug])
-    response = _get(api_url)
+    response = _get('topic', {'slug': slug})
 
     return json.loads(response.text)
 
 
 def get_tag(slug):
-    api_url = ''.join([API_URL, '/tags?slug=', slug])
-    response = _get(api_url)
+    response = _get('tags', {'slug': slug})
 
     return json.loads(response.text)
 
 
 def get_post(slug):
-    api_url = ''.join([API_URL, '/posts?_embed&slug=', slug])
-    response = _get(api_url)
+    response = _get('posts', {'_embed': True, 'slug': slug})
     post = json.loads(response.text)[0]
     post['tags'] = get_tag_details_from_post(post['id'])
     post = _normalise_post(post)
@@ -195,8 +197,7 @@ def get_post(slug):
 
 
 def get_author(slug):
-    api_url = ''.join([API_URL, '/users?_embed&slug=', slug])
-    response = _get(api_url)
+    response = _get('users', {'_embed': True, 'slug': slug})
     user = json.loads(response.text)[0]
     user = _normalise_user(user)
     user['recent_posts'] = get_user_recent_posts(user['id'])
@@ -204,23 +205,18 @@ def get_author(slug):
     return user
 
 
-def get_posts(groups_id=None, categories=[], tags=[], page=None, per_page=12):
-    api_url = '{api_url}/posts?_embed&per_page={per_page}&page={page}'.format(
-        api_url=API_URL,
-        per_page=per_page,
-        page=str(page or 1),
+def get_posts(groups_id=None, categories=[], tags=[], page=1, per_page=12):
+    response = _get(
+        'posts',
+        {
+            '_embed': True,
+            'per_page': per_page,
+            'page': page,
+            'group': groups_id,
+            'categories': join_ids(categories),
+            'tags': join_ids(tags)
+        }
     )
-    if groups_id:
-        api_url = ''.join([api_url, '&group=', str(groups_id)])
-    if categories:
-        categories = ','.join(str(category) for category in categories)
-        api_url = ''.join([api_url, '&categories=', categories])
-    if tags:
-        if isinstance(tags, list):
-            tags = ','.join(str(tag) for tag in tags)
-        api_url = ''.join([api_url, '&tags=', str(tags)])
-
-    response = _get(api_url)
 
     headers = response.headers
     metadata = {
@@ -229,11 +225,19 @@ def get_posts(groups_id=None, categories=[], tags=[], page=None, per_page=12):
         'total_posts': headers.get('X-WP-Total'),
     }
 
-    posts = _normalise_posts(json.loads(response.text), groups_id=groups_id)
+    posts = _normalise_posts(
+        json.loads(response.text),
+        groups_id=groups_id
+    )
 
     return posts, metadata
 
-def get_archives(year, month=None, group_id=None, group_name='Archives', categories=[], tags=[], page=None, per_page=100):
+
+def get_archives(
+    year,
+    month=None, group_id=None, group_name='Archives',
+    categories=[], tags=[], page=1, per_page=100
+):
     result = {}
     startmonth = 1
     endmonth = 12
@@ -243,17 +247,19 @@ def get_archives(year, month=None, group_id=None, group_name='Archives', categor
     last_day = calendar.monthrange(int(year), int(endmonth))[1]
     after = datetime.datetime(int(year), int(startmonth), 1)
     before = datetime.datetime(int(year), int(endmonth), last_day)
-    api_url = '{api_url}/posts?_embed&after={after}&before={before}&per_page={per_page}&page={page}'.format(
-        after=after.isoformat(),
-        before=before.isoformat(),
-        api_url=API_URL,
-        per_page=per_page,
-        page=str(page or 1),
+
+    response = _get(
+        'posts',
+        {
+            '_embed': True,
+            'group': group_id,
+            'before': before.isoformat(),
+            'after': after.isoformat(),
+            'per_page': per_page,
+            'page': page
+        }
     )
-    if group_id:
-        api_url = ''.join([api_url, '&group=', str(group_id)])
-    print ('api: ' + api_url)
-    response = _get(api_url)
+
     posts = _normalise_posts(json.loads(response.text))
     if month:
         result["date"] = after.strftime("%B") + ' ' + str(year)
@@ -266,56 +272,57 @@ def get_archives(year, month=None, group_id=None, group_name='Archives', categor
     result["count"] = len(posts)
     return result
 
+
 def get_related_posts(post):
-    api_url = '{api_url}/tags?embed&per_page=3&post={post_id}'.format(
-        api_url=API_URL,
-        post_id=post['id'],
+    response = _get(
+        'tags',
+        {
+            'embed': True,
+            'per_page': 3,
+            'post': post['id']
+        }
     )
-    response = _get(api_url)
     tags = json.loads(response.text)
 
     tag_ids = [tag['id'] for tag in tags]
     posts, meta = get_posts(tags=tag_ids)
     posts = _normalise_posts(posts)
+
     return posts
 
 
 def get_user_recent_posts(user_id, limit=5):
-    api_url = '{api_url}/posts?embed&author={user_id}&per_page={limit}'.format(
-        api_url=API_URL,
-        user_id=user_id,
-        limit=limit,
+    response = _get(
+        'posts',
+        {
+            'embed': True,
+            'author': user_id,
+            'per_page': limit,
+        }
     )
-    response = _get(api_url)
     posts = _normalise_posts(json.loads(response.text))
 
     return posts
 
 
 def get_tag_details_from_post(post_id):
-    api_url = '{api_url}/tags?post={post_id}'.format(
-        api_url=API_URL,
-        post_id=post_id,
-    )
-    response = _get(api_url)
+    response = _get('tags', {'post': post_id})
     tags = json.loads(response.text)
+
     return tags
 
 
 def get_featured_post(groups_id=None, categories=[], per_page=1):
-    api_url = '{api_url}/posts?_embed&sticky=true&per_page={per_page}'.format(
-        api_url=API_URL,
-        per_page=per_page
+    response = _get(
+        'posts',
+        {
+            '_embed': True,
+            'sticky': True,
+            'per_page': per_page,
+            'group': groups_id,
+            'categories': join_ids(categories)
+        }
     )
-
-    if groups_id:
-        api_url = ''.join([api_url, '&group=', str(groups_id)])
-
-    if categories:
-        categories = ','.join(str(category) for category in categories)
-        api_url = ''.join([api_url, '&categories=', categories])
-
-    response = _get(api_url)
     posts = _normalise_posts(json.loads(response.text), groups_id=groups_id)
 
     return posts[0] if posts else None

@@ -83,7 +83,7 @@ def group_category(group=[], category='all'):
     groups_id = int(groups['id']) if groups else None
 
     categories = api.get_category_by_slug(category)
-    categories_id = [categories['id']] if categories['id'] else None
+    categories_id = [categories['id']] if categories['id'] else []
 
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(
@@ -135,7 +135,7 @@ def tag_index(slug):
     if response_json:
         tag = response_json[0]
         page = flask.request.args.get('page')
-        posts, metadata = api.get_posts(tags=tag['id'], page=page)
+        posts, metadata = api.get_posts(tags=[tag['id']], page=page)
 
         return flask.render_template(
             'tag.html', posts=posts, tag=tag, **metadata

@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 from requests_cache import CachedSession
 from time import mktime
-
+from urllib.parse import urlencode
 
 logger = logging.getLogger(__name__)
 requests_timeout = 10
@@ -12,6 +12,36 @@ expiry_seconds = 300
 cached_request = CachedSession(
     expire_after=expiry_seconds,
 )
+
+
+def join_ids(ids):
+    """
+    Given a list of ids, turn it into a string, separated by commas
+    - including casting all types to a string
+    """
+
+    return ','.join([str(item) for item in ids])
+
+
+def build_url(base_url, endpoint, parameters):
+    """
+    Build a URL up from a base_url, an endpoint and some query parameters
+    """
+
+    query_string = ""
+
+    # Remove empty arguments
+    for key, value in list(parameters.items()):
+        if type(value) == bool:
+            value = str(value)
+
+        if not value:
+            del parameters[key]
+
+    if parameters:
+        query_string = "?" + urlencode(parameters)
+
+    return base_url.rstrip('/') + '/' + endpoint.lstrip('/') + query_string
 
 
 def get_rss_feed_content(url, offset=0, limit=6, exclude_items_in=None):
