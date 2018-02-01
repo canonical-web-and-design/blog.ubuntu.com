@@ -7,14 +7,15 @@ from flask import request
 
 # Local
 import api
-from helpers import get_rss_feed_content, monthname
+import local_data
+import helpers
 from werkzeug.routing import BaseConverter
 from datetime import datetime
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
 
 app = flask.Flask(__name__)
-app.jinja_env.filters['monthname'] = monthname
+app.jinja_env.filters['monthname'] = helpers.monthname
 
 
 class RegexConverter(BaseConverter):
@@ -28,7 +29,7 @@ app.url_map.converters['regex'] = RegexConverter
 
 @app.route('/')
 def homepage():
-    search = request.args.get('search')
+    search = request.args.get('q')
 
     if search:
         result = {}
@@ -43,7 +44,7 @@ def homepage():
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(page=page, per_page=13)
 
-    webinars = get_rss_feed_content(
+    webinars = helpers.get_rss_feed_content(
         'https://www.brighttalk.com/channel/6793/feed'
     )
 
@@ -72,17 +73,17 @@ def group_category(group=[], category='all'):
     if group == 'press-centre':
         group = 'canonical-announcements'
 
-    groups = api.get_group_by_slug(group)
+    groups = local_data.get_group_by_slug(group)
 
     if not groups:
         return flask.render_template(
             '404.html'
         )
-    group_details = api.get_group_details(group)  # read the json file
+    group_details = local_data.get_group_details(group)  # read the json file
 
     groups_id = int(groups['id']) if groups else None
 
-    categories = api.get_category_by_slug(category)
+    categories = local_data.get_category_by_slug(category)
     categories_id = [categories['id']] if categories['id'] else []
 
     page = flask.request.args.get('page')
@@ -115,7 +116,7 @@ def group_category(group=[], category='all'):
 
 @app.route('/topics/<slug>/')
 def topic_name(slug):
-    topic = api.get_topic_details(slug)
+    topic = local_data.get_topic_details(slug)
 
     if not topic:
         flask.abort(404)
