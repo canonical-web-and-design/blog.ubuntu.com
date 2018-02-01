@@ -14,8 +14,10 @@ cached_request = CachedSession(
     expire_after=expiry_seconds,
 )
 
+
 def monthname(month_number):
     return calendar.month_abbr[month_number]
+
 
 def join_ids(ids):
     """
