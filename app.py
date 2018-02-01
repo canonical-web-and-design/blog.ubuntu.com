@@ -107,25 +107,22 @@ def group_category(group=[], category='all'):
 def topic_name(slug):
     topic = api.get_topic_details(slug)
 
-    if topic:
-        response_json = api.get_topic(topic['slug'])
+    if not topic:
+        flask.abort(404)
 
-        if response_json:
-            tag = response_json[0]
-            page = flask.request.args.get('page')
-            posts, metadata = api.get_posts(tags=tag['id'], page=page)
-        else:
-            return flask.render_template(
-                '404.html'
-            )
+    tags = api.get_tag(slug=topic['slug'])
 
-        return flask.render_template(
-            'topics.html', topic=topic, posts=posts, tag=tag, **metadata
-        )
-    else:
-        return flask.render_template(
-            '404.html'
-        )
+    if not tags:
+        flask.abort(404)
+
+    if tags:
+        tag = tags[0]
+        page = flask.request.args.get('page')
+        posts, metadata = api.get_posts(tags=[tag['id']], page=page)
+
+    return flask.render_template(
+        'topics.html', topic=topic, posts=posts, **metadata
+    )
 
 
 @app.route('/tag/<slug>/')

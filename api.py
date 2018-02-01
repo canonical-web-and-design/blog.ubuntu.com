@@ -174,12 +174,6 @@ def search_posts(search):
     return posts
 
 
-def get_topic(slug):
-    response = _get('topic', {'slug': slug})
-
-    return json.loads(response.text)
-
-
 def get_tag(slug):
     response = _get('tags', {'slug': slug})
 
