@@ -1,5 +1,6 @@
 import feedparser
 import logging
+import calendar
 from datetime import datetime
 from requests_cache import CachedSession
 from time import mktime
@@ -13,6 +14,8 @@ cached_request = CachedSession(
     expire_after=expiry_seconds,
 )
 
+def monthname(month_number):
+    return calendar.month_abbr[month_number]
 
 def get_rss_feed_content(url, offset=0, limit=6, exclude_items_in=None):
     """
