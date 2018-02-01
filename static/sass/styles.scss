@@ -6,10 +6,12 @@ $breakpoint-navigation-threshold: 990px;
 @import 'pattern_social-share';
 @import 'pattern_rtp';
 @import 'pattern_card';
+@import 'pattern_strips';
 
 @include insights-p-social-share;
 @include insights-p-rtp;
 @include insights-p-card;
+@include insights-p-strips;
 
 // Bug fixes
 // Each of the the rules below are bug fixes which need to be addressed further upstream
@@ -31,6 +33,7 @@ pre {
 @media (min-width: $breakpoint-navigation-threshold + 1) {
   .p-navigation__link:hover .hover-menu {
     display: block;
+    z-index: 10;
   }
 }
 
