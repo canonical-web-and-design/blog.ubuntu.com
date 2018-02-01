@@ -64,32 +64,29 @@ def homepage():
     )
 
 
-@app.route('/<group>/')
-@app.route('/<group>/<category>/')
-def group_category(group=[], category='all'):
-    groups = []
-    categories = []
+@app.route('/<group_slug>/')
+@app.route('/<group_slug>/<category_slug>/')
+def group_category(group_slug, category_slug='all'):
+    if group_slug == 'press-centre':
+        group_slug = 'canonical-announcements'
 
-    if group == 'press-centre':
-        group = 'canonical-announcements'
+    try:
+        group = local_data.get_group_by_slug(group_slug)
+    except KeyError:
+        flask.abort(404)
 
-    groups = local_data.get_group_by_slug(group)
+    if not group:
+        flask.abort(404)
 
-    if not groups:
-        return flask.render_template(
-            '404.html'
-        )
     group_details = local_data.get_group_details(group)  # read the json file
 
-    groups_id = int(groups['id']) if groups else None
-
-    categories = local_data.get_category_by_slug(category)
-    categories_id = [categories['id']] if categories['id'] else []
+    category = local_data.get_category_by_slug(category_slug)
+    category_ids = [category['id']] if category else []
 
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(
-        groups_id=groups_id,
-        categories=categories_id,
+        groups_id=group['id'],
+        categories=category_ids,
         page=page,
         per_page=12
     )
@@ -98,7 +95,7 @@ def group_category(group=[], category='all'):
         return flask.render_template(
             'press-centre.html',
             posts=posts,
-            group=groups if groups else None,
+            group=group,
             group_details=group_details,
             category=category if category else None,
             **metadata
@@ -107,7 +104,7 @@ def group_category(group=[], category='all'):
         return flask.render_template(
             'group.html',
             posts=posts,
-            group=groups if groups else None,
+            group=group,
             group_details=group_details,
             category=category if category else None,
             **metadata

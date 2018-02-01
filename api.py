@@ -150,7 +150,10 @@ def get_author(slug):
     return user
 
 
-def get_posts(groups_id=None, categories=[], tags=[], page=1, per_page=12):
+def get_posts(
+    groups_id=None, categories=[], tags=[], page=1, per_page=12,
+    before=None, after=None
+):
     response = get(
         'posts',
         {
@@ -159,7 +162,9 @@ def get_posts(groups_id=None, categories=[], tags=[], page=1, per_page=12):
             'page': page,
             'group': groups_id,
             'categories': join_ids(categories),
-            'tags': join_ids(tags)
+            'tags': join_ids(tags),
+            'before': before,
+            'after': after
         }
     )
 
@@ -193,12 +198,11 @@ def get_archives(
     after = datetime.datetime(int(year), int(startmonth), 1)
     before = datetime.datetime(int(year), int(endmonth), last_day)
 
-    response = get_posts(
+    posts, meta = get_posts(
         before=before.isoformat(),
         after=after.isoformat()
     )
 
-    posts = _normalise_posts(json.loads(response.text))
     if month:
         result["date"] = after.strftime("%B") + ' ' + str(year)
     else:
