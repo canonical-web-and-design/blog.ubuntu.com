@@ -192,7 +192,7 @@ def archives_group_year(group, year):
     group_id = int(groups['id']) if groups else None
     group_name = groups['name'] if groups else None
 
-    result = api.get_archives(year, None, group_id, group_name)
+    result, metadata = api.get_archives(year, None, group_id, group_name)
     return flask.render_template(
         'archives.html',
         result=result,
@@ -217,7 +217,14 @@ def archives_group_year_month(group, year, month):
     group_id = int(groups['id']) if groups else None
     group_name = groups['name'] if groups else None
 
-    result, metadata = api.get_archives(year, month, group_id, group_name,page=page)
+    result, metadata = api.get_archives(
+        year,
+        month,
+        group_id,
+        group_name,
+        page=page
+    )
+
     return flask.render_template(
         'archives.html',
         result=result,
