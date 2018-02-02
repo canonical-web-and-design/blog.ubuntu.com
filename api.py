@@ -169,10 +169,21 @@ def get_posts(
     )
 
     headers = response.headers
+    page = int(page or 1)
+    total_pages = int(headers.get('X-WP-TotalPages'))
+
+    pagination_start = page - 2
+    if pagination_start <= 1:
+        pagination_start = 1
+
+    if total_pages - pagination_start < 5 and pagination_start > 3:
+        pagination_start = total_pages - 4
+
     metadata = {
-        'current_page': page or 1,
-        'total_pages': headers.get('X-WP-TotalPages'),
-        'total_posts': headers.get('X-WP-Total'),
+        'current_page': page,
+        'total_pages': total_pages,
+        'total_posts': int(headers.get('X-WP-Total')),
+        'pagination_start': pagination_start,
     }
 
     posts = _normalise_posts(
@@ -198,9 +209,10 @@ def get_archives(
     after = datetime.datetime(int(year), int(startmonth), 1)
     before = datetime.datetime(int(year), int(endmonth), last_day)
 
-    posts, meta = get_posts(
+    posts, metadata = get_posts(
         before=before.isoformat(),
-        after=after.isoformat()
+        after=after.isoformat(),
+        page=page
     )
 
     if month:
@@ -209,10 +221,11 @@ def get_archives(
         result["date"] = str(year)
     if group_name != "Archives":
         group_name = group_name + ' archives'
+
     result["title"] = group_name
     result["posts"] = posts
     result["count"] = len(posts)
-    return result
+    return result, metadata
 
 
 def get_related_posts(post):
