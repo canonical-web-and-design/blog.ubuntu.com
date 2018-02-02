@@ -15,7 +15,7 @@ from helpers import join_ids, build_url
 import local_data
 
 
-API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
+API_URL = 'https://insights.ubuntu.com/wp-json/wp/v2'
 
 
 # Set cache expire time

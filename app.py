@@ -96,7 +96,8 @@ def group_category(group_slug, category_slug='all'):
             posts=posts,
             group=group,
             group_details=group_details,
-            category=category_slug if category_slug else None,
+            category=category if category else None,
+            today=datetime.utcnow(),
             **metadata
         )
     else:
@@ -178,27 +179,24 @@ def archives_year_month(year, month):
 
 @app.route('/archives/<group>/<regex("[0-9]{4}"):year>/')
 def archives_group_year(group, year):
-    page = flask.request.args.get('page')
-    group_id = ''
-    groups = []
+    group_slug = group
 
     if group == 'press-centre':
         group = 'canonical-announcements'
 
-    groups = local_data.get_group_by_slug(group)
+    groups = api.get_group_by_slug(group)
+
+    if not groups:
+        flask.abort(404)
+
     group_id = int(groups['id']) if groups else None
     group_name = groups['name'] if groups else None
 
-    if not group_id:
-        return flask.render_template(
-            '404.html'
-        )
-
-    result, metadata = api.get_archives(year, None, group_id, group_name, page=page)
-
+    result = api.get_archives(year, None, group_id, group_name)
     return flask.render_template(
         'archives.html',
         result=result,
+        group=group_slug,
         today=datetime.utcnow(),
         **metadata
     )
