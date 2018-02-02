@@ -115,12 +115,42 @@ def search():
     )
 
 
+@app.route('/press-centre')
+@app.route('/press-centre/<category_slug>')
+def press_centre(group_slug, category_slug=''):
+    try:
+        group = local_data.get_group_by_slug('canonical-announcements')
+    except KeyError:
+        flask.abort(404)
+
+    if not group:
+        flask.abort(404)
+
+    group_details = local_data.get_group_details(group_slug)
+    category = local_data.get_category_by_slug(category_slug)
+
+    page = flask.request.args.get('page')
+    posts, metadata = api.get_posts(
+        groups_id=group['id'],
+        categories=[category['id']] if category and category['id'] else [],
+        page=page,
+        per_page=12
+    )
+
+    return flask.render_template(
+        'press-centre.html',
+        posts=posts,
+        group=group,
+        group_details=group_details,
+        category=category if category else None,
+        today=datetime.utcnow(),
+        **metadata
+    )
+
+
 @app.route('/<group_slug>')
 @app.route('/<group_slug>/<category_slug>')
-def group_category(group_slug, category_slug='all'):
-    if group_slug == 'press-centre':
-        group_slug = 'canonical-announcements'
-
+def group_category(group_slug, category_slug=''):
     try:
         group = local_data.get_group_by_slug(group_slug)
     except KeyError:
@@ -141,25 +171,14 @@ def group_category(group_slug, category_slug='all'):
         per_page=12
     )
 
-    if group_slug == 'canonical-announcements':
-        return flask.render_template(
-            'press-centre.html',
-            posts=posts,
-            group=group,
-            group_details=group_details,
-            category=category if category else None,
-            today=datetime.utcnow(),
-            **metadata
-        )
-    else:
-        return flask.render_template(
-            'group.html',
-            posts=posts,
-            group=group,
-            group_details=group_details,
-            category=category_slug if category_slug else None,
-            **metadata
-        )
+    return flask.render_template(
+        'group.html',
+        posts=posts,
+        group=group,
+        group_details=group_details,
+        category=category_slug if category_slug else None,
+        **metadata
+    )
 
 
 @app.route('/topics/<slug>')
