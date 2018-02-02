@@ -1,3 +1,6 @@
+# Core
+from urllib.parse import urlparse, urlunparse, unquote
+
 # Third-party
 import flask
 from datetime import datetime
@@ -14,6 +17,7 @@ INSIGHTS_URL = 'https://insights.ubuntu.com'
 
 app = flask.Flask(__name__)
 app.jinja_env.filters['monthname'] = helpers.monthname
+app.url_map.strict_slashes = False
 
 
 class RegexConverter(BaseConverter):
@@ -29,6 +33,24 @@ apply_redirects = redirects.prepare_redirects(
 app.before_request(apply_redirects)
 
 app.url_map.converters['regex'] = RegexConverter
+
+
+@app.before_request
+def clear_trailing():
+    """
+    Remove trailing slashes from all routes
+    We like our URLs without slashes
+    """
+
+    parsed_url = urlparse(unquote(flask.request.url))
+    path = parsed_url.path
+
+    if path != '/' and path.endswith('/'):
+        new_uri = urlunparse(
+            parsed_url._replace(path=path[:-1])
+        )
+
+        return flask.redirect(new_uri)
 
 
 @app.route('/')
