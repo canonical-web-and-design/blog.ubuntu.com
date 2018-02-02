@@ -78,7 +78,6 @@ def homepage():
     )
 
 
-
 @app.route(
     '/<regex("(videos|case-studies|webinars|articles)"):category_slug>'
 )
