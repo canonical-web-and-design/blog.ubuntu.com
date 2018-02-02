@@ -1,16 +1,14 @@
-# Core
-import urllib
-
 # Third-party
 import flask
-from flask import request
+from datetime import datetime
+from werkzeug.routing import BaseConverter
 
 # Local
 import api
 import local_data
 import helpers
-from werkzeug.routing import BaseConverter
-from datetime import datetime
+import redirects
+
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
 
@@ -24,12 +22,18 @@ class RegexConverter(BaseConverter):
         self.regex = items[0]
 
 
+apply_redirects = redirects.prepare_redirects(
+    permanent_redirects_path='permanent-redirects.yaml',
+    redirects_path='redirects.yaml'
+)
+app.before_request(apply_redirects)
+
 app.url_map.converters['regex'] = RegexConverter
 
 
 @app.route('/')
 def homepage():
-    search = request.args.get('q')
+    search = flask.request.args.get('q')
 
     if search:
         result = {}
@@ -226,19 +230,6 @@ def post(year, month, day, slug):
 @app.route('/author/<slug>/')
 def user(slug):
     return flask.render_template('author.html', author=api.get_author(slug))
-
-
-@app.route('/admin/')
-@app.route('/feed/')
-@app.route('/wp-content/')
-@app.route('/wp-includes/')
-@app.route('/wp-login.php/')
-def redirect_wordpress_login():
-    path = flask.request.path
-    if (flask.request.args):
-        path = '?'.join([path, urllib.parse.urlencode(flask.request.args)])
-
-    return flask.redirect(INSIGHTS_URL + path)
 
 
 @app.errorhandler(404)
