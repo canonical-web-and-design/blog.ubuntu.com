@@ -1,0 +1,19 @@
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <ul class="p-inline-list--middot u-align--center" style="margin-bottom: 1rem;">
+        {% if current_page > 1 %}
+          <li class="p-inline-list__item"><a href="{{request.path}}?page={{ current_page - 1 }}">Previous</a></li>
+        {% endif %}
+        {% for p in range(pagination_start, pagination_start + 5, 1) %}
+          {% if p <= total_pages %}
+            <li class="p-inline-list__item {% if current_page == p %}p-heading--four{% endif %}"><a class="p-link--soft" href="{{request.path}}?page={{p}}">{{ p }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if total_pages > current_page %}
+          <li class="p-inline-list__item"><a href="{{request.path}}?page={{ current_page + 1 }}">Next</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</section>
