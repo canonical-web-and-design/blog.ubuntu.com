@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<section class="p-strip--image is-dark p-takeover" style="background: #111111; background-size: cover; background-image: url('https://assets.ubuntu.com/v1/3e3de22c-UPM-background.png'); background-position: 77% 0%;">
+<section class="p-strip--image is-dark p-takeover" style="background: #111111; background-size: cover; background-image: url('https://assets.ubuntu.com/v1/3e3de22c-UPM-background.png'); background-position: 77% 60%;">
   <div class="row u-vertically-center">
     <div class="col-6">
       <h1 class="p-heading--one">
@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="col-5 prefix-1 u-align--center u-hide--small">
-      <svg class="upm-svg" xmlns="http://www.w3.org/2000/svg" height="350px" width="400px" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 350">
+      <svg class="upm-svg" xmlns="http://www.w3.org/2000/svg" height="300px" width="100%" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 350">
         <title></title>
         <g fill-rule="evenodd" fill="none">
           <g>
@@ -85,30 +85,6 @@
       </svg>
     </div>
   </div>
-</section>
-
-<section class="p-strip is-shallow u-no-padding--top u-no-padding--bottom">
-  <nav class="p-tabs col-12">
-    <div class="row">
-      <ul class="p-tabs__list" role="tablist">
-        <li class="p-tabs__item" role="presentation">
-          <a href="/" class="p-tabs__link"  role="tab" {% if category == 'all' %} aria-selected="true"{% endif %}>All</a>
-        </li>
-        <li class="p-tabs__item" role="presentation">
-          <a href="/articles" class="p-tabs__link"  role="tab" {% if category == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
-        </li>
-        <li class="p-tabs__item" role="presentation">
-          <a href="/case-studies" class="p-tabs__link" role="tab" {% if category == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
-        </li>
-        <li class="p-tabs__item" role="presentation">
-          <a href="/videos" class="p-tabs__link"  role="tab" {% if category == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
-        </li>
-        <li class="p-tabs__item" role="presentation">
-          <a href="/webinars" class="p-tabs__link"  role="tab" {% if category == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
 </section>
 
 {% if featured_post %}
