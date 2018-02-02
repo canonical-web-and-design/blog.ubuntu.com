@@ -20,32 +20,6 @@
     </div>
   </section>
 
-  <section class="p-strip is-shallow u-no-padding--top u-no-padding--bottom">
-    <nav class="p-tabs col-12">
-      <div class="row">
-        <ul class="p-tabs__list" role="tablist">
-          {% if group_details.slug != 'canonical-announcements' %}
-          <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}" class="p-tabs__link"  role="tab" aria-controls="section1" {% if not category %} aria-selected="true"{% endif %}>All</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/articles" class="p-tabs__link"  role="tab" aria-controls="section2" {% if category == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/case-studies" class="p-tabs__link" role="tab" aria-controls="section3" {% if category == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/videos" class="p-tabs__link"  role="tab" aria-controls="section4" {% if category == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
-          </li>
-          <li class="p-tabs__item" role="presentation">
-            <a href="/{{ group_details.slug }}/webinars" class="p-tabs__link"  role="tab" aria-controls="section5" {% if category == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
-  </section>
-
   {% include "posts.html" %}
 
   {% include "pagination.html" %}

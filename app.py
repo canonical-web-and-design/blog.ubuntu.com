@@ -79,7 +79,9 @@ def homepage():
 
 
 @app.route(
-    '/<regex("(videos|case-studies|webinars|articles)"):category_slug>'
+    '/<regex(\
+        "(videos|whitepapers|case-studies|webinars|articles)"\
+    ):category_slug>'
 )
 def category(category_slug):
     category = local_data.get_category_by_slug(category_slug)
