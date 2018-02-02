@@ -1,5 +1,5 @@
 # Core
-from urllib.parse import urlencode, urlparse, urlunparse, unquote
+from urllib.parse import urlparse, urlunparse, unquote
 
 # Third-party
 import flask
@@ -244,9 +244,9 @@ def archives_group_year_month(group, year, month):
 
 
 @app.route(
-    '/<regex("[0-9]{4}"):year>/'
-    '/<regex("[0-9]{2}"):month>/'
-    '/<regex("[0-9]{2}"):day>/'
+    '/<regex("[0-9]{4}"):year>'
+    '/<regex("[0-9]{2}"):month>'
+    '/<regex("[0-9]{2}"):day>'
     '/<slug>'
 )
 def post(year, month, day, slug):

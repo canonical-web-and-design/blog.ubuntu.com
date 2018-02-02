@@ -67,7 +67,7 @@ def _embed_post_data(post):
 def _normalise_user(user):
     link = user['link']
     path = urlsplit(link).path
-    user['relative_link'] = path
+    user['relative_link'] = path.rstrip('/')
     return user
 
 
@@ -105,7 +105,7 @@ def _normalise_posts(posts, groups_id=None):
 def _normalise_post(post, groups_id=None):
     link = post['link']
     path = urlsplit(link).path
-    post['relative_link'] = path
+    post['relative_link'] = path.rstrip('/')
     post['formatted_date'] = datetime.datetime.strftime(
         dateutil.parser.parse(post['date']),
         "%d %B %Y"
