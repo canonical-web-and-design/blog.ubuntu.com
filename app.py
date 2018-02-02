@@ -1,6 +1,3 @@
-# Core
-import urllib
-
 # Third-party
 import flask
 from datetime import datetime
