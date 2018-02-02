@@ -1,34 +1,36 @@
 {% block posts %}
 
 <div class="p-strip is-shallow">
-  <div class="row">
-    <div class="col-12 u-align--right">
-      <form action="" method="get" class="p-form p-form--inline">
-        <div class="p-form__group">
-          <label for="filter" aria-label="Filter the resources by type" class="p-form__label">Filter: </label>
-          <select class="js-submit-on-change p-form__control" id="filter" name="content" aria-label="Filter by content type" style="padding-right: 40px">
-            <option {% if category == 'all' %}selected="selected"{% endif %} value="/{% if group_details and group_details['slug'] %}{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}topics/{{ topic['slug'] }}{% endif %}">All content types</option>
-            <option {% if category == 'articles' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}/topics/{{ topic['slug'] }}{% endif %}/articles">Articles</option>
-            <option {% if category == 'case-studies' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}/topics/{{ topic['slug'] }}{% endif %}/case-studies">Case studies</option>
-            <option {% if category == 'videos' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}/topics/{{ topic['slug'] }}{% endif %}/videos">Videos</option>
-            <option {% if category == 'webinars' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}/topics/{{ topic['slug'] }}{% endif %}/webinars">Webinars</option>
-            <option {% if category == 'whitepapers' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}/topics/{{ topic['slug'] }}{% endif %}/whitepapers">Whitepapers</option>
-          </select>
-          <input type="submit" value="Send Request" class="u-hide">
-          <input type="hidden" name="topic" value="cloud-and-server">
-        </div>
-      </form>
-      <script>
-      var select = document.querySelector('.js-submit-on-change');
-      select.addEventListener('change', function(e) {
-        var form = this.closest('form');
-        if (form) {
-          location.href=document.getElementById("filter").value;
-        }
-      });
-      </script>
+  {% if not topic %}
+    <div class="row">
+      <div class="col-12 u-align--right">
+        <form action="" method="get" class="p-form p-form--inline">
+          <div class="p-form__group">
+            <label for="filter" aria-label="Filter the resources by type" class="p-form__label">Filter: </label>
+            <select class="js-submit-on-change p-form__control" id="filter" name="content" aria-label="Filter by content type" style="padding-right: 40px">
+              <option {% if category == 'all' %}selected="selected"{% endif %} value="/{% if group_details and group_details['slug'] %}{{ group_details['slug'] }}{% endif %}">All content types</option>
+              <option {% if category == 'articles' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/articles">Articles</option>
+              <option {% if category == 'case-studies' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/case-studies">Case studies</option>
+              <option {% if category == 'videos' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/videos">Videos</option>
+              <option {% if category == 'webinars' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/webinars">Webinars</option>
+              <option {% if category == 'whitepapers' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{/whitepapers">Whitepapers</option>
+            </select>
+            <input type="submit" value="Send Request" class="u-hide">
+            <input type="hidden" name="topic" value="cloud-and-server">
+          </div>
+        </form>
+        <script>
+        var select = document.querySelector('.js-submit-on-change');
+        select.addEventListener('change', function(e) {
+          var form = this.closest('form');
+          if (form) {
+            location.href=document.getElementById("filter").value;
+          }
+        });
+        </script>
+      </div>
     </div>
-  </div>
+  {% endif %}
 
 {%- for post in posts %}
   {% if loop.index0 % 3 == 0 %}
