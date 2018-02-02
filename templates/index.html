@@ -35,6 +35,9 @@
 
   {% include "posts.html" %}
 
+  {% include "pagination.html" %}
+
+
 <div class="p-strip is-bordered">
   <div class="row">
     <h2>Webinars</h2>
@@ -69,7 +72,4 @@
   {% endif %}
   {%- endfor %}
 </div>
-
-{% include "pagination.html" %}
-
 {% endblock %}

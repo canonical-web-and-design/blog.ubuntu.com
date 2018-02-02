@@ -173,7 +173,7 @@ def get_posts(
     total_pages = int(headers.get('X-WP-TotalPages'))
 
     pagination_start = page - 2
-    if pagination_start <= 3:
+    if pagination_start <= 1:
         pagination_start = 1
 
     if total_pages - pagination_start < 5 and pagination_start > 3:
