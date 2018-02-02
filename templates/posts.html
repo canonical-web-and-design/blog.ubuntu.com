@@ -5,7 +5,7 @@
     <div class="col-12 u-align--right">
       <form action="" method="get" class="p-form p-form--inline">
         <div class="p-form__group">
-          <label for="full-name-inline" aria-label="Filter the resources by type" class="p-form__label">Filter: </label>
+          <label for="filter" aria-label="Filter the resources by type" class="p-form__label">Filter: </label>
           <select class="js-submit-on-change p-form__control" id="filter" name="content" aria-label="Filter by content type" style="padding-right: 40px">
             <option {% if category == 'all' %}selected="selected"{% endif %} value="/{% if group_details and group_details['slug'] %}{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}topics/{{ topic['slug'] }}{% endif %}">All content types</option>
             <option {% if category == 'articles' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{% if topic and topic['slug'] %}/topics/{{ topic['slug'] }}{% endif %}/articles">Articles</option>
