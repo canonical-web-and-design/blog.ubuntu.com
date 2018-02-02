@@ -1,0 +1,3 @@
+/admin(?P<page>/.*)?: https://admin.insights.ubuntu.com/admin{page}
+/feed(?P<page>/.*)?: https://admin.insights.ubuntu.com/feed{page}
+/wp-(?P<page>.*)?: https://admin.insights.ubuntu.com/wp-{page}

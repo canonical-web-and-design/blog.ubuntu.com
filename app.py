@@ -235,19 +235,6 @@ def user(slug):
     return flask.render_template('author.html', author=api.get_author(slug))
 
 
-@app.route('/admin/')
-@app.route('/feed/')
-@app.route('/wp-content/')
-@app.route('/wp-includes/')
-@app.route('/wp-login.php/')
-def redirect_wordpress_login():
-    path = flask.request.path
-    if (flask.request.args):
-        path = '?'.join([path, urllib.parse.urlencode(flask.request.args)])
-
-    return flask.redirect(INSIGHTS_URL + path)
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     return flask.render_template('404.html'), 404
