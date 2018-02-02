@@ -72,7 +72,6 @@
           <h4>Logos</h4>
           <ul class="p-list">
             <li class="p-list__item is-ticked"><a href="https://insights.ubuntu.com/wp-content/uploads/226b/ubuntu-brandmark1.zip" title="Ubuntu logo pack zip file">Ubuntu logo pack [ZIP]&nbsp;&rsaquo;</a></li>
-            <li class="p-list__item is-ticked"><a href="https://insights.ubuntu.com/wp-content/uploads/226b/juju-brandmark1.zip" title="Juju logo pack zip file">Juju logo pack [ZIP]&nbsp;&rsaquo;</a></li>
             <li class="p-list__item is-ticked"><a href="https://insights.ubuntu.com/wp-content/uploads/226b/canonical-brandmark1.zip" title="Canonical logo pack">Canonical logo pack [ZIP]&nbsp;&rsaquo;</a></li>
           </ul>
         </div>
@@ -94,6 +93,18 @@
           <h5 class="p-muted-heading">YouTube</h5>
           <ul class="p-inline-list--middot">
             <li class="p-inline-list__item"><a href="http://www.youtube.com/celebrateubuntu" title="Follow us on YouTube">Celebrate Ubuntu</a></li>
+          </ul>
+          <h5 class="p-muted-heading">LinkedIn</h5>
+          <ul class="p-inline-list--middot">
+            <li class="p-inline-list__item"><a href="https://www.linkedin.com/company/234280/" title="Follow us on LinkedIn">Canonical</a></li>
+          </ul>
+        </div>
+        <div class="p-card">
+          <h4>Archives</h4>
+          <ul class="p-list">
+            {% for year in range(today.year,2005,-1) %}
+              <li class="p-list__item"><h5><a class="p-link--soft" href="/archives/press-centre/{{ year }}/">{{ year }}</a></h5></li>
+            {% endfor %}
           </ul>
         </div>
       </div>
