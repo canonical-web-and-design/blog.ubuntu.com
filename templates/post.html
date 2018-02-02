@@ -47,35 +47,28 @@
   {% endif %}
   <div class="row">
     <div class="col-10">
-      <ul class="p-inline-list">
+      <ul class="p-inline-list u-vertically-center">
         <li class="p-inline-list__item">
-          <a class="p-social-icon--facebook" title="Share on Facebook" href="http://www.facebook.com/sharer.php?s=100&amp;p[url]=https://insights.ubuntu.com/?p={{ post.id }}&#9;&#9;&#9;&amp;p[title]={{ post.title.rendered | safe }}&amp;p[summary]={{ post.excerpt.rendered | safe }}%26hellip%3B&amp;p[images][0]=">
+          Share on:
+        </li>
+        <li class="p-inline-list__item">
+          <a class="p-icon--facebook" title="Share on Facebook" href="http://www.facebook.com/sharer.php?s=100&amp;p[url]=https://insights.ubuntu.com/?p={{ post.id }}&#9;&#9;&#9;&amp;p[title]={{ post.title.rendered }}&amp;p[summary]={{ post.excerpt.rendered }}%26hellip%3B&amp;p[images][0]=">
             Facebook
           </a>
         </li>
         <li class="p-inline-list__item">
-          <a class="p-social-icon--twitter" title="Share on Twitter" href="http://twitter.com/share?text={{ post.title.rendered | safe }}&amp;url=https://insights.ubuntu.com/?p={{ post.id }}&amp;hashtags=ubuntu">
+          <a class="p-icon--twitter" title="Share on Twitter" href="http://twitter.com/share?text={{ post.title.rendered | safe }}&amp;url=https://insights.ubuntu.com/?p={{ post.id }}&amp;hashtags=ubuntu">
             Twitter
           </a>
         </li>
         <li class="p-inline-list__item">
-          <a class="p-social-icon--google" title="Share on google+" href="https://plus.google.com/share?url=https://insights.ubuntu.com/?p={{ post.id }}">
+          <a class="p-icon--google" title="Share on google+" href="https://plus.google.com/share?url=https://insights.ubuntu.com/?p={{ post.id }}">
           Google+
         </a>
         </li>
         <li class="p-inline-list__item">
-          <a class="p-social-icon--email" title="Share via Email" href="mailto:?subject=Saw%20this%20and%20thought%20of%20you&amp;body=&#10;&#9;&#9;&#9;I've%20just%20read%20%27{{ post.title.rendered | safe }}%27%20on%20the%20Ubuntu%20Insights%20website%20and%20thought%20you%20would%20like%20it.%20Check%20it%20out:%20https://insights.ubuntu.com/?p={{ post.id }}">
-          Email
-        </a>
-        </li>
-        <li class="p-inline-list__item">
-          <a class="p-social-icon--linked-in" title="Share on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://insights.ubuntu.com/?p={{ post.id }}&amp;title={{ post.title.rendered | safe }}">
+          <a class="p-icon--linkedin" title="Share on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://insights.ubuntu.com/?p={{ post.id }}&amp;title={{ post.title.rendered | safe }}">
           LinkedIn
-        </a>
-        </li>
-        <li class="p-inline-list__item">
-          <a class="p-social-icon--pocket" title="Add to Pocket" href="http://getpocket.com/save?url=https://insights.ubuntu.com/?p={{ post.id }}&amp;title={{ post.title.rendered | safe }}">
-          Pocket
         </a>
         </li>
       </ul>
