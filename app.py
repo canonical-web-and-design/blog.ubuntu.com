@@ -90,7 +90,7 @@ def group_category(group_slug, category_slug='all'):
         per_page=12
     )
 
-    if group == 'canonical-announcements':
+    if group_slug == 'canonical-announcements':
         return flask.render_template(
             'press-centre.html',
             posts=posts,
