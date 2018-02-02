@@ -1,3 +1,6 @@
+# Core
+from urllib.parse import urlparse, urlunparse, unquote
+
 # Third-party
 import flask
 from datetime import datetime
@@ -14,6 +17,7 @@ INSIGHTS_URL = 'https://insights.ubuntu.com'
 
 app = flask.Flask(__name__)
 app.jinja_env.filters['monthname'] = helpers.monthname
+app.url_map.strict_slashes = False
 
 
 class RegexConverter(BaseConverter):
@@ -29,6 +33,24 @@ apply_redirects = redirects.prepare_redirects(
 app.before_request(apply_redirects)
 
 app.url_map.converters['regex'] = RegexConverter
+
+
+@app.before_request
+def clear_trailing():
+    """
+    Remove trailing slashes from all routes
+    We like our URLs without slashes
+    """
+
+    parsed_url = urlparse(unquote(flask.request.url))
+    path = parsed_url.path
+
+    if path != '/' and path.endswith('/'):
+        new_uri = urlunparse(
+            parsed_url._replace(path=path[:-1])
+        )
+
+        return flask.redirect(new_uri)
 
 
 @app.route('/')
@@ -72,8 +94,8 @@ def search():
     )
 
 
-@app.route('/<group_slug>/')
-@app.route('/<group_slug>/<category_slug>/')
+@app.route('/<group_slug>')
+@app.route('/<group_slug>/<category_slug>')
 def group_category(group_slug, category_slug='all'):
     if group_slug == 'press-centre':
         group_slug = 'canonical-announcements'
@@ -119,7 +141,7 @@ def group_category(group_slug, category_slug='all'):
         )
 
 
-@app.route('/topics/<slug>/')
+@app.route('/topics/<slug>')
 def topic_name(slug):
     topic = local_data.get_topic_details(slug)
 
@@ -141,7 +163,7 @@ def topic_name(slug):
     )
 
 
-@app.route('/tag/<slug>/')
+@app.route('/tag/<slug>')
 def tag_index(slug):
     response_json = api.get_tag(slug)
 
@@ -159,7 +181,7 @@ def tag_index(slug):
         )
 
 
-@app.route('/archives/<regex("[0-9]{4}"):year>/')
+@app.route('/archives/<regex("[0-9]{4}"):year>')
 def archives_year(year):
     result = api.get_archives(year)
     return flask.render_template(
@@ -169,7 +191,7 @@ def archives_year(year):
     )
 
 
-@app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/')
+@app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>')
 def archives_year_month(year, month):
     result = api.get_archives(year, month)
     return flask.render_template(
@@ -179,7 +201,7 @@ def archives_year_month(year, month):
     )
 
 
-@app.route('/archives/<group>/<regex("[0-9]{4}"):year>/')
+@app.route('/archives/<group>/<regex("[0-9]{4}"):year>')
 def archives_group_year(group, year):
     group_slug = group
 
@@ -204,7 +226,7 @@ def archives_group_year(group, year):
 
 
 @app.route(
-    '/archives/<group>/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/'
+    '/archives/<group>/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>'
 )
 def archives_group_year_month(group, year, month):
     if group == 'press-centre':
@@ -225,13 +247,13 @@ def archives_group_year_month(group, year, month):
     '/<regex("[0-9]{4}"):year>'
     '/<regex("[0-9]{2}"):month>'
     '/<regex("[0-9]{2}"):day>'
-    '/<slug>/'
+    '/<slug>'
 )
 def post(year, month, day, slug):
     return flask.render_template('post.html', post=api.get_post(slug))
 
 
-@app.route('/author/<slug>/')
+@app.route('/author/<slug>')
 def user(slug):
     return flask.render_template('author.html', author=api.get_author(slug))
 
