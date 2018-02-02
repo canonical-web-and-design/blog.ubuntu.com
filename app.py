@@ -3,14 +3,15 @@ import urllib
 
 # Third-party
 import flask
-from flask import request
+from datetime import datetime
+from werkzeug.routing import BaseConverter
 
 # Local
 import api
 import local_data
 import helpers
-from werkzeug.routing import BaseConverter
-from datetime import datetime
+import redirects
+
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
 
@@ -24,12 +25,18 @@ class RegexConverter(BaseConverter):
         self.regex = items[0]
 
 
+apply_redirects = redirects.prepare_redirects(
+    permanent_redirects_path='permanent-redirects.yaml',
+    redirects_path='redirects.yaml'
+)
+app.before_request(apply_redirects)
+
 app.url_map.converters['regex'] = RegexConverter
 
 
 @app.route('/')
 def homepage():
-    search = request.args.get('q')
+    search = flask.request.args.get('q')
 
     if search:
         result = {}
