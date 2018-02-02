@@ -33,18 +33,6 @@ app.url_map.converters['regex'] = RegexConverter
 
 @app.route('/')
 def homepage():
-    search = flask.request.args.get('q')
-
-    if search:
-        result = {}
-
-        posts = api.search_posts(search)
-
-        result["posts"] = posts
-        result["count"] = len(posts)
-        result["query"] = search
-        return flask.render_template('search.html', result=result)
-
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(page=page, per_page=13)
 
@@ -65,6 +53,22 @@ def homepage():
         featured_post=featured_post,
         webinars=webinars,
         **metadata
+    )
+
+
+@app.route('/search/')
+def search():
+    query = flask.request.args.get('q') or ''
+
+    posts = api.search_posts(query) if query else []
+
+    return flask.render_template(
+        'search.html',
+        result={
+            "posts": posts,
+            "count": len(posts),
+            "query": query
+        }
     )
 
 
