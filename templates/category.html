@@ -92,72 +92,25 @@
     <div class="row">
       <ul class="p-tabs__list" role="tablist">
         <li class="p-tabs__item" role="presentation">
-          <a href="/" class="p-tabs__link"  role="tab" {% if category == 'all' %} aria-selected="true"{% endif %}>All</a>
+          <a href="/" class="p-tabs__link" role="tab" {% if category == 'all' %} aria-selected="true"{% endif %}>All</a>
         </li>
         <li class="p-tabs__item" role="presentation">
-          <a href="/articles" class="p-tabs__link"  role="tab" {% if category == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
+          <a href="/articles" class="p-tabs__link" role="tab" {% if category == 'articles' %} aria-selected="true"{% endif %}>Articles</a>
         </li>
         <li class="p-tabs__item" role="presentation">
           <a href="/case-studies" class="p-tabs__link" role="tab" {% if category == 'case-studies' %} aria-selected="true"{% endif %}>Case Studies</a>
         </li>
         <li class="p-tabs__item" role="presentation">
-          <a href="/videos" class="p-tabs__link"  role="tab" {% if category == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
+          <a href="/videos" class="p-tabs__link" role="tab" {% if category == 'videos' %} aria-selected="true"{% endif %}>Videos</a>
         </li>
         <li class="p-tabs__item" role="presentation">
-          <a href="/webinars" class="p-tabs__link"  role="tab" {% if category == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
+          <a href="/webinars" class="p-tabs__link" role="tab" {% if category == 'webinars' %} aria-selected="true"{% endif %}>Webinars</a>
         </li>
       </ul>
     </div>
   </nav>
 </section>
 
-{% if featured_post %}
-<div class="p-strip--light is-bordered is-shallow">
-  <div class="row">
-    <div class="col-8">
-      <h3 class="p-heading--four">Featured article</h3>
-      <h2 class="p-heading--three"><a href="{{ featured_post.relative_link }}">{{ featured_post.title.rendered | safe }}</a></h2>
-      <p><em>By <a href="{{ featured_post.author.relative_link }}" title="More about {{ featured_post.author.name }}">{{ featured_post.author.name }}</a> on {{ featured_post.formatted_date }}</em></p>
-      <p class="u-no-padding--bottom">{{ featured_post.excerpt.rendered | striptags | urlize(30, true) }}</p>
-    </div>
-  </div>
-</div>
-{% endif %}
-
   {% include "posts.html" %}
 
-<div class="p-strip is-bordered">
-  <div class="row">
-    <h2>Webinars</h2>
-  </div>
-  {%- for webinar in webinars %}
-  {% if loop.index0 % 3 == 0 %}
-  <div class="row u-equal-height u-clearfix">
-  {% endif %}
-    <div class="col-4 p-card--post">
-      <header class="p-card__header--webinar">
-        <h5 class="p-muted-heading">{{ webinar.tags[0].term | safe }}</h5>
-      </header>
-      <div class="p-card__content">
-        <a href="{{ webinar.links[0].href | safe }}">
-          <img src="{{ webinar.links[2].href }}" alt="" />
-        </a>
-        <h3 class="p-heading--four"><a href="{{ webinar.links[0].href | safe }}">{{ webinar.title_detail.value | safe }}</a></h3>
-        <p>{{ webinar.summary | truncate (150, False, '&hellip;') | safe }}</p>
-        <ul class="p-card__date">
-          <li class="p-media-object__meta-list-item--date">
-            <span class="u-off-screen">Date: </span>
-            <a href="https://www.brighttalk.com/service/channel/channel/6793/communication/{{ webinar.bt_communication.id }}/calendar/ics">
-              {{ webinar.updated_datetime.strftime('%d %B %Y') }}
-            </a>
-          </li>
-        </ul>
-      </div>
-      <p class="p-card__footer">Webinar</p>
-    </div>
-  {% if loop.index0 % 3 == 2 or loop.last %}
-  </div>
-  {% endif %}
-  {%- endfor %}
-</div>
 {% endblock %}

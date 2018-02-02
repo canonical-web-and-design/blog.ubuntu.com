@@ -78,6 +78,28 @@ def homepage():
     )
 
 
+
+@app.route(
+    '/<regex("(videos|case-studies|webinars|articles)"):category_slug>'
+)
+def category(category_slug):
+    category = local_data.get_category_by_slug(category_slug)
+
+    page = flask.request.args.get('page')
+    posts, metadata = api.get_posts(
+        categories=[category['id']] if category and category['id'] else [],
+        page=page,
+        per_page=12
+    )
+
+    return flask.render_template(
+        'category.html',
+        posts=posts,
+        category=category_slug,
+        **metadata
+    )
+
+
 @app.route('/search/')
 def search():
     query = flask.request.args.get('q') or ''
