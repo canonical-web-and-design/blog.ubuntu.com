@@ -38,7 +38,7 @@ class WebAppTestCase(unittest.TestCase):
 
         assert type(initial_posts) == list
         assert initial_posts == subsequent_posts
-        assert request_time < 1
+        assert request_time < 0.1
 
 
 if __name__ == '__main__':
