@@ -7,14 +7,15 @@ from flask import request
 
 # Local
 import api
-from helpers import get_rss_feed_content, monthname
+import local_data
+import helpers
 from werkzeug.routing import BaseConverter
 from datetime import datetime
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
 
 app = flask.Flask(__name__)
-app.jinja_env.filters['monthname'] = monthname
+app.jinja_env.filters['monthname'] = helpers.monthname
 
 
 class RegexConverter(BaseConverter):
@@ -28,7 +29,7 @@ app.url_map.converters['regex'] = RegexConverter
 
 @app.route('/')
 def homepage():
-    search = request.args.get('search')
+    search = request.args.get('q')
 
     if search:
         result = {}
@@ -43,7 +44,7 @@ def homepage():
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(page=page, per_page=13)
 
-    webinars = get_rss_feed_content(
+    webinars = helpers.get_rss_feed_content(
         'https://www.brighttalk.com/channel/6793/feed'
     )
 
@@ -63,59 +64,55 @@ def homepage():
     )
 
 
-@app.route('/<group>/')
-@app.route('/<group>/<category>/')
-def group_category(group=[], category='all'):
-    groups = []
-    categories = []
+@app.route('/<group_slug>/')
+@app.route('/<group_slug>/<category_slug>/')
+def group_category(group_slug, category_slug='all'):
+    if group_slug == 'press-centre':
+        group_slug = 'canonical-announcements'
 
-    if group == 'press-centre':
-        group = 'canonical-announcements'
+    try:
+        group = local_data.get_group_by_slug(group_slug)
+    except KeyError:
+        flask.abort(404)
 
-    groups = api.get_group_by_slug(group)
+    if not group:
+        flask.abort(404)
 
-    if not groups:
-        return flask.render_template(
-            '404.html'
-        )
-    group_details = api.get_group_details(group)  # read the json file
+    group_details = local_data.get_group_details(group_slug)
 
-    groups_id = int(groups['id']) if groups else None
-
-    categories = api.get_category_by_slug(category)
-    categories_id = [categories['id']] if categories['id'] else []
+    category = local_data.get_category_by_slug(category_slug)
 
     page = flask.request.args.get('page')
     posts, metadata = api.get_posts(
-        groups_id=groups_id,
-        categories=categories_id,
+        groups_id=group['id'],
+        categories=[category['id']] if category and category['id'] else [],
         page=page,
         per_page=12
     )
 
-    if group == 'canonical-announcements':
+    if group_slug == 'canonical-announcements':
         return flask.render_template(
             'press-centre.html',
             posts=posts,
-            group=groups if groups else None,
+            group=group,
             group_details=group_details,
-            category=category if category else None,
+            category=category_slug if category_slug else None,
             **metadata
         )
     else:
         return flask.render_template(
             'group.html',
             posts=posts,
-            group=groups if groups else None,
+            group=group,
             group_details=group_details,
-            category=category if category else None,
+            category=category_slug if category_slug else None,
             **metadata
         )
 
 
 @app.route('/topics/<slug>/')
 def topic_name(slug):
-    topic = api.get_topic_details(slug)
+    topic = local_data.get_topic_details(slug)
 
     if not topic:
         flask.abort(404)
@@ -177,20 +174,26 @@ def archives_year_month(year, month):
 def archives_group_year(group, year):
     group_id = ''
     groups = []
-    if group:
-        if group == 'press-centre':
-            group = 'canonical-announcements'
 
-        groups = api.get_group_by_slug(group)
-        group_id = int(groups['id']) if groups else None
-        group_name = groups['name'] if groups else None
+    if group == 'press-centre':
+        group = 'canonical-announcements'
 
-        if not group_id:
-            return flask.render_template(
-                '404.html'
-            )
+    groups = local_data.get_group_by_slug(group)
+    group_id = int(groups['id']) if groups else None
+    group_name = groups['name'] if groups else None
+
+    if not group_id:
+        return flask.render_template(
+            '404.html'
+        )
+
     result = api.get_archives(year, None, group_id, group_name)
-    return flask.render_template('archives.html', result=result)
+
+    return flask.render_template(
+        'archives.html',
+        result=result,
+        today=datetime.utcnow(),
+    )
 
 
 @app.route(
@@ -200,7 +203,7 @@ def archives_group_year_month(group, year, month):
     if group == 'press-centre':
         group = 'canonical-announcements'
 
-    groups = api.get_group_by_slug(group)
+    groups = local_data.get_group_by_slug(group)
     if not groups:
         flask.abort(404)
 
