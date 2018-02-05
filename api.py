@@ -8,41 +8,21 @@ from urllib.parse import urlsplit
 
 # Third party
 import dateutil.parser
-import requests_cache
 
 # Local
-from helpers import join_ids, build_url
+from helpers import build_url, cached_request, join_ids
 import local_data
 
 
 API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
 
 
-# Set cache expire time
-cached_session = requests_cache.CachedSession(
-    name="hour-cache",
-    expire_after=datetime.timedelta(hours=1),
-    old_data_on_error=True
-)
-
-# Requests should timeout after 2 seconds in total
-request_timeout = 10
-
-
 def get(endpoint, parameters={}):
     """
-    Retrieve the response from the requests cache.
-    If the cache has expired then it will attempt to update the cache.
-    If it gets an error, it will use the cached response, if it exists.
+    Query the Insights API (admin.insights.ubuntu.com) using the cache
     """
 
-    url = build_url(API_URL, endpoint, parameters)
-
-    response = cached_session.get(url)
-
-    response.raise_for_status()
-
-    return response
+    return cached_request(build_url(API_URL, endpoint, parameters))
 
 
 def _embed_post_data(post):
@@ -119,7 +99,10 @@ def _normalise_post(post, groups_id=None):
 
 
 def search_posts(search):
-    response = get('posts', {'_embed': True, 'search': search})
+    response = get(
+        'posts',
+        {'_embed': True, 'search': search}
+    )
     posts = _normalise_posts(json.loads(response.text))
 
     return posts

@@ -3,13 +3,30 @@
 # Core
 import unittest
 import time
-from urlparse.parse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse
 
 # Local
 import app
 from api import get
+from helpers import ignore_warnings
 
 
+urls_to_test = [
+    '/',  # Homepage
+    '/cloud-and-server',  # Group page
+    '/articles',  # Category page
+    '/cloud-and-server/case-studies',  # Group & category page
+    '/press-centre',  # Press centre
+    '/topics/maas',  # Topic page
+    '/author/canonical',  # Author page
+    '/search',  # Search (empty)
+    '/search?q=lxd',  # Search for a term
+    '/tag/security',  # Tag page
+    '/2018/01/24/meltdown-spectre-and-ubuntu-what-you-need-to-know',  # article
+]
+
+
+@ignore_warnings(ResourceWarning)
 def _get_posts():
     response = get(
         'posts',
@@ -41,6 +58,18 @@ class WebAppTestCase(unittest.TestCase):
         assert initial_posts == subsequent_posts
         assert request_time < 0.1
 
+    def test_urls(self):
+        """
+        Check a bunch of URLs for basic success
+        """
+
+        print(" Testing URLs:")
+
+        for url in urls_to_test:
+            print('  - ' + url + ' ... ', end='')
+            self._check_basic_page(url)
+            print('done')
+
     def _get_check_slash_normalisation(self, uri):
         """
         Given a basic app path (e.g. '/page'), check that any trailing
@@ -59,6 +88,7 @@ class WebAppTestCase(unittest.TestCase):
 
         return self._get_check_cache(url)
 
+    @ignore_warnings(ResourceWarning)
     def _get_check_cache(self, uri):
         """
         Retrieve URL contents twice - checking the second response is cached
@@ -72,8 +102,8 @@ class WebAppTestCase(unittest.TestCase):
         subsequent_response = self.app.get(uri)
         request_time = time.time() - start
 
-        assert initial_response.text == subsequent_response.text
-        assert request_time < 0.1
+        assert initial_response.data == subsequent_response.data
+        assert request_time < 0.5
 
         return subsequent_response
 
