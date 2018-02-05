@@ -118,13 +118,6 @@ def _normalise_post(post, groups_id=None):
     return post
 
 
-def search_posts(search):
-    response = get('posts', {'_embed': True, 'search': search})
-    posts = _normalise_posts(json.loads(response.text))
-
-    return posts
-
-
 def get_tag(slug):
     response = get('tags', {'slug': slug})
 
@@ -152,7 +145,7 @@ def get_author(slug):
 
 def get_posts(
     groups_id=None, categories=[], tags=[], page=1, per_page=12,
-    before=None, after=None
+    before=None, after=None, query=None
 ):
     response = get(
         'posts',
@@ -164,7 +157,8 @@ def get_posts(
             'categories': join_ids(categories),
             'tags': join_ids(tags),
             'before': before,
-            'after': after
+            'after': after,
+            'search': query
         }
     )
 
