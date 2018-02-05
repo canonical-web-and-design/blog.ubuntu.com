@@ -1,4 +1,5 @@
 # Core
+import calendar
 from urllib.parse import urlparse, urlunparse, unquote
 
 # Third-party
@@ -196,18 +197,16 @@ def topic_name(slug):
 def tag_index(slug):
     response_json = api.get_tag(slug)
 
-    if response_json:
-        tag = response_json[0]
-        page = flask.request.args.get('page')
-        posts, metadata = api.get_posts(tags=[tag['id']], page=page)
+    if not response_json:
+        flask.abort(404)
 
-        return flask.render_template(
-            'tag.html', posts=posts, tag=tag, **metadata
-        )
-    else:
-        return flask.render_template(
-            '404.html'
-        )
+    tag = response_json[0]
+    page = flask.request.args.get('page')
+    posts, metadata = api.get_posts(tags=[tag['id']], page=page)
+
+    return flask.render_template(
+        'tag.html', posts=posts, tag=tag, **metadata
+    )
 
 
 @app.route('/archives/<regex("[0-9]{4}"):year>')
@@ -227,7 +226,11 @@ def archives_year(year):
 def archives_year_month(year, month):
     page = flask.request.args.get('page')
 
-    result, metadata = api.get_archives(year, month, page=page)
+    try:
+        result, metadata = api.get_archives(year, month, page=page)
+    except calendar.IllegalMonthError:
+        flask.abort(404)
+
     return flask.render_template(
         'archives.html',
         result=result,
@@ -243,7 +246,10 @@ def archives_group_year(group, year):
     if group == 'press-centre':
         group = 'canonical-announcements'
 
-    groups = local_data.get_group_by_slug(group)
+    try:
+        groups = local_data.get_group_by_slug(group)
+    except KeyError:
+        flask.abort(404)
 
     if not groups:
         flask.abort(404)
@@ -268,12 +274,22 @@ def archives_group_year(group, year):
     '/<slug>'
 )
 def post(year, month, day, slug):
-    return flask.render_template('post.html', post=api.get_post(slug))
+    try:
+        post = api.get_post(slug)
+    except IndexError:
+        flask.abort(404)
+
+    return flask.render_template('post.html', post=post)
 
 
 @app.route('/author/<slug>')
 def user(slug):
-    return flask.render_template('author.html', author=api.get_author(slug))
+    try:
+        author = api.get_author(slug)
+    except IndexError:
+        flask.abort(404)
+
+    return flask.render_template('author.html', author=author)
 
 
 @app.errorhandler(404)
