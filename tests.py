@@ -154,7 +154,7 @@ class WebAppTestCase(unittest.TestCase):
         request_time = time.time() - start
 
         assert initial_response.data == subsequent_response.data
-        assert request_time < 0.5
+        assert request_time < 1
 
         return subsequent_response
 
