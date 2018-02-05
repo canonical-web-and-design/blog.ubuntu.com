@@ -56,7 +56,7 @@ def clear_trailing():
 
 @app.route('/')
 def homepage():
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
     posts, metadata = api.get_posts(page=page, per_page=13)
 
     webinars = helpers.get_rss_feed_content(
@@ -87,7 +87,7 @@ def homepage():
 def category(category_slug):
     category = local_data.get_category_by_slug(category_slug)
 
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
     posts, metadata = api.get_posts(
         categories=[category['id']] if category and category['id'] else [],
         page=page,
@@ -153,7 +153,8 @@ def group_category(group_slug, category_slug=''):
         except KeyError:
             flask.abort(404)
 
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
+
     posts, metadata = api.get_posts(
         groups_id=group['id'],
         categories=category_ids,
@@ -185,7 +186,7 @@ def topic_name(slug):
 
     if tags:
         tag = tags[0]
-        page = flask.request.args.get('page')
+        page = int(flask.request.args.get('page', '1'))
         posts, metadata = api.get_posts(tags=[tag['id']], page=page)
 
     return flask.render_template(
@@ -201,7 +202,7 @@ def tag_index(slug):
         flask.abort(404)
 
     tag = response_json[0]
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
     posts, metadata = api.get_posts(tags=[tag['id']], page=page)
 
     return flask.render_template(
@@ -211,7 +212,7 @@ def tag_index(slug):
 
 @app.route('/archives/<regex("[0-9]{4}"):year>')
 def archives_year(year):
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
 
     result, metadata = api.get_archives(year, page=page)
     return flask.render_template(
@@ -224,7 +225,7 @@ def archives_year(year):
 
 @app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>')
 def archives_year_month(year, month):
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
 
     try:
         result, metadata = api.get_archives(year, month, page=page)

@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 
 # Third party
 import dateutil.parser
+import requests
 
 # Local
 from helpers import build_url, cached_request, join_ids
@@ -23,6 +24,46 @@ def get(endpoint, parameters={}):
     """
 
     return cached_request(build_url(API_URL, endpoint, parameters))
+
+
+def get_paginated(endpoint, parameters={}):
+    """
+    Query the insights API, parsing pagination information,
+    and gracefully handling errors when the page doesn't exist
+    """
+
+    try:
+        response = get(endpoint, parameters)
+    except requests.exceptions.HTTPError as request_error:
+        response = request_error.response.json()
+
+        if response.get('code') == 'rest_post_invalid_page_number':
+            # The page doesn't exist, so set everything to empty
+            items = []
+            total_posts = None
+            total_pages = None
+            pagination_start = None
+        else:
+            # We don't recognise this error, re-raise it
+            raise request_error
+    else:
+        items = response.json()
+        total_pages = int(response.headers.get('X-WP-TotalPages'))
+        total_posts = int(response.headers.get('X-WP-Total'))
+
+        pagination_start = parameters['page'] - 2
+        if pagination_start <= 1:
+            pagination_start = 1
+
+        if total_pages - pagination_start < 5 and pagination_start > 3:
+            pagination_start = total_pages - 4
+
+    return items, {
+        'current_page': parameters['page'],
+        'total_pages': total_pages,
+        'total_posts': total_posts,
+        'pagination_start': pagination_start,
+    }
 
 
 def _embed_post_data(post):
@@ -136,12 +177,12 @@ def get_posts(
     groups_id=None, categories=[], tags=[], page=1, per_page=12,
     before=None, after=None
 ):
-    response = get(
+    items, page_information = get_paginated(
         'posts',
-        {
+        parameters={
             '_embed': True,
-            'per_page': per_page,
             'page': page,
+            'per_page': per_page,
             'group': groups_id,
             'categories': join_ids(categories),
             'tags': join_ids(tags),
@@ -150,30 +191,9 @@ def get_posts(
         }
     )
 
-    headers = response.headers
-    page = int(page or 1)
-    total_pages = int(headers.get('X-WP-TotalPages'))
+    posts = _normalise_posts(items, groups_id=groups_id)
 
-    pagination_start = page - 2
-    if pagination_start <= 1:
-        pagination_start = 1
-
-    if total_pages - pagination_start < 5 and pagination_start > 3:
-        pagination_start = total_pages - 4
-
-    metadata = {
-        'current_page': page,
-        'total_pages': total_pages,
-        'total_posts': int(headers.get('X-WP-Total')),
-        'pagination_start': pagination_start,
-    }
-
-    posts = _normalise_posts(
-        json.loads(response.text),
-        groups_id=groups_id
-    )
-
-    return posts, metadata
+    return posts, page_information
 
 
 def get_archives(
