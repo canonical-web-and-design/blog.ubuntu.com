@@ -1,19 +1,21 @@
 <section class="p-strip is-shallow is-bordered u-no-padding--top">
   <div class="row">
     <div class="col-12">
-      <ul class="p-inline-list--middot u-align--center" style="margin-bottom: 1rem;">
-        {% if current_page > 1 %}
-          <li class="p-inline-list__item"><a href="{{request.path}}?page={{ current_page - 1 }}">Previous</a></li>
-        {% endif %}
-        {% for p in range(pagination_start, pagination_start + 5, 1) %}
-          {% if p <= total_pages %}
-            <li class="p-inline-list__item"><a class="{% if current_page == p %}p-link--strong p-heading--five{% else %}p-link--soft{% endif %}" href="{{request.path}}?page={{p}}">{{ p }}</a></li>
+      {% if current_page and total_pages %}
+        <ul class="p-inline-list--middot u-align--center" style="margin-bottom: 1rem;">
+          {% if current_page > 1 %}
+            <li class="p-inline-list__item"><a href="{{request.path}}?page={{ current_page - 1 }}">Previous</a></li>
           {% endif %}
-        {% endfor %}
-        {% if total_pages > current_page %}
-          <li class="p-inline-list__item"><a href="{{request.path}}?page={{ current_page + 1 }}">Next</a></li>
-        {% endif %}
-      </ul>
+          {% for p in range(pagination_start, pagination_start + 5, 1) %}
+            {% if p <= total_pages %}
+              <li class="p-inline-list__item"><a class="{% if current_page == p %}p-link--strong p-heading--five{% else %}p-link--soft{% endif %}" href="{{request.path}}?page={{p}}">{{ p }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if total_pages > current_page %}
+            <li class="p-inline-list__item"><a href="{{request.path}}?page={{ current_page + 1 }}">Next</a></li>
+          {% endif %}
+        </ul>
+      {% endif %}
     </div>
   </div>
 </section>

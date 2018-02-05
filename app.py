@@ -1,4 +1,5 @@
 # Core
+import calendar
 from urllib.parse import urlparse, urlunparse, unquote
 
 # Third-party
@@ -55,7 +56,7 @@ def clear_trailing():
 
 @app.route('/')
 def homepage():
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
     posts, metadata = api.get_posts(page=page, per_page=13)
 
     webinars = helpers.get_rss_feed_content(
@@ -86,7 +87,7 @@ def homepage():
 def category(category_slug):
     category = local_data.get_category_by_slug(category_slug)
 
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
     posts, metadata = api.get_posts(
         categories=[category['id']] if category and category['id'] else [],
         page=page,
@@ -152,7 +153,8 @@ def group_category(group_slug, category_slug=''):
         except KeyError:
             flask.abort(404)
 
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
+
     posts, metadata = api.get_posts(
         groups_id=group['id'],
         categories=category_ids,
@@ -184,7 +186,7 @@ def topic_name(slug):
 
     if tags:
         tag = tags[0]
-        page = flask.request.args.get('page')
+        page = int(flask.request.args.get('page', '1'))
         posts, metadata = api.get_posts(tags=[tag['id']], page=page)
 
     return flask.render_template(
@@ -196,23 +198,21 @@ def topic_name(slug):
 def tag_index(slug):
     response_json = api.get_tag(slug)
 
-    if response_json:
-        tag = response_json[0]
-        page = flask.request.args.get('page')
-        posts, metadata = api.get_posts(tags=[tag['id']], page=page)
+    if not response_json:
+        flask.abort(404)
 
-        return flask.render_template(
-            'tag.html', posts=posts, tag=tag, **metadata
-        )
-    else:
-        return flask.render_template(
-            '404.html'
-        )
+    tag = response_json[0]
+    page = int(flask.request.args.get('page', '1'))
+    posts, metadata = api.get_posts(tags=[tag['id']], page=page)
+
+    return flask.render_template(
+        'tag.html', posts=posts, tag=tag, **metadata
+    )
 
 
 @app.route('/archives/<regex("[0-9]{4}"):year>')
 def archives_year(year):
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
 
     result, metadata = api.get_archives(year, page=page)
     return flask.render_template(
@@ -225,9 +225,13 @@ def archives_year(year):
 
 @app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>')
 def archives_year_month(year, month):
-    page = flask.request.args.get('page')
+    page = int(flask.request.args.get('page', '1'))
 
-    result, metadata = api.get_archives(year, month, page=page)
+    try:
+        result, metadata = api.get_archives(year, month, page=page)
+    except calendar.IllegalMonthError:
+        flask.abort(404)
+
     return flask.render_template(
         'archives.html',
         result=result,
@@ -243,7 +247,10 @@ def archives_group_year(group, year):
     if group == 'press-centre':
         group = 'canonical-announcements'
 
-    groups = local_data.get_group_by_slug(group)
+    try:
+        groups = local_data.get_group_by_slug(group)
+    except KeyError:
+        flask.abort(404)
 
     if not groups:
         flask.abort(404)
@@ -262,48 +269,28 @@ def archives_group_year(group, year):
 
 
 @app.route(
-    '/archives/<group>/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>'
-)
-def archives_group_year_month(group, year, month):
-    page = flask.request.args.get('page')
-    if group == 'press-centre':
-        group = 'canonical-announcements'
-
-    groups = local_data.get_group_by_slug(group)
-    if not groups:
-        flask.abort(404)
-
-    group_id = int(groups['id']) if groups else None
-    group_name = groups['name'] if groups else None
-
-    result, metadata = api.get_archives(
-        year,
-        month,
-        group_id,
-        group_name,
-        page=page
-    )
-
-    return flask.render_template(
-        'archives.html',
-        result=result,
-        **metadata
-    )
-
-
-@app.route(
     '/<regex("[0-9]{4}"):year>'
     '/<regex("[0-9]{2}"):month>'
     '/<regex("[0-9]{2}"):day>'
     '/<slug>'
 )
 def post(year, month, day, slug):
-    return flask.render_template('post.html', post=api.get_post(slug))
+    try:
+        post = api.get_post(slug)
+    except IndexError:
+        flask.abort(404)
+
+    return flask.render_template('post.html', post=post)
 
 
 @app.route('/author/<slug>')
 def user(slug):
-    return flask.render_template('author.html', author=api.get_author(slug))
+    try:
+        author = api.get_author(slug)
+    except IndexError:
+        flask.abort(404)
+
+    return flask.render_template('author.html', author=author)
 
 
 @app.errorhandler(404)

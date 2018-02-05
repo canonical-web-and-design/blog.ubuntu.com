@@ -1,18 +1,14 @@
+# Core
+import time
+import datetime
+import warnings
+from urllib.parse import urlencode
+
+# External
 import feedparser
 import logging
 import calendar
-from datetime import datetime
-from requests_cache import CachedSession
-from time import mktime
-from urllib.parse import urlencode
-
-logger = logging.getLogger(__name__)
-requests_timeout = 10
-expiry_seconds = 300
-
-cached_request = CachedSession(
-    expire_after=expiry_seconds,
-)
+import requests_cache
 
 
 def monthname(month_number):
@@ -53,17 +49,15 @@ def get_rss_feed_content(url, offset=0, limit=6, exclude_items_in=None):
     """
     Get the entries from an RSS feed
 
-    Copied from https://github.com/canonical-webteam/get-feeds/,
+    Inspired by https://github.com/canonical-webteam/get-feeds/,
     minus Django-specific stuff.
-
-    In this case, we default "limit" to 5
     """
 
+    logger = logging.getLogger(__name__)
     end = limit + offset if limit is not None else None
 
     try:
-        response = cached_request.get(url, timeout=requests_timeout)
-        response.raise_for_status()
+        response = cached_request(url)
     except Exception as request_error:
         logger.warning(
             'Attempt to get feed failed: {}'.format(str(request_error))
@@ -89,7 +83,48 @@ def get_rss_feed_content(url, offset=0, limit=6, exclude_items_in=None):
     content = content[offset:end]
 
     for item in content:
-        updated_time = mktime(item['updated_parsed'])
-        item['updated_datetime'] = datetime.fromtimestamp(updated_time)
+        updated_time = time.mktime(item['updated_parsed'])
+        item['updated_datetime'] = datetime.datetime.fromtimestamp(
+            updated_time
+        )
 
     return content
+
+
+def cached_request(url):
+    """
+    Retrieve the response from the requests cache.
+    If the cache has expired then it will attempt to update the cache.
+    If it gets an error, it will use the cached response, if it exists.
+    """
+
+    # Set cache expire time
+    cached_session = requests_cache.CachedSession(
+        name="hour-cache",
+        expire_after=datetime.timedelta(hours=1),
+        old_data_on_error=True
+    )
+
+    response = cached_session.get(url, timeout=2)
+
+    response.raise_for_status()
+
+    return response
+
+
+def ignore_warnings(warning_to_ignore):
+    """
+    Decorator to ignore ResourceWarnings in a function,
+    as they are often erroneous. See:
+    https://github.com/boto/boto3/issues/454#issuecomment-324782994
+    """
+
+    def ignore_warnings_inner(test_func):
+        def wrapper(*args, **kwargs):
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", warning_to_ignore)
+                return test_func(*args, **kwargs)
+
+        return wrapper
+
+    return ignore_warnings_inner
