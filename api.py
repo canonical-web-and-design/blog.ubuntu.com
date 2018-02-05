@@ -126,8 +126,7 @@ def get_post(slug):
 
 def get_author(slug):
     response = get('users', {'_embed': True, 'slug': slug})
-    user = json.loads(response.text)[0]
-    user = _normalise_user(user)
+    user = _normalise_user(json.loads(response.text)[0])
     user['recent_posts'] = get_user_recent_posts(user['id'])
 
     return user
