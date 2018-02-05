@@ -14,21 +14,27 @@ test_content = 'Ubuntu and Canonical are registered'
 working_uris = [
     '/',  # Homepage
     '/cloud-and-server?page=2',  # Group page
+    '/cloud-and-server?page=999',  # Group empty page
     '/articles',  # Category page
     '/cloud-and-server/case-studies?page=2',  # Group & category page
+    '/cloud-and-server/case-studies?page=999',  # Group & category empty page
     '/press-centre',  # Press centre
     '/topics/maas?page=2',  # Topic page
+    '/topics/maas?page=999',  # Topic empty page
     '/author/canonical',  # Author page
     '/search',  # Search (empty)
     '/search?q=lxd',  # Search for a term
     '/tag/security',  # Tag page
     '/archives/2018?page=2',  # Archives by year
+    '/archives/2018?page=999',  # Archives by year, empty page
     '/archives/2018/02',  # Archives by year and month
     '/archives/2018/01?page=2',  # Archives by year and month
+    '/archives/2018/01?page=999',  # Archives by year and month, empty page
     '/archives/2099',  # Empty archive year
     '/archives/2099/12',  # Empty archive month
     '/archives/cloud-and-server/2099',  # Empty group archive year
     '/archives/press-centre/2018?page=2',  # Press centre archive
+    '/archives/press-centre/2018?page=999',  # Press centre archive, empty
     '/archives/cloud-and-server/2018?page=2',  # Group page archive by year
     '/2018/01/24/meltdown-spectre-and-ubuntu-what-you-need-to-know',  # article
 ]
