@@ -31,7 +31,9 @@
           <li class="p-list__item">
             <p style="padding-top: 1.5rem;">
               <span class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></span><br />
-              <small>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.date }}</small><br />
+              {% if post.author %}
+                <small>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.date }}</small><br />
+              {% endif %}
               {{ post.summary | striptags | urlize(30, true) }}</p>
           </li>
           {% endfor %}

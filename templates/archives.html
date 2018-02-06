@@ -20,7 +20,9 @@
                 <a href="{{ post.link }}">{{ post.title.rendered | safe }}</a>
               </h3>
               <div class="p-media-object__content">
-                <p>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.date }}</p>
+                {% if post.author %}
+                  <p>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.date }}</p>
+                {% endif %}
                 <p>{{ post.summary | striptags | urlize(30, true) }}</p>
               </div>
             </div>

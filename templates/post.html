@@ -17,11 +17,15 @@
   <div class="row">
     <div class="col-10">
       <div class="p-media-object">
-        <img src="{{ post.author.avatar_urls["96"] }}" class="p-media-object__image is-round" alt="{{ post.author.name }}">
+        {% if post.author %}
+          <img src="{{ post.author.avatar_urls["96"] }}" class="p-media-object__image is-round" alt="{{ post.author.name }}">
+        {% endif %}
         <div class="p-media-object__details">
-          <h3 class="p-media-object__title">
-            <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>
-          </h3>
+          {% if post.author %}
+            <h3 class="p-media-object__title">
+              <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>
+            </h3>
+          {% endif %}
           <p class="p-media-object__content">on {{ post.date }}</p>
         </div>
       </div>
