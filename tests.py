@@ -13,12 +13,12 @@ test_content = 'Ubuntu and Canonical are registered'
 
 working_uris = [
     '/',  # Homepage
+    '/?category=articles',  # Category filter on homepage
     '/cloud-and-server?page=2',  # Group page
     '/cloud-and-server?page=999',  # Group empty page
-    '/cloud-and-server/white-papers',  # whitepapers page
-    '/cloud-and-server/case-studies?page=2',  # Group & category page
-    '/cloud-and-server/case-studies?page=999',  # Group & category empty page
-    '/articles',  # Category page
+    '/cloud-and-server?category=white-papers',  # whitepapers page
+    '/cloud-and-server?category=case-studies&page=2',  # Group & category page
+    '/cloud-and-server?category=case-studies&page=999',  # empty page
     '/press-centre',  # Press centre
     '/topics/maas?page=2',  # Topic page
     '/topics/maas?page=999',  # Topic empty page
@@ -161,7 +161,7 @@ class WebAppTestCase(unittest.TestCase):
         slashes, returns a 200 and contains the standard footer text
         """
 
-        if uri == '/':
+        if urlparse(uri).path == '/':
             response = self._get_check_cache(uri)
         else:
             response = self._get_check_slash_normalisation(uri)
