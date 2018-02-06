@@ -110,7 +110,7 @@ def search():
         page=page,
         per_page=12,
         query=query
-    ) if query else []
+    ) if query else ([], {})
 
     return flask.render_template(
         'search.html',
