@@ -15,9 +15,10 @@ working_uris = [
     '/',  # Homepage
     '/cloud-and-server?page=2',  # Group page
     '/cloud-and-server?page=999',  # Group empty page
-    '/articles',  # Category page
+    '/cloud-and-server/whitepapers',  # whitepapers page
     '/cloud-and-server/case-studies?page=2',  # Group & category page
     '/cloud-and-server/case-studies?page=999',  # Group & category empty page
+    '/articles',  # Category page
     '/press-centre',  # Press centre
     '/topics/maas?page=2',  # Topic page
     '/topics/maas?page=999',  # Topic empty page
