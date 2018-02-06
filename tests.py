@@ -25,17 +25,14 @@ working_uris = [
     '/search',  # Search (empty)
     '/search?q=lxd',  # Search for a term
     '/tag/security',  # Tag page
-    '/archives/2018?page=2',  # Archives by year
-    '/archives/2018?page=999',  # Archives by year, empty page
-    '/archives/2018/02',  # Archives by year and month
-    '/archives/2018/01?page=2',  # Archives by year and month
-    '/archives/2018/01?page=999',  # Archives by year and month, empty page
-    '/archives/2099',  # Empty archive year
-    '/archives/2099/12',  # Empty archive month
-    '/archives/cloud-and-server/2099',  # Empty group archive year
-    '/archives/press-centre/2018?page=2',  # Press centre archive
-    '/archives/press-centre/2018?page=999',  # Press centre archive, empty
-    '/archives/cloud-and-server/2018?page=2',  # Group page archive by year
+    '/archives',  # All archives
+    '/archives?page=2',  # Archives by year
+    '/archives?year=2018&month=1&page=2',  # Archives by year and month
+    '/archives?year=2018&month=1&page=999',  # empty page
+    '/archives?year=100&month=24',  # Non existent dates
+    '/archives?year=2099',  # Empty archive year
+    '/archives?year=2099&month=12',  # Empty archive month
+    '/archives?group=cloud-and-server&year=2099&page=2',  # Empty group archive
     '/2018/01/24/meltdown-spectre-and-ubuntu-what-you-need-to-know',  # article
 ]
 
@@ -52,7 +49,6 @@ missing_uris = [
     '/search/fake-suffix?q=nothing',  # Search, fake suffix
     '/tag',  # No tag selected
     '/tag/fake-tag',  # Non-existent tag
-    '/archives',  # No selected archive
     '/archives/201',  # Archive, non-year suffix
     '/archives/2018/24',  # Non existent archive month
     '/archives/cloud-and-server',  # Group archive, no selected year
@@ -94,7 +90,6 @@ class WebAppTestCase(unittest.TestCase):
         assert initial_posts == subsequent_posts
         assert request_time < 0.1
 
-    @ignore_warnings(ResourceWarning)
     def test_working_urls(self):
         """
         Check a bunch of URLs for basic success
@@ -107,6 +102,7 @@ class WebAppTestCase(unittest.TestCase):
             self._check_basic_page(uri)
             print('done')
 
+    @ignore_warnings(ResourceWarning)
     def test_missing_urls(self):
         """
         Check a bunch of URLs for basic success

@@ -8,12 +8,12 @@
           <div class="p-form__group">
             <label for="filter" aria-label="Filter the resources by type" class="p-form__label">Filter: </label>
             <select class="js-submit-on-change p-form__control" id="filter" name="content" aria-label="Filter by content type" style="padding-right: 40px">
-              <option {% if category == 'all' %}selected="selected"{% endif %} value="/{% if group_details and group_details['slug'] %}{{ group_details['slug'] }}{% endif %}">All content types</option>
-              <option {% if category == 'articles' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/articles">Articles</option>
-              <option {% if category == 'case-studies' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/case-studies">Case studies</option>
-              <option {% if category == 'videos' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/videos">Videos</option>
-              <option {% if category == 'webinars' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/webinars">Webinars</option>
-              <option {% if category == 'whitepapers' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{/whitepapers">Whitepapers</option>
+              <option {% if not category %}selected="selected"{% endif %} value="/{% if group_details and group_details['slug'] %}{{ group_details['slug'] }}{% endif %}">All content types</option>
+              <option {% if category and category.slug == 'articles' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/articles">Articles</option>
+              <option {% if category and category.slug == 'case-studies' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/case-studies">Case studies</option>
+              <option {% if category and category.slug == 'videos' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/videos">Videos</option>
+              <option {% if category and category.slug == 'webinars' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/webinars">Webinars</option>
+              <option {% if category and category.slug == 'whitepapers' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{/whitepapers">Whitepapers</option>
             </select>
             <input type="submit" value="Send Request" class="u-hide">
             <input type="hidden" name="topic" value="cloud-and-server">
@@ -37,13 +37,13 @@
   <div class="row u-equal-height u-clearfix">
   {% endif %}
     <div class="col-4 p-card--post">
-      <header class="p-card__header--{{ post.groups.slug }}">
-        <h5 class="p-muted-heading">{{ post.groups.name }}</h5>
+      <header class="p-card__header--{{ post.group.slug }}">
+        <h5 class="p-muted-heading">{{ post.group.name }}</h5>
       </header>
       <div class="p-card__content">
-        <h3 class="p-heading--four"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></h3>
-        <p><em>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.formatted_date }}</em></p>
-        <p class="u-no-padding--bottom">{{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+        <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
+        <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
+        <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
       </div>
       <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
     </div>
