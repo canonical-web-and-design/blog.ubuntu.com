@@ -62,7 +62,7 @@ def homepage():
     webinars = helpers.get_rss_feed_content(
         'https://www.brighttalk.com/channel/6793/feed'
     )
-    page_slug=''
+    page_slug = ''
 
     featured_post = api.get_featured_post()
     homepage_posts = []
@@ -220,8 +220,8 @@ def tag_index(slug):
     posts, metadata = api.get_posts(tags=[tag['id']], page=page)
 
     return flask.render_template(
-        'tag.html', 
-        posts=posts, 
+        'tag.html',
+        posts=posts,
         tag=tag,
         page_slug=page_slug,
         **metadata
@@ -317,8 +317,8 @@ def user(slug):
         flask.abort(404)
 
     return flask.render_template(
-        'author.html', 
-        page_slug=page_slug, 
+        'author.html',
+        page_slug=page_slug,
         author=author
     )
 
