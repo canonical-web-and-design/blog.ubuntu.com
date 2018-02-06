@@ -13,7 +13,7 @@
               <option {% if category and category.slug == 'case-studies' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/case-studies">Case studies</option>
               <option {% if category and category.slug == 'videos' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/videos">Videos</option>
               <option {% if category and category.slug == 'webinars' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/webinars">Webinars</option>
-              <option {% if category and category.slug == 'whitepapers' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}{/whitepapers">Whitepapers</option>
+              <option {% if category and category.slug == 'whitepapers' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}/whitepapers">Whitepapers</option>
             </select>
             <input type="submit" value="Send Request" class="u-hide">
             <input type="hidden" name="topic" value="cloud-and-server">
