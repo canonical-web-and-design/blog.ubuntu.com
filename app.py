@@ -105,7 +105,7 @@ def category(category_slug):
 def search():
     query = flask.request.args.get('q') or ''
     page = flask.request.args.get('page')
-    print('query: ' + query)
+
     posts, metadata = api.get_posts(
         page=page,
         per_page=12,
