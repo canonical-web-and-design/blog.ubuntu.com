@@ -35,6 +35,7 @@ working_uris = [
     '/archives?year=2099&month=12',  # Empty archive month
     '/archives?group=cloud-and-server&year=2099&page=2',  # Empty group archive
     '/2018/01/24/meltdown-spectre-and-ubuntu-what-you-need-to-know',  # article
+    '/2017/08/31/openstack-weekly-update-august-31-2017',  # article no author
 ]
 
 missing_uris = [
