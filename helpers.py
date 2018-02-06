@@ -1,14 +1,116 @@
 # Core
 import time
 import datetime
+import re
+import textwrap
 import warnings
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 
 # External
+import dateutil.parser
 import feedparser
 import logging
 import calendar
 import requests_cache
+import werkzeug
+
+# Local
+import api
+
+
+def get_formatted_posts(**kwargs):
+    """
+    Get posts from API, then format the summary, date and link
+    """
+
+    posts, total_posts, total_pages = api.get_posts(**kwargs)
+
+    for post in posts:
+        post = format_post(post)
+
+    return posts, total_posts, total_pages
+
+
+def get_formatted_expanded_posts(**kwargs):
+    """
+    Get posts from API, then format them and add the data for the first group
+    and category
+    """
+
+    posts, total_posts, total_pages = api.get_posts(**kwargs)
+
+    for post in posts:
+        post = format_post(post)
+        post['group'] = get_first_group(post['group'])
+        post['category'] = get_first_category(post['categories'])
+
+    return posts, total_posts, total_pages
+
+
+def get_first_group(group_ids):
+    """
+    Retrieve the first group from a list of group_ids
+    """
+
+    return api.get_group(group_ids[0]) if group_ids else None
+
+
+def get_first_category(category_ids):
+    """
+    Retrieve the first group from a list of group_ids
+    """
+
+    return api.get_category(category_ids[0]) if category_ids else None
+
+
+def format_post(post):
+    """
+    Transform post data by:
+    - Formatting the excerpt
+    - Putting the author at post['author']
+    - Formatting the data as e.g. 1 January 2017
+    - Making the link relative
+    """
+
+    post['author'] = post['_embedded']['author'][0]
+    post['author']['link'] = urlsplit(post['author']['link']).path.rstrip('/')
+    post['link'] = urlsplit(post['link']).path.rstrip('/')
+    post['summary'] = format_summary(post['excerpt']['rendered'])
+    post['date'] = format_date(post['date'])
+
+    return post
+
+
+def format_date(date):
+    """
+    Make the date just how we like it, e.g.:
+    1 January 2017
+    """
+
+    return dateutil.parser.parse(date).strftime('%-d %B %Y')
+
+
+def format_summary(excerpt):
+    """
+    Format the excerpt in a post:
+    - Shorten to 250 chars
+    - Remove images
+    - Make headings into paragraphs
+    """
+
+    # shorten to 250 chars, on a wordbreak and with a ...
+    summary = textwrap.shorten(excerpt, width=250, placeholder="&hellip;")
+
+    # replace headings (e.g. h1) to paragraphs
+    summary = re.sub(r"h\d>", "p>", summary)
+
+    # remove images
+    summary = re.sub(r"<img(.[^>]*)?", "", summary)
+
+    # if there is a [...] replace with ...
+    summary = re.sub(r"\[\&hellip;\]", "&hellip;", summary)
+
+    return summary
 
 
 def monthname(month_number):
@@ -128,3 +230,21 @@ def ignore_warnings(warning_to_ignore):
         return wrapper
 
     return ignore_warnings_inner
+
+
+def to_int(value_to_convert, default=None):
+    """
+    Attempt to convert something to an int.
+    If it fails, use the default
+    """
+
+    try:
+        return int(value_to_convert)
+    except (ValueError, TypeError):
+        return default
+
+
+class RegexConverter(werkzeug.routing.BaseConverter):
+    def __init__(self, url_map, *items):
+        super(RegexConverter, self).__init__(url_map)
+        self.regex = items[0]
