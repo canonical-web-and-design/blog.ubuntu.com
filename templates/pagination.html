@@ -36,11 +36,11 @@
           {% endif %}
           {% if current_page < total_pages - 2 and current_page <= 2 %}
             <!-- 3 after current page -->
-            <li class="p-inline-list__item"><a class="p-link--soft" href="?page={{ current_page + 2 }}">{{ current_page + 3 }}</a></li>
+            <li class="p-inline-list__item"><a class="p-link--soft" href="?page={{ current_page + 3 }}">{{ current_page + 3 }}</a></li>
           {% endif %}
           {% if current_page < total_pages - 3 and current_page == 1 %}
             <!-- 4 after current page -->
-            <li class="p-inline-list__item"><a class="p-link--soft" href="?page={{ current_page + 2 }}">{{ current_page + 4 }}</a></li>
+            <li class="p-inline-list__item"><a class="p-link--soft" href="?page={{ current_page + 4 }}">{{ current_page + 4 }}</a></li>
           {% endif %}
           {% if total_pages > current_page %}
             <li class="p-inline-list__item"><a href="{{request.path}}?page={{ current_page + 1 }}">Next</a></li>

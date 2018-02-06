@@ -93,6 +93,7 @@ def homepage():
     ):category_slug>'
 )
 def category(category_slug):
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
     categories = api.get_categories(slugs=[category_slug])
 
     if not categories:
@@ -102,7 +103,7 @@ def category(category_slug):
 
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         category_ids=[category['id']] if category and category['id'] else [],
-        page=int(flask.request.args.get('page') or '1'),
+        page=page,
         per_page=12
     )
 
@@ -110,15 +111,16 @@ def category(category_slug):
         'category.html',
         posts=posts,
         category=category,
+        current_page=page,
         total_posts=total_posts,
-        total_pages=total_pages
+        total_pages=total_pages,
     )
 
 
 @app.route('/search')
 def search():
     query = flask.request.args.get('q') or ''
-    page = int(flask.request.args.get('page') or '1')
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
     posts = []
     total_pages = None
     total_posts = None
@@ -132,9 +134,9 @@ def search():
         'search.html',
         posts=posts,
         query=query,
-        page=page,
+        current_page=page,
         total_posts=total_posts,
-        total_pages=total_pages
+        total_pages=total_pages,
     )
 
 
@@ -158,6 +160,7 @@ def press_centre():
 @app.route('/<group_slug>')
 @app.route('/<group_slug>/<category_slug>')
 def group_category(group_slug, category_slug=''):
+    page = int(flask.request.args.get('page') or '1')
     groups = api.get_groups(slugs=[group_slug])
     category = None
 
@@ -177,7 +180,7 @@ def group_category(group_slug, category_slug=''):
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         group_ids=[group['id']],
         category_ids=[category['id']] if category else [],
-        page=int(flask.request.args.get('page') or '1'),
+        page=page,
         per_page=12
     )
 
@@ -187,13 +190,15 @@ def group_category(group_slug, category_slug=''):
         group=group,
         group_details=local_data.get_group_details(group_slug),
         category=category if category_slug else None,
+        current_page=page,
+        total_posts=total_posts,
         total_pages=total_pages,
-        total_posts=total_posts
     )
 
 
 @app.route('/topics/<slug>')
 def topic_name(slug):
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
     topic = local_data.get_topic_details(slug)
     tags = api.get_tags(slugs=[slug])
 
@@ -201,7 +206,6 @@ def topic_name(slug):
         flask.abort(404)
 
     tag = tags[0]
-    page = int(flask.request.args.get('page') or '1')
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         tag_ids=[tag['id']], page=page
     )
@@ -210,6 +214,7 @@ def topic_name(slug):
         'topics.html',
         topic=topic,
         posts=posts,
+        current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
     )
@@ -217,13 +222,13 @@ def topic_name(slug):
 
 @app.route('/tag/<slug>')
 def tag(slug):
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
     tags = api.get_tags(slugs=[slug])
 
     if not tags:
         flask.abort(404)
 
     tag = tags[0]
-    page = int(flask.request.args.get('page') or '1')
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         tag_ids=[tag['id']], page=page
     )
@@ -233,8 +238,8 @@ def tag(slug):
         posts=posts,
         tag=tag,
         current_page=page,
+        total_posts=total_posts,
         total_pages=total_pages,
-        total_posts=total_posts
     )
 
 
@@ -280,6 +285,7 @@ def archives():
         'archives.html',
         posts=posts,
         group=group,
+        current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
         friendly_date=friendly_date,
