@@ -16,9 +16,14 @@
 <div class="p-strip--image is-shallow" style="background-image: url(https://assets.ubuntu.com/v1/f8a323a7-image-background-paper.png);">
   <div class="row">
     <div class="col-10">
+      <h1>{{ post.title.rendered | safe }}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5">
       <div class="p-media-object">
         {% if post.author %}
-          <img src="{{ post.author.avatar_urls["96"] }}" class="p-media-object__image is-round" alt="{{ post.author.name }}">
+          <img src="{% if post.author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% else %}{{ post.author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image is-round" alt="{{ post.author.name }}">
         {% endif %}
         <div class="p-media-object__details">
           {% if post.author %}
@@ -30,27 +35,7 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-10">
-      <h1>{{ post.title.rendered | safe }}</h1>
-    </div>
-  </div>
-  {% if tags %}
-  <div class="row">
-    <div class="col-10">
-      <p>
-        <strong>Tags:</strong>
-        {% for tag in tags %}
-          <a href="/tag/{{ tag.slug }}">
-            {{ tag.name }}</a>{{ ',' if not loop.last }}
-        {% endfor %}
-      </p>
-    </div>
-  </div>
-  {% endif %}
-  <div class="row">
-    <div class="col-10">
+    <div class="col-5">
       <ul class="p-inline-list u-vertically-center">
         <li class="p-inline-list__item">
           Share on:
@@ -78,6 +63,19 @@
       </ul>
     </div>
   </div>
+  {% if post.tags %}
+  <div class="row">
+    <div class="col-10">
+      <p>
+        <strong>Tags:</strong>
+        {% for tag in post.tags %}
+          <a href="/tag/{{ tag.slug }}">
+            {{ tag.name }}</a>{{ ',' if not loop.last }}
+        {% endfor %}
+      </p>
+    </div>
+  </div>
+  {% endif %}
 </div>
 <div class="p-strip is-shallow">
   <div class="row u-equal-height">
