@@ -62,6 +62,7 @@ def homepage():
     webinars = helpers.get_rss_feed_content(
         'https://www.brighttalk.com/channel/6793/feed'
     )
+    page_slug=''
 
     featured_post = api.get_featured_post()
     homepage_posts = []
@@ -75,6 +76,7 @@ def homepage():
         posts=homepage_posts[:12],
         featured_post=featured_post,
         webinars=webinars,
+        page_slug=page_slug,
         **metadata
     )
 
@@ -86,6 +88,7 @@ def homepage():
 )
 def category(category_slug):
     category = local_data.get_category_by_slug(category_slug)
+    page_slug = category_slug
 
     page = int(flask.request.args.get('page', '1'))
     posts, metadata = api.get_posts(
@@ -98,6 +101,7 @@ def category(category_slug):
         'category.html',
         posts=posts,
         category=category_slug,
+        page_slug=page_slug,
         **metadata
     )
 
@@ -122,6 +126,7 @@ def search():
 def press_centre():
     group = local_data.get_group_by_slug('canonical-announcements')
     group_details = local_data.get_group_details('canonical-announcements')
+    page_slug = 'press-centre'
 
     posts, metadata = api.get_posts(groups_id=group['id'], per_page=12)
 
@@ -130,6 +135,7 @@ def press_centre():
         posts=posts,
         group=group,
         group_details=group_details,
+        page_slug=page_slug,
         today=datetime.utcnow(),
     )
 
@@ -144,6 +150,7 @@ def group_category(group_slug, category_slug=''):
         flask.abort(404)
 
     category_ids = []
+    page_slug = group_slug
 
     if category_slug:
         try:
@@ -167,6 +174,7 @@ def group_category(group_slug, category_slug=''):
         posts=posts,
         group=group,
         group_details=group_details,
+        page_slug=page_slug,
         category=category_slug if category_slug else None,
         **metadata
     )
@@ -175,6 +183,7 @@ def group_category(group_slug, category_slug=''):
 @app.route('/topics/<slug>')
 def topic_name(slug):
     topic = local_data.get_topic_details(slug)
+    page_slug = 'topics'
 
     if not topic:
         flask.abort(404)
@@ -190,13 +199,18 @@ def topic_name(slug):
         posts, metadata = api.get_posts(tags=[tag['id']], page=page)
 
     return flask.render_template(
-        'topics.html', topic=topic, posts=posts, **metadata
+        'topics.html',
+        topic=topic,
+        posts=posts,
+        page_slug=page_slug,
+        **metadata
     )
 
 
 @app.route('/tag/<slug>')
 def tag_index(slug):
     response_json = api.get_tag(slug)
+    page_slug = 'tag'
 
     if not response_json:
         flask.abort(404)
@@ -206,18 +220,24 @@ def tag_index(slug):
     posts, metadata = api.get_posts(tags=[tag['id']], page=page)
 
     return flask.render_template(
-        'tag.html', posts=posts, tag=tag, **metadata
+        'tag.html', 
+        posts=posts, 
+        tag=tag,
+        page_slug=page_slug,
+        **metadata
     )
 
 
 @app.route('/archives/<regex("[0-9]{4}"):year>')
 def archives_year(year):
     page = int(flask.request.args.get('page', '1'))
+    page_slug = 'archives'
 
     result, metadata = api.get_archives(year, page=page)
     return flask.render_template(
         'archives.html',
         result=result,
+        page_slug=page_slug,
         today=datetime.utcnow(),
         **metadata
     )
@@ -226,6 +246,7 @@ def archives_year(year):
 @app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>')
 def archives_year_month(year, month):
     page = int(flask.request.args.get('page', '1'))
+    page_slug = 'archives'
 
     try:
         result, metadata = api.get_archives(year, month, page=page)
@@ -235,6 +256,7 @@ def archives_year_month(year, month):
     return flask.render_template(
         'archives.html',
         result=result,
+        page_slug=page_slug,
         today=datetime.utcnow(),
         **metadata
     )
@@ -243,6 +265,7 @@ def archives_year_month(year, month):
 @app.route('/archives/<group>/<regex("[0-9]{4}"):year>')
 def archives_group_year(group, year):
     group_slug = group
+    page_slug = 'archives'
 
     if group == 'press-centre':
         group = 'canonical-announcements'
@@ -263,6 +286,7 @@ def archives_group_year(group, year):
         'archives.html',
         result=result,
         group=group_slug,
+        page_slug=page_slug,
         today=datetime.utcnow(),
         **metadata
     )
@@ -275,22 +299,28 @@ def archives_group_year(group, year):
     '/<slug>'
 )
 def post(year, month, day, slug):
+    page_slug = 'archives'
     try:
         post = api.get_post(slug)
     except IndexError:
         flask.abort(404)
 
-    return flask.render_template('post.html', post=post)
+    return flask.render_template('post.html', page_slug=page_slug, post=post)
 
 
 @app.route('/author/<slug>')
 def user(slug):
+    page_slug = 'author'
     try:
         author = api.get_author(slug)
     except IndexError:
         flask.abort(404)
 
-    return flask.render_template('author.html', author=author)
+    return flask.render_template(
+        'author.html', 
+        page_slug=page_slug, 
+        author=author
+    )
 
 
 @app.errorhandler(404)

@@ -35,7 +35,21 @@ pre {
     display: block;
     z-index: 10;
   }
+
+  // XXX Ant: 06.02.2018
+  // Can be removed when upgrading to vanilla v1.6.6 >
+  .p-navigation .p-navigation__link {
+    > a {
+      border-bottom: 3px solid transparent;
+    }
+
+    &.is-selected > a {
+      border-bottom-color: $color-mid-dark;
+    }
+  }
 }
+
+
 
 .p-navigation .p-navigation__nav ul li:hover ul::after {
   @media (min-width: $breakpoint-navigation-threshold + 1) {
