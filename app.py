@@ -89,7 +89,7 @@ def homepage():
 
 @app.route(
     '/<regex(\
-        "(videos|whitepapers|case-studies|webinars|articles)"\
+        "(videos|white-papers|case-studies|webinars|articles)"\
     ):category_slug>'
 )
 def category(category_slug):
