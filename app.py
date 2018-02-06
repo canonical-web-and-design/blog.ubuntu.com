@@ -105,16 +105,19 @@ def category(category_slug):
 @app.route('/search/')
 def search():
     query = flask.request.args.get('q') or ''
+    page = flask.request.args.get('page')
 
-    posts = api.search_posts(query) if query else []
+    posts, metadata = api.get_posts(
+        page=page,
+        per_page=12,
+        query=query
+    ) if query else ([], {})
 
     return flask.render_template(
         'search.html',
-        result={
-            "posts": posts,
-            "count": len(posts),
-            "query": query
-        }
+        posts=posts,
+        query=query,
+        **metadata
     )
 
 
