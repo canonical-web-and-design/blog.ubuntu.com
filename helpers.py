@@ -13,6 +13,8 @@ import logging
 import calendar
 import requests_cache
 import werkzeug
+from requests.packages.urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter
 
 # Local
 import api
@@ -213,12 +215,19 @@ def cached_request(url):
     If it gets an error, it will use the cached response, if it exists.
     """
 
+    retries = Retry(
+        total=5,
+        backoff_factor=0.1,
+        status_forcelist=[500, 502, 503, 504]
+    )
+
     # Set cache expire time
     cached_session = requests_cache.CachedSession(
         name="hour-cache",
         expire_after=datetime.timedelta(hours=1),
         old_data_on_error=True
     )
+    cached_session.mount('https://', HTTPAdapter(max_retries=retries))
 
     response = cached_session.get(url, timeout=2)
 
