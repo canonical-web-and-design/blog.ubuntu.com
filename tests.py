@@ -119,6 +119,7 @@ class WebAppTestCase(unittest.TestCase):
             assert test_content in str(response.data)
             print('done')
 
+    @ignore_warnings(ResourceWarning)
     def _get_check_slash_normalisation(self, uri):
         """
         Given a basic app path (e.g. '/page'), check that any trailing
@@ -135,27 +136,9 @@ class WebAppTestCase(unittest.TestCase):
         url = "http://localhost" + uri
         assert redirect_response.headers.get('Location') == url
 
-        return self._get_check_cache(url)
+        return self.app.get(uri)
 
     @ignore_warnings(ResourceWarning)
-    def _get_check_cache(self, uri):
-        """
-        Retrieve URL contents twice - checking the second response is cached
-        """
-
-        # Warm cache
-        initial_response = self.app.get(uri)
-
-        # Make a request with the cache warmed
-        start = time.time()
-        subsequent_response = self.app.get(uri)
-        request_time = time.time() - start
-
-        assert initial_response.data == subsequent_response.data
-        assert request_time < 1
-
-        return subsequent_response
-
     def _check_basic_page(self, uri):
         """
         Check that a URI returns an HTML page that will redirect to remove
@@ -163,7 +146,7 @@ class WebAppTestCase(unittest.TestCase):
         """
 
         if urlparse(uri).path == '/':
-            response = self._get_check_cache(uri)
+            response = self.app.get(uri)
         else:
             response = self._get_check_slash_normalisation(uri)
 
