@@ -39,20 +39,30 @@ def get_formatted_expanded_posts(**kwargs):
 
     posts, total_posts, total_pages = api.get_posts(**kwargs)
 
+    force_group = None
+
+    if kwargs.get('group_ids'):
+        force_group = kwargs.get('group_ids')[0]
+
     for post in posts:
         post = format_post(post)
-        post['group'] = get_first_group(post['group'])
+        post['group'] = get_first_group(post['group'], force_group=force_group)
         post['category'] = get_first_category(post['categories'])
 
     return posts, total_posts, total_pages
 
 
-def get_first_group(group_ids):
+def get_first_group(group_ids, force_group=None):
     """
     Retrieve the first group from a list of group_ids
     """
 
-    return api.get_group(group_ids[0]) if group_ids else None
+    if force_group:
+        group_id = force_group
+    else:
+        group_id = group_ids[0] if group_ids else None
+
+    return api.get_group(group_id)
 
 
 def get_first_category(category_ids):
