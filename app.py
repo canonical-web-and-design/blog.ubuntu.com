@@ -56,64 +56,34 @@ def clear_trailing():
 
 @app.route('/')
 def homepage():
-    posts, total_posts, total_pages = api.get_posts(per_page=13)
+    category_slug = flask.request.args.get('category')
 
-    sticky_posts, sticky_total, sticky_pages = api.get_posts(sticky=True)
+    category = None
+    sticky_posts, _, _ = helpers.get_formatted_expanded_posts(sticky=True)
     featured_post = sticky_posts[0] if sticky_posts else None
 
-    if featured_post:
-        posts.remove(featured_post)
-        featured_post = helpers.format_post(featured_post)
-        featured_post['group'] = helpers.get_first_group(
-            featured_post['group']
-        )
-        featured_post['category'] = helpers.get_first_category(
-            featured_post['categories']
-        )
+    if category_slug:
+        categories = api.get_categories(slugs=[category_slug])
 
-    # Format posts as we need them
-    for post in posts:
-        post = helpers.format_post(post)
-        post['group'] = helpers.get_first_group(post['group'])
-        post['category'] = helpers.get_first_category(post['categories'])
+        if categories:
+            category = categories[0]
+
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        per_page=13,
+        category_ids=[category['id']] if category else []
+    )
+
+    if featured_post and featured_post in posts:
+        posts.remove(featured_post)
 
     return flask.render_template(
         'index.html',
         posts=posts[:12],
+        category=category,
         featured_post=featured_post,
         webinars=helpers.get_rss_feed_content(
             'https://www.brighttalk.com/channel/6793/feed'
         )
-    )
-
-
-@app.route(
-    '/<regex(\
-        "(videos|white-papers|case-studies|webinars|articles)"\
-    ):category_slug>'
-)
-def category(category_slug):
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
-    categories = api.get_categories(slugs=[category_slug])
-
-    if not categories:
-        flask.abort('404')
-
-    category = categories[0]
-
-    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        category_ids=[category['id']] if category and category['id'] else [],
-        page=page,
-        per_page=12
-    )
-
-    return flask.render_template(
-        'category.html',
-        posts=posts,
-        category=category,
-        current_page=page,
-        total_posts=total_posts,
-        total_pages=total_pages,
     )
 
 
@@ -158,9 +128,10 @@ def press_centre():
 
 
 @app.route('/<group_slug>')
-@app.route('/<group_slug>/<category_slug>')
-def group_category(group_slug, category_slug=''):
+def group_category(group_slug):
     page = int(flask.request.args.get('page') or '1')
+    category_slug = flask.request.args.get('category')
+
     groups = api.get_groups(slugs=[group_slug])
     category = None
 
@@ -172,10 +143,8 @@ def group_category(group_slug, category_slug=''):
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
 
-        if not categories:
-            flask.abort(404)
-
-        category = categories[0]
+        if categories:
+            category = categories[0]
 
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         group_ids=[group['id']],
@@ -213,6 +182,7 @@ def topic_name(slug):
     return flask.render_template(
         'topics.html',
         topic=topic,
+        tag=tag,
         posts=posts,
         current_page=page,
         total_posts=total_posts,
