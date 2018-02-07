@@ -72,8 +72,11 @@ def format_post(post):
     - Making the link relative
     """
 
-    post['author'] = post['_embedded']['author'][0]
-    post['author']['link'] = urlsplit(post['author']['link']).path.rstrip('/')
+    if 'author' in post['_embedded'] and post['_embedded']['author']:
+        post['author'] = post['_embedded']['author'][0]
+        post['author']['link'] = urlsplit(
+            post['author']['link']
+        ).path.rstrip('/')
     post['link'] = urlsplit(post['link']).path.rstrip('/')
     post['summary'] = format_summary(post['excerpt']['rendered'])
     post['date'] = format_date(post['date'])
