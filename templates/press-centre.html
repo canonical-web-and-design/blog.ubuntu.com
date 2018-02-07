@@ -25,13 +25,13 @@
       <div class="col-8">
         {%- for post in posts %}
         <div class="p-card--post">
-          <header class="p-card__header--{{ post.groups.slug }}">
-            <h5 class="p-muted-heading">{{ post.groups.name }}</h5>
+          <header class="p-card__header--{{ post.group.slug }}">
+            <h5 class="p-muted-heading">{{ post.group.name }}</h5>
           </header>
           <div class="p-card__content">
             <h3 class="p-heading--four"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></h3>
-            <p><em>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.formatted_date }}</em></p>
-            <p class="u-no-padding--bottom">{{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+            <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
+            <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
           </div>
           <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
         </div>
@@ -72,8 +72,8 @@
         <div class="p-card">
           <h4>Archives</h4>
           <ul class="p-list">
-            {% for year in range(today.year,2005,-1) %}
-              <li class="p-list__item"><h5><a class="p-link--soft" href="/archives/press-centre/{{ year }}">{{ year }}</a></h5></li>
+            {% for year in range(current_year, 2005, -1) %}
+              <li class="p-list__item"><h5><a class="p-link--soft" href="/archives?group=canonical-announcements&amp;year={{ year }}">{{ year }}</a></h5></li>
             {% endfor %}
           </ul>
         </div>

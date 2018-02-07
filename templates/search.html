@@ -2,10 +2,10 @@
 
 {% block body %}
   <section id="main-content" class="p-strip--accent is-dark is-deep">
-    {% if result.query %}
+    {% if query %}
     <div class="row">
       <div class="col-10">
-        <h2>We&rsquo;ve found  {{ result.count }} results for &ldquo;{{ result.query }}&rdquo;</h2>
+        <h2>We&rsquo;ve found  {{ total_posts }} results for &ldquo;{{ query }}&rdquo;</h2>
       </div>
     </div>
     {% endif %}
@@ -13,7 +13,7 @@
       <div class="col-10">
         <div class="p-form__group">
           <form class="p-search-box" action="/search">
-            <input type="search" class="p-search-box__input" name="q" placeholder="Search" required="" value="{{ result.query }}" >
+            <input type="search" class="p-search-box__input" name="q" placeholder="Search" required="" value="{{ query }}" >
             <button type="reset" class="p-search-box__reset" alt="reset"><i class="p-icon--close"></i></button>
             <button type="submit" class="p-search-box__button" alt="search"><i class="p-icon--search"></i></button>
           </form>
@@ -27,12 +27,12 @@
     <div class="row">
       <div class="col-8">
         <ul class="p-list">
-          {% for post in result.posts %}
+          {% for post in posts %}
           <li class="p-list__item">
             <p style="padding-top: 1.5rem;">
-              <span class="p-heading--four"><a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a></span><br />
-              <small>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.formatted_date }}</small><br />
-              {{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+              <span class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></span><br />
+              <small>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.date }}</small><br />
+              {{ post.summary | striptags | urlize(30, true) }}</p>
           </li>
           {% endfor %}
         </ul>

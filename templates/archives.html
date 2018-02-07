@@ -4,8 +4,8 @@
   <section id="main-content" class="p-strip--accent is-dark is-deep">
     <div class="row">
       <div class="col-10">
-        <h1>{{ result.title }}</h1>
-        <p>{{ result.count }} posts from {{result.date}}</p>
+        <h1>{{ group.name + ' archives' if group else 'Archives' }}</h1>
+        <p>{{ total_posts }} posts{{ ' from ' + friendly_date if friendly_date }}</p>
       </div>
     </div>
   </section>
@@ -13,15 +13,15 @@
   <div class="p-strip is-shallow is-bordered">
     <div class="row">
       <div class="col-8">
-        {% for post in result.posts %}
+        {% for post in posts %}
           <div class="p-media-object">
             <div class="p-media-object__details">
               <h3 class="p-media-object__title">
-                <a href="{{ post.relative_link }}">{{ post.title.rendered | safe }}</a>
+                <a href="{{ post.link }}">{{ post.title.rendered | safe }}</a>
               </h3>
               <div class="p-media-object__content">
-                <p>By <a href="{{ post.author.relative_link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.formatted_date }}</p>
-                <p>{{ post.excerpt.rendered | striptags | urlize(30, true) }}</p>
+                <p>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a>, {{ post.date }}</p>
+                <p>{{ post.summary | striptags | urlize(30, true) }}</p>
               </div>
             </div>
           </div>
@@ -29,7 +29,22 @@
       </div>
       <div class="col-4">
         <h3>Archives</h3>
-        {% include "archive-list.html" %}
+
+        <ul class="p-list">
+          {% for year in range(now.year, 2006, -1) %}
+            <li class="p-list__item"><h5><a class="p-link--soft" href="/archives?year={{ year }}{{ '&group=' + group.slug if group }}">{{ year }}</a></h5>
+            {% if not group %}
+              <ul class="p-inline-list--middot">
+                {% for month in range(1, 13, 1) %}
+                  {# need to skip months in the current year that haven't occured #}
+                  {% if now.year != year or (now.year == year and month <= now.month) %}
+                    <li class="p-inline-list__item"><a class="p-link--soft" href="/archives?year={{ year }}&amp;month={{ month }}">{{ month | monthname }}</a></li>
+                  {% endif %}
+                {% endfor %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>

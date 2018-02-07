@@ -5,19 +5,19 @@
       <p>Choose the topics you're interested in</p>
       <ul class="p-list">
         <li class="p-list__item u-no-margin--top">
-          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="Cloud and server" {% if post.topics.slug == 'cloud' or 'server'  %} checked="checked"{% endif %} />
+          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="Cloud and server" {% if post.topic.slug == 'cloud' or 'server'  %} checked="checked"{% endif %} />
           <label class="u-no-margin--top" for="insightscloudserver">Cloud and server</label>
         </li>
         <li class="p-list__item u-no-margin--top">
-          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="Desktop"{% if post.topics.slug == 'desktop' %} checked="checked"{% endif %} />
+          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="Desktop"{% if post.topic.slug == 'desktop' %} checked="checked"{% endif %} />
           <label class="u-no-margin--top" for="insightsdesktop">Desktop</label>
         </li>
         <li class="p-list__item u-no-margin--top">
-          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="Internet of Things"{% if post.topics.slug == 'internet-of-things' %} checked="checked"{% endif %} />
+          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="Internet of Things"{% if post.topic.slug == 'internet-of-things' %} checked="checked"{% endif %} />
           <label class="u-no-margin--top" for="insightsiot">Internet of Things</label>
         </li>
         <li class="p-list__item u-no-margin--top">
-          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="Tutorials" {% if post.topics.slug == 'tutorials' %} checked="checked" {% endif %}type="checkbox">
+          <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="Tutorials" {% if post.topic.slug == 'tutorials' %} checked="checked" {% endif %}type="checkbox">
           <label class="u-no-margin--top" for="insightstutorials">Tutorials</label>
         </li>
       </ul>

@@ -1,11 +1,10 @@
 # Core
-import calendar
+from datetime import datetime
 from urllib.parse import urlparse, urlunparse, unquote
 
 # Third-party
 import flask
-from datetime import datetime
-from werkzeug.routing import BaseConverter
+from dateutil.relativedelta import relativedelta
 
 # Local
 import api
@@ -19,13 +18,7 @@ INSIGHTS_URL = 'https://insights.ubuntu.com'
 app = flask.Flask(__name__)
 app.jinja_env.filters['monthname'] = helpers.monthname
 app.url_map.strict_slashes = False
-
-
-class RegexConverter(BaseConverter):
-    def __init__(self, url_map, *items):
-        super(RegexConverter, self).__init__(url_map)
-        self.regex = items[0]
-
+app.url_map.converters['regex'] = helpers.RegexConverter
 
 apply_redirects = redirects.prepare_redirects(
     permanent_redirects_path='permanent-redirects.yaml',
@@ -33,7 +26,14 @@ apply_redirects = redirects.prepare_redirects(
 )
 app.before_request(apply_redirects)
 
-app.url_map.converters['regex'] = RegexConverter
+
+def page_links(page, total_pages):
+    pagination_start = page - 2
+    if pagination_start <= 1:
+        pagination_start = 1
+
+    if total_pages - pagination_start < 5 and pagination_start > 3:
+        pagination_start = total_pages - 4
 
 
 @app.before_request
@@ -56,40 +56,53 @@ def clear_trailing():
 
 @app.route('/')
 def homepage():
-    page = int(flask.request.args.get('page', '1'))
-    posts, metadata = api.get_posts(page=page, per_page=13)
+    posts, total_posts, total_pages = api.get_posts(per_page=13)
 
-    webinars = helpers.get_rss_feed_content(
-        'https://www.brighttalk.com/channel/6793/feed'
-    )
+    sticky_posts, sticky_total, sticky_pages = api.get_posts(sticky=True)
+    featured_post = sticky_posts[0] if sticky_posts else None
 
-    featured_post = api.get_featured_post()
-    homepage_posts = []
+    if featured_post:
+        posts.remove(featured_post)
+        featured_post = helpers.format_post(featured_post)
+        featured_post['group'] = helpers.get_first_group(
+            featured_post['group']
+        )
+        featured_post['category'] = helpers.get_first_category(
+            featured_post['categories']
+        )
 
+    # Format posts as we need them
     for post in posts:
-        if post['id'] != featured_post['id']:
-            homepage_posts.append(post)
+        post = helpers.format_post(post)
+        post['group'] = helpers.get_first_group(post['group'])
+        post['category'] = helpers.get_first_category(post['categories'])
 
     return flask.render_template(
         'index.html',
-        posts=homepage_posts[:12],
+        posts=posts[:12],
         featured_post=featured_post,
-        webinars=webinars,
-        **metadata
+        webinars=helpers.get_rss_feed_content(
+            'https://www.brighttalk.com/channel/6793/feed'
+        )
     )
 
 
 @app.route(
     '/<regex(\
-        "(videos|whitepapers|case-studies|webinars|articles)"\
+        "(videos|white-papers|case-studies|webinars|articles)"\
     ):category_slug>'
 )
 def category(category_slug):
-    category = local_data.get_category_by_slug(category_slug)
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    categories = api.get_categories(slugs=[category_slug])
 
-    page = int(flask.request.args.get('page', '1'))
-    posts, metadata = api.get_posts(
-        categories=[category['id']] if category and category['id'] else [],
+    if not categories:
+        flask.abort('404')
+
+    category = categories[0]
+
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        category_ids=[category['id']] if category and category['id'] else [],
         page=page,
         per_page=12
     )
@@ -97,67 +110,76 @@ def category(category_slug):
     return flask.render_template(
         'category.html',
         posts=posts,
-        category=category_slug,
-        **metadata
+        category=category,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
     )
 
 
-@app.route('/search/')
+@app.route('/search')
 def search():
     query = flask.request.args.get('q') or ''
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    posts = []
+    total_pages = None
+    total_posts = None
 
-    posts = api.search_posts(query) if query else []
+    if query:
+        posts, total_posts, total_pages = helpers.get_formatted_posts(
+            query=query, page=page
+        )
 
     return flask.render_template(
         'search.html',
-        result={
-            "posts": posts,
-            "count": len(posts),
-            "query": query
-        }
+        posts=posts,
+        query=query,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
     )
 
 
 @app.route('/press-centre')
 def press_centre():
-    group = local_data.get_group_by_slug('canonical-announcements')
-    group_details = local_data.get_group_details('canonical-announcements')
+    group = api.get_groups(slugs=['canonical-announcements'])[0]
 
-    posts, metadata = api.get_posts(groups_id=group['id'], per_page=12)
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        group_ids=[group['id']]
+    )
 
     return flask.render_template(
         'press-centre.html',
         posts=posts,
         group=group,
-        group_details=group_details,
-        today=datetime.utcnow(),
+        group_details=local_data.get_group_details(group['slug']),
+        current_year=datetime.now().year
     )
 
 
 @app.route('/<group_slug>')
 @app.route('/<group_slug>/<category_slug>')
 def group_category(group_slug, category_slug=''):
-    try:
-        group = local_data.get_group_by_slug(group_slug)
-        group_details = local_data.get_group_details(group_slug)
-    except KeyError:
+    page = int(flask.request.args.get('page') or '1')
+    groups = api.get_groups(slugs=[group_slug])
+    category = None
+
+    if not groups:
         flask.abort(404)
 
-    category_ids = []
+    group = groups[0]
 
     if category_slug:
-        try:
-            category_ids = [
-                local_data.get_category_by_slug(category_slug)['id']
-            ]
-        except KeyError:
+        categories = api.get_categories(slugs=[category_slug])
+
+        if not categories:
             flask.abort(404)
 
-    page = int(flask.request.args.get('page', '1'))
+        category = categories[0]
 
-    posts, metadata = api.get_posts(
-        groups_id=group['id'],
-        categories=category_ids,
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        group_ids=[group['id']],
+        category_ids=[category['id']] if category else [],
         page=page,
         per_page=12
     )
@@ -166,112 +188,108 @@ def group_category(group_slug, category_slug=''):
         'group.html',
         posts=posts,
         group=group,
-        group_details=group_details,
-        category=category_slug if category_slug else None,
-        **metadata
+        group_details=local_data.get_group_details(group_slug),
+        category=category if category_slug else None,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
     )
 
 
 @app.route('/topics/<slug>')
 def topic_name(slug):
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
     topic = local_data.get_topic_details(slug)
+    tags = api.get_tags(slugs=[slug])
 
-    if not topic:
+    if not topic or not tags:
         flask.abort(404)
 
-    tags = api.get_tag(slug=topic['slug'])
-
-    if not tags:
-        flask.abort(404)
-
-    if tags:
-        tag = tags[0]
-        page = int(flask.request.args.get('page', '1'))
-        posts, metadata = api.get_posts(tags=[tag['id']], page=page)
+    tag = tags[0]
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        tag_ids=[tag['id']], page=page
+    )
 
     return flask.render_template(
-        'topics.html', topic=topic, posts=posts, **metadata
+        'topics.html',
+        topic=topic,
+        posts=posts,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
     )
 
 
 @app.route('/tag/<slug>')
-def tag_index(slug):
-    response_json = api.get_tag(slug)
+def tag(slug):
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    tags = api.get_tags(slugs=[slug])
 
-    if not response_json:
+    if not tags:
         flask.abort(404)
 
-    tag = response_json[0]
-    page = int(flask.request.args.get('page', '1'))
-    posts, metadata = api.get_posts(tags=[tag['id']], page=page)
+    tag = tags[0]
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        tag_ids=[tag['id']], page=page
+    )
 
     return flask.render_template(
-        'tag.html', posts=posts, tag=tag, **metadata
+        'tag.html',
+        posts=posts,
+        tag=tag,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
     )
 
 
-@app.route('/archives/<regex("[0-9]{4}"):year>')
-def archives_year(year):
-    page = int(flask.request.args.get('page', '1'))
+@app.route('/archives')
+def archives():
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    year = helpers.to_int(flask.request.args.get('year'))
+    month = helpers.to_int(flask.request.args.get('month'))
+    group_slug = flask.request.args.get('group')
 
-    result, metadata = api.get_archives(year, page=page)
-    return flask.render_template(
-        'archives.html',
-        result=result,
-        today=datetime.utcnow(),
-        **metadata
+    if month and month > 12:
+        month = None
+
+    friendly_date = None
+    group = None
+    after = None
+    before = None
+
+    if year:
+        if month:
+            after = datetime(year=year, month=month, day=1)
+            before = after + relativedelta(months=1)
+            friendly_date = after.strftime('%B %Y')
+        if not month:
+            after = datetime(year=year, month=1, day=1)
+            before = after + relativedelta(years=1)
+            friendly_date = after.strftime('%Y')
+
+    if group_slug:
+        groups = api.get_groups(slugs=[group_slug])
+
+        if groups:
+            group = groups[0]
+
+    posts, total_posts, total_pages = helpers.get_formatted_posts(
+        page=page,
+        after=after,
+        before=before,
+        group_ids=[group['id']] if group else [],
     )
 
-
-@app.route('/archives/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>')
-def archives_year_month(year, month):
-    page = int(flask.request.args.get('page', '1'))
-
-    try:
-        result, metadata = api.get_archives(year, month, page=page)
-    except calendar.IllegalMonthError:
-        flask.abort(404)
-
-    return flask.render_template(
-        'archives.html',
-        result=result,
-        today=datetime.utcnow(),
-        **metadata
-    )
-
-
-@app.route('/archives/<group>/<regex("[0-9]{4}"):year>')
-def archives_group_year(group, year):
-    page = flask.request.args.get('page')
-    group_slug = group
-
-    if group == 'press-centre':
-        group = 'canonical-announcements'
-
-    try:
-        groups = local_data.get_group_by_slug(group)
-    except KeyError:
-        flask.abort(404)
-
-    if not groups:
-        flask.abort(404)
-
-    group_id = int(groups['id']) if groups else None
-    group_name = groups['name'] if groups else None
-
-    result, metadata = api.get_archives(
-        year,
-        None,
-        group_id,
-        group_name,
-        page=page
-    )
     return flask.render_template(
         'archives.html',
-        result=result,
-        group=group_slug,
-        today=datetime.utcnow(),
-        **metadata
+        posts=posts,
+        group=group,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
+        friendly_date=friendly_date,
+        now=datetime.now(),
     )
 
 
@@ -282,22 +300,51 @@ def archives_group_year(group, year):
     '/<slug>'
 )
 def post(year, month, day, slug):
-    try:
-        post = api.get_post(slug)
-    except IndexError:
+    posts, total_posts, total_pages = helpers.get_formatted_posts(slugs=[slug])
+
+    if not posts:
         flask.abort(404)
 
-    return flask.render_template('post.html', post=post)
+    post = posts[0]
+
+    topics = api.get_topics(post_id=post['id'])
+
+    if topics:
+        post['topic'] = topics[0]
+
+    tags = api.get_tags(post_id=post['id'])
+    related_posts, total_posts, total_pages = helpers.get_formatted_posts(
+        tag_ids=[tag['id'] for tag in tags],
+        per_page=3
+    )
+
+    return flask.render_template(
+        'post.html',
+        post=post,
+        tags=tags,
+        related_posts=related_posts,
+    )
 
 
 @app.route('/author/<slug>')
 def user(slug):
-    try:
-        author = api.get_author(slug)
-    except IndexError:
+    authors = api.get_users(slugs=[slug])
+
+    if not authors:
         flask.abort(404)
 
-    return flask.render_template('author.html', author=author)
+    author = authors[0]
+
+    recent_posts, total_posts, total_pages = helpers.get_formatted_posts(
+        author_ids=[author['id']],
+        per_page=5
+    )
+
+    return flask.render_template(
+        'author.html',
+        author=author,
+        recent_posts=recent_posts
+    )
 
 
 @app.errorhandler(404)
