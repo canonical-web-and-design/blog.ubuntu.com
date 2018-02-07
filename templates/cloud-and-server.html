@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <section class="p-strip--image is-dark p-strip--suru" style="background-position: center center; background-image:url('https://assets.ubuntu.com/v1/78c2eae0-image-server-room.jpg')">
+    <div class="row u-equal-height u-vertically-center">
+      <div class="col-6 p-card--suru">
+        <h1 class="p-heading--one">Cloud and Server</h1>
+
+        <h5 style="line-height: 1.75rem;">
+          All you need to know about designing, building and managing your OpenStack cloud or Ubuntu Server scale&#8209;out deployment.
+        </h5>
+
+        <p>
+          <a class="p-link--external p-link--inverted" href="https://www.ubuntu.com/cloud">Learn more about Cloud and Server</a>
+        </p>
+
+      </div>
+      <div id="rtp-banner" class="rtp-banner"></div>
+    </div>
+  </section>
+
+  {% include "posts.html" %}
+
+  {% include "pagination.html" %}
+
+{% endblock %}

@@ -8,7 +8,6 @@ from dateutil.relativedelta import relativedelta
 
 # Local
 import api
-import local_data
 import helpers
 import redirects
 
@@ -27,13 +26,72 @@ apply_redirects = redirects.prepare_redirects(
 app.before_request(apply_redirects)
 
 
-def page_links(page, total_pages):
-    pagination_start = page - 2
-    if pagination_start <= 1:
-        pagination_start = 1
+def _tag_view(tag_slug, template):
+    """
+    View function which gets all posts for a given tag,
+    and returns a response loading those posts with the template provided
+    """
 
-    if total_pages - pagination_start < 5 and pagination_start > 3:
-        pagination_start = total_pages - 4
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    tags = api.get_tags(slugs=[tag_slug])
+
+    if not tags:
+        flask.abort(404)
+
+    tag = tags[0]
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        tag_ids=[tag['id']], page=page
+    )
+
+    return flask.render_template(
+        template,
+        posts=posts,
+        tag=tag,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
+    )
+
+
+def _group_view(group_slug, template):
+    """
+    View function which gets all posts for a given group slug,
+    and returns a response loading those posts with the template provided
+    """
+
+    page = int(flask.request.args.get('page') or '1')
+    category_slug = flask.request.args.get('category')
+
+    groups = api.get_groups(slugs=[group_slug])
+    category = None
+
+    if not groups:
+        flask.abort(404)
+
+    group = groups[0]
+
+    if category_slug:
+        categories = api.get_categories(slugs=[category_slug])
+
+        if categories:
+            category = categories[0]
+
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        group_ids=[group['id']],
+        category_ids=[category['id']] if category else [],
+        page=page,
+        per_page=12
+    )
+
+    return flask.render_template(
+        template,
+        posts=posts,
+        group=group,
+        category=category if category_slug else None,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
+    )
 
 
 @app.before_request
@@ -122,95 +180,57 @@ def press_centre():
         'press-centre.html',
         posts=posts,
         group=group,
-        group_details=local_data.get_group_details(group['slug']),
         current_year=datetime.now().year
     )
 
 
-@app.route('/<group_slug>')
-def group_category(group_slug):
-    page = int(flask.request.args.get('page') or '1')
-    category_slug = flask.request.args.get('category')
-
-    groups = api.get_groups(slugs=[group_slug])
-    category = None
-
-    if not groups:
-        flask.abort(404)
-
-    group = groups[0]
-
-    if category_slug:
-        categories = api.get_categories(slugs=[category_slug])
-
-        if categories:
-            category = categories[0]
-
-    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        group_ids=[group['id']],
-        category_ids=[category['id']] if category else [],
-        page=page,
-        per_page=12
-    )
-
-    return flask.render_template(
-        'group.html',
-        posts=posts,
-        group=group,
-        group_details=local_data.get_group_details(group_slug),
-        category=category if category_slug else None,
-        current_page=page,
-        total_posts=total_posts,
-        total_pages=total_pages,
+@app.route('/cloud-and-server')
+def cloud_and_server():
+    return _group_view(
+        group_slug='cloud-and-server',
+        template='cloud-and-server.html'
     )
 
 
-@app.route('/topics/<slug>')
-def topic_name(slug):
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
-    topic = local_data.get_topic_details(slug)
-    tags = api.get_tags(slugs=[slug])
-
-    if not topic or not tags:
-        flask.abort(404)
-
-    tag = tags[0]
-    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        tag_ids=[tag['id']], page=page
+@app.route('/internet-of-things')
+def internet_of_things():
+    return _group_view(
+        group_slug='internet-of-things',
+        template='internet-of-things.html'
     )
 
-    return flask.render_template(
-        'topics.html',
-        topic=topic,
-        tag=tag,
-        posts=posts,
-        current_page=page,
-        total_posts=total_posts,
-        total_pages=total_pages,
+
+@app.route('/desktop')
+def desktop():
+    return _group_view(
+        group_slug='desktop',
+        template='desktop.html'
     )
 
 
 @app.route('/tag/<slug>')
 def tag(slug):
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
-    tags = api.get_tags(slugs=[slug])
+    return _tag_view(tag_slug=slug, template='tag.html')
 
-    if not tags:
-        flask.abort(404)
 
-    tag = tags[0]
-    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        tag_ids=[tag['id']], page=page
-    )
+@app.route('/topics/design')
+def design():
+    return _tag_view(tag_slug='design', template='topics/design.html')
 
-    return flask.render_template(
-        'tag.html',
-        posts=posts,
-        tag=tag,
-        current_page=page,
-        total_posts=total_posts,
-        total_pages=total_pages,
-    )
+
+@app.route('/topics/juju')
+def juju():
+    return _tag_view(tag_slug='juju', template='topics/juju.html')
+
+
+@app.route('/topics/maas')
+def maas():
+    return _tag_view(tag_slug='maas', template='topics/maas.html')
+
+
+@app.route('/topics/snappy')
+def snappy():
+    return _tag_view(tag_slug='snappy', template='topics/snappy.html')
 
 
 @app.route('/archives')

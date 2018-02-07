@@ -1,20 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<section class="p-strip--image is-dark p-strip--suru" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">
-  <div class="row u-equal-height u-vertically-center">
-    <div class="col-6 p-card--suru">
-        <h1 class="p-heading--one">
-          Press centre
-        </h1>
+  <section class="p-strip--image is-dark p-strip--suru" style="background-position: center center; background-image:url('https://assets.ubuntu.com/v1/f7fc5efe-image-partners.jpg')">
+    <div class="row u-equal-height u-vertically-center">
+      <div class="col-6 p-card--suru">
+        <h1 class="p-heading--one">Press centre</h1>
         <h5 style="line-height: 1.75rem;">
-          {{ group_details.description | safe }}
+          The home of Ubuntu media resources, news stories and press releases. Journalists seeking further information can contact <a class='p-link--inverted' href='mailto:pr@canonical.com'>pr@canonical.com</a>
         </h5>
-        {% if group_details.url %}
-        <p>
-          <a class="p-link--external p-link--inverted" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>
-        </p>
-        {% endif %}
+
       </div>
       <div id="rtp-banner" class="rtp-banner"></div>
     </div>

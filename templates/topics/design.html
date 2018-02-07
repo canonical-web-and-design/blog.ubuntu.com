@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <div class="p-strip is-shallow is-bordered u-image-position" style="overflow: hidden;">
+    <div class="row header-strip u-equal-height">
+      <div class="col-6">
+        <div class="p-heading-icon">
+          <div class="p-heading-icon__header">
+            <img class="p-heading-icon__img" src="https://assets.ubuntu.com/v1/c5cb0f8e-picto-ubuntu.svg" alt=""/>
+            <h1 class="p-heading--one p-heading-icon__title">Design</h1>
+          </div>
+          <h2 class="p-heading--two">Branding and web development</h2>
+          <p class="p-heading--five">All the latest news on the design team at Canonical.</p>
+        </div>
+          <p>
+            <a class="p-link--external" href="https://design.ubuntu.com">Learn more about Design</a>
+          </p>
+        </ul>
+      </div>
+      <div class="col-5 prefix-1">
+        <img
+          src="https://assets.ubuntu.com/v1/78b7c44a-hero-dots.png"
+          class="design-image u-hidden--small u-image-position--bottom"
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+
+  {% include "posts.html" %}
+
+  {% include "pagination.html" %}
+
+{% endblock %}
