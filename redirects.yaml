@@ -1,3 +1,27 @@
+# Wordpress CMS pages & resources
 /admin(?P<page>/.*)?: https://admin.insights.ubuntu.com/admin{page}
-/feed(?P<page>/.*)?: https://admin.insights.ubuntu.com/feed{page}
 /wp-(?P<page>.*)?: https://admin.insights.ubuntu.com/wp-{page}
+
+# Feeds
+/feed/?: https://admin.insights.ubuntu.com/feed
+/(?P<page>.*)/feed/?: https://admin.insights.ubuntu.com/{page}/feed
+
+# Archive pages
+/page/(?P<page>[0-9]+)/?: /archives?page={page}
+
+# Category archive pages
+/articles/?: /archives?category=articles
+/case-studies/?: /archives?category=case-studies
+/news/?: /archives?category=news
+/tutorials/?: /archives?category=tutorials
+/webinars/?: /archives?category=webinars
+/category/(?P<category>[^/]+)/?: /archives?category={category}
+/category/(?P<category>[^/]+)/year/(?P<year>[0-9]{4})/?: /archives?category={category}&year={year}
+
+# Group archive pages
+/canonical-announcements/?: /press-centre
+/people-and-culture/?: /archives?group=people-and-culture
+/phone-and-tablet/?: /archives?group=phone-and-tablet
+/page/(?P<page>[0-9]+)/(?P<group>[^/]+)/?: /archives?group={group}&page={page}
+/group/(?P<group>[^/]+)/?: /archives?group={group}
+/topic/(?P<group>(canonical-announcements|cloud|desktop|internet-of-things))/?: /archives?group={group}
