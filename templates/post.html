@@ -23,6 +23,7 @@
     <div class="col-8">
       <div class="p-media-object">
         {% if post.author %}
+          {# post.author.id 217 is Canonical, which needs the icon added manually #}
           <img src="{% if post.author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% else %}{{ post.author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image is-round" alt="{{ post.author.name }}">
         {% endif %}
         <div class="p-media-object__details">
