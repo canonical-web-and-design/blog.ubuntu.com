@@ -239,12 +239,14 @@ def archives():
     year = helpers.to_int(flask.request.args.get('year'))
     month = helpers.to_int(flask.request.args.get('month'))
     group_slug = flask.request.args.get('group')
+    category_slug = flask.request.args.get('category')
 
     if month and month > 12:
         month = None
 
     friendly_date = None
     group = None
+    category = None
     after = None
     before = None
 
@@ -264,17 +266,25 @@ def archives():
         if groups:
             group = groups[0]
 
+    if category_slug:
+        categories = api.get_categories(slugs=[category_slug])
+
+        if categories:
+            category = categories[0]
+
     posts, total_posts, total_pages = helpers.get_formatted_posts(
         page=page,
         after=after,
         before=before,
         group_ids=[group['id']] if group else [],
+        category_ids=[category['id']] if category else [],
     )
 
     return flask.render_template(
         'archives.html',
         posts=posts,
         group=group,
+        category=category,
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
