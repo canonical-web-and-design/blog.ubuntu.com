@@ -100,22 +100,6 @@ pre {
   }
 }
 
-.p-heading-icon__title {
-  font-size: 2.5rem;
-}
-
-.card-image {
-  box-shadow: 0 1px 5px 1px rgba(51, 51, 51, 0.2);
-  margin-top: 1.5rem !important;
-  max-height: 100%;
-}
-
-@media (min-width: $breakpoint-medium + 1) {
-  .card-image {
-    margin-top: 2.5rem !important;
-  }
-}
-
 .design-image {
   padding-top: 1.5rem;
   max-height: 100%;
@@ -127,11 +111,6 @@ pre {
   }
 }
 
-.group-image {
-  max-height: 240px;
-  padding-top: $sp-medium;
-}
-
 .header-strip {
   height: inherit;
 }
@@ -140,18 +119,6 @@ pre {
   .header-strip {
     height: 320px;
   }
-}
-
-.u-position--bottom {
-  @media (min-width: $breakpoint-medium) {
-    bottom: 0;
-    position: absolute;
-  }
-}
-
-  /// XXX remove whitespace under footer
-.p-footer {
-  padding-bottom: 2.5rem;
 }
 
 // XXX Caleb - 30.01.18 Nav search box styling fixes
@@ -183,11 +150,8 @@ pre {
   }
 }
 
-// XXX Caleb - Tabs padding fixes
-.p-tabs__list {
-  padding: 0;
-
-  @media (min-width: $breakpoint-medium) {
-    padding: 0;
-  }
+.right-rail {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
 }
