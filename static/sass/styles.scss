@@ -191,3 +191,9 @@ pre {
     padding: 0;
   }
 }
+
+.right-rail {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+}
