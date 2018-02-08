@@ -80,7 +80,10 @@ def get_posts(
     except requests.exceptions.HTTPError as request_error:
         response = request_error.response.json()
 
-        if response.get('code') == 'rest_post_invalid_page_number':
+        if (
+            type(response) is dict and
+            response.get('code') == 'rest_post_invalid_page_number'
+        ):
             # The page doesn't exist, so set everything to empty
             posts = []
             total_posts = None
@@ -90,8 +93,14 @@ def get_posts(
             raise request_error
     else:
         posts = response.json()
-        total_pages = int(response.headers.get('X-WP-TotalPages'))
-        total_posts = int(response.headers.get('X-WP-Total'))
+        total_pages = helpers.to_int(
+            response.headers.get('X-WP-TotalPages'),
+            None
+        )
+        total_posts = helpers.to_int(
+            response.headers.get('X-WP-Total'),
+            None
+        )
 
     return posts, total_posts, total_pages
 
