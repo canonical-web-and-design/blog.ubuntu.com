@@ -43,7 +43,11 @@
         <h3>Archives</h3>
 
         <ul class="p-list">
-          {% for year in range(now.year, 2006, -1) %}
+          {% set endyear = 2006 %}
+          {% if group.slug  == 'canonical-announcements' %}
+            {% set endyear = 2015 %}
+          {% endif %}
+          {% for year in range(now.year, endyear, -1) %}
             <li class="p-list__item"><h5><a class="p-link--soft" href="/archives?year={{ year }}{{ '&group=' + group.slug if group }}{{ '&category=' + category.slug if category }}">{{ year }}</a></h5>
             {% if not group %}
               <ul class="p-inline-list--middot">
