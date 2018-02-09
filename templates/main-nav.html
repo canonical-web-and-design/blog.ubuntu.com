@@ -62,7 +62,7 @@
   </ul>
   <!-- Large screen nav -->
   <ul class="p-navigation__links u-hide--nav-small">
-    <li class="p-navigation__link">
+    <li class="p-navigation__link{%- if page_slug == 'cloud-and-server' %} is-selected{% endif %}">
       <a href="/cloud-and-server">Cloud and Server</a>
       <ul class="hover-menu">
         <li><a href="/cloud-and-server">All</a></li>
@@ -73,7 +73,7 @@
         <li><a href="/cloud-and-server?category=white-papers">White papers</a></li>
       </ul>
     </li>
-    <li class="p-navigation__link">
+    <li class="p-navigation__link{%- if page_slug == 'internet-of-things' %} is-selected{% endif %}">
       <a href="/internet-of-things">IoT</a>
       <ul class="hover-menu">
         <li><a href="/internet-of-things">All</a></li>
@@ -84,7 +84,7 @@
         <li><a href="/internet-of-things?category=white-papers">White papers</a></li>
       </ul>
     </li>
-    <li class="p-navigation__link">
+    <li class="p-navigation__link{%- if page_slug == 'desktop' %} is-selected{% endif %}">
       <a href="/desktop">Desktop</a>
       <ul class="hover-menu">
         <li><a href="/desktop">All</a></li>
@@ -95,7 +95,7 @@
         <li><a href="/desktop?category=white-papers">White papers</a></li>
       </ul>
     </li>
-    <li class="p-navigation__link">
+    <li class="p-navigation__link{%- if page_slug == 'topics' %} is-selected{% endif %}">
       <a href="#">Topics</a>
       <ul class="hover-menu">
         <li><a href="/topics/design">Design</a></li>
@@ -104,7 +104,7 @@
         <li><a href="/topics/snappy">Snapcraft</a></li>
       </ul>
     </li>
-    <li class="p-navigation__link">
+    <li class="p-navigation__link{%- if page_slug == 'press-centre' %} is-selected{% endif %}">
       <a href="/press-centre">Press centre</a>
     </li>
   </ul>

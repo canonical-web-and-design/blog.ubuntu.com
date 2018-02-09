@@ -26,7 +26,7 @@ apply_redirects = redirects.prepare_redirects(
 app.before_request(apply_redirects)
 
 
-def _tag_view(tag_slug, template):
+def _tag_view(tag_slug, page_slug, template):
     """
     View function which gets all posts for a given tag,
     and returns a response loading those posts with the template provided
@@ -48,12 +48,13 @@ def _tag_view(tag_slug, template):
         posts=posts,
         tag=tag,
         current_page=page,
+        page_slug=page_slug,
         total_posts=total_posts,
         total_pages=total_pages,
     )
 
 
-def _group_view(group_slug, template):
+def _group_view(group_slug, page_slug, template):
     """
     View function which gets all posts for a given group slug,
     and returns a response loading those posts with the template provided
@@ -89,6 +90,7 @@ def _group_view(group_slug, template):
         group=group,
         category=category if category_slug else None,
         current_page=page,
+        page_slug=page_slug,
         total_posts=total_posts,
         total_pages=total_pages,
     )
@@ -179,6 +181,7 @@ def press_centre():
     return flask.render_template(
         'press-centre.html',
         posts=posts,
+        page_slug='press-centre',
         group=group,
         current_year=datetime.now().year
     )
@@ -187,6 +190,7 @@ def press_centre():
 @app.route('/cloud-and-server')
 def cloud_and_server():
     return _group_view(
+        page_slug='cloud-and-server',
         group_slug='cloud-and-server',
         template='cloud-and-server.html'
     )
@@ -195,6 +199,7 @@ def cloud_and_server():
 @app.route('/internet-of-things')
 def internet_of_things():
     return _group_view(
+        page_slug='internet-of-things',
         group_slug='internet-of-things',
         template='internet-of-things.html'
     )
@@ -203,6 +208,7 @@ def internet_of_things():
 @app.route('/desktop')
 def desktop():
     return _group_view(
+        page_slug='desktop',
         group_slug='desktop',
         template='desktop.html'
     )
@@ -215,22 +221,38 @@ def tag(slug):
 
 @app.route('/topics/design')
 def design():
-    return _tag_view(tag_slug='design', template='topics/design.html')
+    return _tag_view(
+        tag_slug='design',
+        page_slug='topics',
+        template='topics/design.html'
+    )
 
 
 @app.route('/topics/juju')
 def juju():
-    return _tag_view(tag_slug='juju', template='topics/juju.html')
+    return _tag_view(
+        tag_slug='juju',
+        page_slug='topics',
+        template='topics/juju.html'
+    )
 
 
 @app.route('/topics/maas')
 def maas():
-    return _tag_view(tag_slug='maas', template='topics/maas.html')
+    return _tag_view(
+        tag_slug='maas',
+        page_slug='topics',
+        template='topics/maas.html'
+    )
 
 
 @app.route('/topics/snappy')
 def snappy():
-    return _tag_view(tag_slug='snappy', template='topics/snappy.html')
+    return _tag_view(
+        tag_slug='snappy',
+        page_slug='topics',
+        template='topics/snappy.html'
+    )
 
 
 @app.route('/archives')

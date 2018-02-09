@@ -155,3 +155,15 @@ pre {
   flex-direction: column;
   justify-content: space-between;
 }
+
+// XXX Ant: 06.02.2018
+// Can be removed when upgrading to vanilla v1.6.6 >
+.p-navigation .p-navigation__link {
+  > a {
+    border-bottom: 3px solid transparent;
+  }
+
+  &.is-selected > a {
+    border-bottom-color: $color-mid-dark;
+  }
+}
