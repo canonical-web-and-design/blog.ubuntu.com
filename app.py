@@ -216,7 +216,11 @@ def desktop():
 
 @app.route('/tag/<slug>')
 def tag(slug):
-    return _tag_view(tag_slug=slug, template='tag.html')
+    return _tag_view(
+        tag_slug=slug,
+        page_slug='tag',
+        template='tag.html'
+    )
 
 
 @app.route('/topics/design')
