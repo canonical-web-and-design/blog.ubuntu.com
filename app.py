@@ -114,6 +114,18 @@ def clear_trailing():
         return flask.redirect(new_uri)
 
 
+@app.route('/status')
+def status():
+    """
+    A simple response to test that the app is alive and working.
+    This can be targeted by Kubernetes readiness and liveness checks.
+    As used in snapcraft.io:
+    https://github.com/canonical-websites/snapcraft.io/pull/327/files
+    """
+
+    return 'alive'
+
+
 @app.route('/')
 def homepage():
     category_slug = flask.request.args.get('category')
