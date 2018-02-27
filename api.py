@@ -3,6 +3,7 @@ import requests
 
 # Local
 import helpers
+import feeds
 
 
 API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
@@ -13,7 +14,7 @@ def get(endpoint, parameters={}):
     Query the Insights API (admin.insights.ubuntu.com) using the cache
     """
 
-    return helpers.cached_request(
+    return feeds.cached_request(
         helpers.build_url(API_URL, endpoint, parameters)
     )
 

@@ -4,12 +4,13 @@ from urllib.parse import urlparse, urlunparse, unquote
 
 # Third-party
 import flask
+import prometheus_flask_exporter
 from dateutil.relativedelta import relativedelta
 
 # Local
 import api
+import feeds
 import helpers
-import prometheus_flask_exporter
 import redirects
 
 
@@ -163,7 +164,7 @@ def homepage():
         posts=posts[:12],
         category=category,
         featured_post=featured_post,
-        webinars=helpers.get_rss_feed_content(
+        webinars=feeds.get_rss_feed_content(
             'https://www.brighttalk.com/channel/6793/feed'
         )
     )
