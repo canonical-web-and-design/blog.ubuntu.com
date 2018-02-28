@@ -1,4 +1,5 @@
 # Core
+import os
 import time
 import datetime
 from urllib.parse import urlparse
@@ -29,6 +30,24 @@ request_latency_seconds = prometheus_client.Histogram(
     'Feed requests retrieved',
     ['domain', 'code'],
     buckets=[0.25, 0.5, 0.75, 1, 2],
+)
+
+# Cache session settings
+cached_session = requests_cache.CachedSession(
+    name="hour-cache",
+    expire_after=datetime.timedelta(hours=1),
+    backend=os.environ.get('REQUEST_CACHE_BACKEND') or 'memory',
+    old_data_on_error=True
+)
+cached_session.mount(
+    'https://',
+    HTTPAdapter(
+        max_retries=Retry(
+            total=5,
+            backoff_factor=0.1,
+            status_forcelist=[500, 502, 503, 504]
+        )
+    )
 )
 
 
@@ -84,20 +103,6 @@ def cached_request(url):
     If the cache has expired then it will attempt to update the cache.
     If it gets an error, it will use the cached response, if it exists.
     """
-
-    retries = Retry(
-        total=5,
-        backoff_factor=0.1,
-        status_forcelist=[500, 502, 503, 504]
-    )
-
-    # Set cache expire time
-    cached_session = requests_cache.CachedSession(
-        name="hour-cache",
-        expire_after=datetime.timedelta(hours=1),
-        old_data_on_error=True
-    )
-    cached_session.mount('https://', HTTPAdapter(max_retries=retries))
 
     response = cached_session.get(url, timeout=2)
 
