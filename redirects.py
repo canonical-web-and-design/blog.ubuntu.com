@@ -50,7 +50,15 @@ class YamlRegexMap:
                 parts = {}
                 for name, value in result.groupdict().items():
                     parts[name] = value or ''
-                return target.format(**parts)
+
+                target_url = target.format(**parts)
+
+                if flask.request.query_string:
+                    target_url += (
+                        '?' + flask.request.query_string.decode('utf-8')
+                    )
+
+                return target_url
 
 
 def prepare_redirects(
