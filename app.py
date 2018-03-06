@@ -15,6 +15,8 @@ import redirects
 
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
+INSIGHTS_RSS_URL = 'https://insights.ubuntu.com/feed'
+INSIGHTS_CATEGORY_RSS_URL = 'https://insights.ubuntu.com/{category}/feed'
 
 app = flask.Flask(__name__)
 app.jinja_env.filters['monthname'] = helpers.monthname
@@ -340,6 +342,25 @@ def archives():
         friendly_date=friendly_date,
         now=datetime.now(),
     )
+
+
+@app.route('/<slug>/feed')
+@app.route('/feed')
+def feed(slug=None):
+    feed_url = INSIGHTS_RSS_URL
+    if slug:
+        feed_url = INSIGHTS_CATEGORY_RSS_URL.format(category=slug)
+
+    feed_text = feeds.cached_request(
+        feed_url
+    ).text
+
+    feed_text = feed_text.replace(
+        'admin.insights.ubuntu.com',
+        'insights.ubuntu.com'
+    )
+
+    return feed_text
 
 
 @app.route(
