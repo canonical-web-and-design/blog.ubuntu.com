@@ -15,8 +15,8 @@ import redirects
 
 
 INSIGHTS_URL = 'https://insights.ubuntu.com'
-INSIGHTS_RSS_URL = 'https://insights.ubuntu.com/feed'
-INSIGHTS_CATEGORY_RSS_URL = 'https://insights.ubuntu.com/{category}/feed'
+INSIGHTS_RSS_URL = 'https://admin.insights.ubuntu.com/feed'
+INSIGHTS_CATEGORY_RSS_URL = 'https://admin.insights.ubuntu.com/{category}/feed'
 
 app = flask.Flask(__name__)
 app.jinja_env.filters['monthname'] = helpers.monthname
