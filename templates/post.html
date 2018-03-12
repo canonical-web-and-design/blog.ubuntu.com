@@ -81,7 +81,9 @@
 <div class="p-strip is-shallow">
   <div class="row u-equal-height">
     <div class="col-8">
-      {{ post.content.rendered | safe }}
+      <div class="p-post__content">
+        {{ post.content.rendered | safe }}
+      </div>
     </div>
     <div class="col-4 right-rail">
       {# right rail #}
