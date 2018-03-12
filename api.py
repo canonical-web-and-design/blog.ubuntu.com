@@ -69,6 +69,7 @@ def get_posts(
                 'per_page': per_page,
                 'page': page,
                 'search': query,
+                'sticky': sticky,
                 'slug': ','.join(slugs),
                 'group': helpers.join_ids(group_ids),
                 'categories': helpers.join_ids(category_ids),
