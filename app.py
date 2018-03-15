@@ -144,6 +144,8 @@ def homepage():
     category = None
     sticky_posts, _, _ = helpers.get_formatted_expanded_posts(sticky=True)
     featured_post = sticky_posts[0] if sticky_posts else None
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    posts_per_page = 13 if page == 1 else 12
 
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
@@ -152,8 +154,9 @@ def homepage():
             category = categories[0]
 
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        per_page=13,
-        category_ids=[category['id']] if category else []
+        per_page=posts_per_page,
+        category_ids=[category['id']] if category else [],
+        page=page
     )
 
     if featured_post and featured_post in posts:
@@ -161,8 +164,11 @@ def homepage():
 
     return flask.render_template(
         'index.html',
-        posts=posts[:12],
+        posts=posts,
         category=category,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
         featured_post=featured_post,
         webinars=feeds.get_rss_feed_content(
             'https://www.brighttalk.com/channel/6793/feed'
