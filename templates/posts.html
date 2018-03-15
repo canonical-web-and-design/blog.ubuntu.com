@@ -11,9 +11,15 @@
               <option {% if not category %}selected="selected"{% endif %} value="/{% if group_details and group_details['slug'] %}{{ group_details['slug'] }}{% endif %}#posts-list">All content types</option>
               <option {% if category and category.slug == 'articles' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}?category=articles#posts-list">Articles</option>
               <option {% if category and category.slug == 'case-studies' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}?category=case-studies#posts-list">Case studies</option>
+              {% if request.path != '/internet-of-things' %}
               <option {% if category and category.slug == 'videos' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}?category=videos#posts-list">Videos</option>
+              {% endif %}
+              {% if request.path != '/desktop' %}
               <option {% if category and category.slug == 'webinars' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}?category=webinars#posts-list">Webinars</option>
+              {% endif %}
+              {% if request.path != '/internet-of-things' %}
               <option {% if category and category.slug == 'white-papers' %}selected="selected"{% endif %} value="{% if group_details and group_details['slug'] %}/{{ group_details['slug'] }}{% endif %}?category=white-papers#posts-list">White papers</option>
+              {% endif %}
             </select>
             <input type="submit" value="Send Request" class="u-hide">
             <input type="hidden" name="topic" value="cloud-and-server">
