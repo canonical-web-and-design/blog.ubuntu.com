@@ -21,3 +21,6 @@
 /page/(?P<page>[0-9]+)/(?P<group>[^/]+)/?: /archives?group={group}&page={page}
 /group/(?P<group>[^/]+)/?: /archives?group={group}
 /topic/(?P<group>(canonical-announcements|cloud|desktop|internet-of-things))/?: /archives?group={group}
+
+# temporary redirect for a bad link in an email
+/event/mobile-world-congress-2018/?:  /2018/03/14/nvidia-gtc-2018
