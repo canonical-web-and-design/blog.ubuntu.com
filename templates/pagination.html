@@ -51,7 +51,7 @@
           {% endif %}
 
           {% if total_pages > current_page %}
-            <li class="p-inline-list__item"><a href="{{ page_prefix }}{{ current_page - 1 }}">Next</a></li>
+            <li class="p-inline-list__item"><a href="{{ page_prefix }}{{ current_page + 1 }}">Next</a></li>
           {% endif %}
         </ul>
       {% endif %}
