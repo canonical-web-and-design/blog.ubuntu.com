@@ -8,6 +8,7 @@ import feeds
 
 API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
 
+
 def _embed_resource_data(resource):
     if '_embedded' not in resource:
         return resource
@@ -17,10 +18,12 @@ def _embed_resource_data(resource):
     resource['featuredmedia'] = embedded['wp:featuredmedia'][0]
     return resource
 
+
 def _normalise_resources(posts):
     for post in posts:
         post = _embed_resource_data(post)
     return posts
+
 
 def get(endpoint, parameters={}):
     """
