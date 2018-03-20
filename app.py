@@ -371,7 +371,10 @@ def feed(type=None, slug=None): # noqa
     '/<regex("[0-9]{2}"):day>'
     '/<slug>'
 )
-def post(year, month, day, slug):
+@app.route(
+    '/webinar/<slug>'
+)
+def post(slug, year=None, month=None, day=None):
     posts, total_posts, total_pages = helpers.get_formatted_posts(slugs=[slug])
 
     if not posts:
