@@ -165,3 +165,12 @@ pre {
 .p-post__content {
   max-width: 35em;
 }
+
+
+.link-cta-ubuntu {
+  @extend .p-button--positive;
+}
+
+.external {
+  @extend .p-link--external;
+}
