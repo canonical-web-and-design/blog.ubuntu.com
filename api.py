@@ -9,6 +9,22 @@ import feeds
 API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
 
 
+def _embed_resource_data(resource):
+    if '_embedded' not in resource:
+        return resource
+    embedded = resource['_embedded']
+    if 'wp:featuredmedia' not in embedded:
+        return resource
+    resource['featuredmedia'] = embedded['wp:featuredmedia'][0]
+    return resource
+
+
+def _normalise_resources(posts):
+    for post in posts:
+        post = _embed_resource_data(post)
+    return posts
+
+
 def get(endpoint, parameters={}):
     """
     Query the Insights API (admin.insights.ubuntu.com) using the cache
@@ -103,6 +119,8 @@ def get_posts(
             response.headers.get('X-WP-Total'),
             None
         )
+
+    posts = _normalise_resources(posts)
 
     return posts, total_posts, total_pages
 
