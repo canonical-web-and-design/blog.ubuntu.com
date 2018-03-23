@@ -11,6 +11,7 @@
       searchBoxResetBtn.addEventListener('click', function(e) {
         e.preventDefault();
         searchBoxInput.value = '';
+        searchBoxInput.focus();
       }, false);
     });
   }
