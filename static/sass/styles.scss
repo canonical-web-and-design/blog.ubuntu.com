@@ -174,3 +174,45 @@ pre {
 .external {
   @extend .p-link--external;
 }
+
+.p-accordion--form {
+  @extend .p-accordion;
+  background-color: $color-light;
+
+  .p-heading--four {
+    max-width: 100% !important;
+  }
+
+  .p-accordion__tab {
+    font: inherit;
+    padding-left: 0;
+    padding-right: 1rem;
+    background-position: center right;
+
+    &[aria-expanded='false'] {
+      background-image: url(https://assets.ubuntu.com/v1/f6fa8249-icon-arrow-down.svg);
+    }
+
+    &[aria-expanded='true'] {
+      background-image: url(https://assets.ubuntu.com/v1/c65b8106-icon-arrow-up.svg);
+    }
+  }
+
+  .p-accordion__panel {
+    padding-top: $sp-small;
+    padding-bottom: $sp-medium;
+  }
+
+  .p-accordion__checkbox {
+    margin-top: $sp-x-small;
+  }
+
+  .p-inline-list__item {
+    display: inline-block;
+
+    [type='checkbox'] + label {
+      float: left;
+      width: auto;
+    }
+  }
+}
