@@ -5,10 +5,26 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% if post and post.featuredmedia %}
-      <meta property="og:image" content="{{post.featuredmedia.source_url}}" />
-    {% else %}
-      <meta property="og:image" content="https://assets.ubuntu.com/v1/33a3ce22-38018856-02eda0bc-326e-11e8-872e-0b6d5ddb990b.jpg" />
+    {% if post %}
+      {% if post.featuredmedia %}
+        <meta property="og:image" content="{{post.featuredmedia.source_url}}" />
+      {% else %}
+        <meta property="og:image" content="https://assets.ubuntu.com/v1/33a3ce22-38018856-02eda0bc-326e-11e8-872e-0b6d5ddb990b.jpg" />
+      {% endif %}
+
+      {% if self.title() %}
+        <meta property="og:title" content="{% block title %}{% endblock %} | Ubuntu Insights" />
+      {% else %}
+        <meta property="og:title" content="Ubuntu Insights" />
+      {% endif %}
+
+      {% if post.link %}
+        <meta property="og:url" content="{% post.link %}" />
+      {% endif %}
+
+      {% if post.summary %}
+        <meta property="og:description" content="{% post.summary %}" />
+      {% endif %}
     {% endif %}
 
     {% if self.title() %}
