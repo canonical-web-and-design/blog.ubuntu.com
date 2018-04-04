@@ -201,6 +201,8 @@ pre {
 
     .p-icon--chevron {
       @include vf-icon-size($sp-large);
+      position: relative;
+      top: .25rem;
       float: right;
     }
   }
