@@ -185,26 +185,33 @@ pre {
 
   .p-accordion__tab {
     font: inherit;
-    padding-left: 0;
-    padding-right: 1rem;
-    background-position: center right;
+    padding: $sp-large 0;
 
-    &[aria-expanded='false'] {
-      background-image: url(https://assets.ubuntu.com/v1/f6fa8249-icon-arrow-down.svg);
+    &[aria-expanded='false'],
+    &[aria-expanded='true'] {
+      background-image: none;
     }
 
     &[aria-expanded='true'] {
-      background-image: url(https://assets.ubuntu.com/v1/c65b8106-icon-arrow-up.svg);
+
+      .p-icon--chevron {
+        transform: rotate(180deg);
+      }
+    }
+
+    .p-icon--chevron {
+      @include vf-icon-size($sp-large);
+      float: right;
     }
   }
 
   .p-accordion__panel {
-    padding-top: $sp-small;
-    padding-bottom: $sp-medium;
+    padding-top: 0;
+    padding-bottom: $sp-large;
   }
 
   .p-accordion__checkbox {
-    margin-top: $sp-x-small;
+    margin-top: $sp-small;
   }
 
   .p-inline-list__item {
@@ -218,5 +225,9 @@ pre {
 }
 
 .u-margin-medium--top {
-  margin-top: 1rem !important;
+  margin-top: $sp-medium !important;
+}
+
+.u-margin-large--top {
+  margin-top: $sp-large !important;
 }
