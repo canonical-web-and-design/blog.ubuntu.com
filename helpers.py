@@ -57,7 +57,7 @@ def get_first_group(group_ids, force_group=None):
     else:
         group_id = group_ids[0] if group_ids else None
 
-    return api.get_group(group_id)
+    return api.get_group(group_id) if group_id else None
 
 
 def get_first_category(category_ids):
