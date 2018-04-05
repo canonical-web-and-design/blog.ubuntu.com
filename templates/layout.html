@@ -17,11 +17,11 @@
       {% endif %}
 
       {% if post.summary %}
-        <meta property="og:description" content="{{post.summary}}" />
+        <meta property="og:description" content="{{post.summary | striptags}}" />
       {% endif %}
 
       {% if post.title %}
-        <meta property="og:title" content="{{post.title}}" />
+        <meta property="og:title" content="{{post.title.rendered | safe}}" />
       {% else %}
         <meta property="og:title" content="Ubuntu Insights" />
       {% endif %}
