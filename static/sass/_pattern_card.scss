@@ -55,7 +55,29 @@
     }
   }
 
+  .p-card--muted {
+    @extend .p-card;
+    background-color: $color-light;
+    margin-bottom: 0;
+    padding: 0;
+    box-shadow: 0 1px 2px 0 transparentize($color-dark, .8);
+
+    > .p-card__header  {
+      margin-bottom: 0;
+      border-top: 3px solid $color-light;
+      border-bottom: 0;
+    }
+
+    > .p-card__content {
+      margin: 0 $sp-x-small $sp-x-small;
+      padding: $sp-medium $sp-x-small $sp-x-small;
+      border-top: 1px dotted $color-mid-light;
+    }
+  }
+
   .p-card__header {
+    @extend %post-card-header;
+
     &--cloud-and-server {
       @extend %post-card-header;
       border-top: 3px solid #a87ca0;
