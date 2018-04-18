@@ -8,13 +8,11 @@
   </div>
   {%- for post in featured_posts %}
   {% if loop.index0 % 3 == 0 %}
-  <div class="row u-equal-height u-clearfix">
+  <div class="row u-equal-height">
   {% endif %}
-    <div class="col-4 p-card--post">
-      <header class="p-card__header--{{ post.group.slug }}">
+    <div class="col-4 p-card--post--{{ post.group.slug }}">
         <h5 class="p-muted-heading">{{ post.group.name }}</h5>
-      </header>
-      <div class="p-card__content">
+        <hr>
         {% if post.featuredmedia %}
         <a href="{{post.link}}">
           <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
@@ -25,10 +23,14 @@
           <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
         {% endif %}
         {% if not post.featuredmedia %}
-        <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
+        <p class="">{{ post.summary | striptags | urlize(30, true) }}</p>
         {% endif %}
-      </div>
-      <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
+        {% if post.category.name %}
+        <div class="p-card__footer">
+          <hr>
+          <small>{{ post.category.name }}</small>
+        </div>
+        {% endif %}
     </div>
   {% if loop.index0 % 3 == 2 or loop.last %}
   </div>
