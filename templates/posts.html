@@ -1,6 +1,6 @@
 {% block posts %}
 
-<div class="p-strip is-shallow u-no-padding--top u-no-padding--bottom" id="posts-list">
+<div id="posts-list">
   {% if not tag %}
     <div class="row">
       <div class="col-12 u-align--right">
@@ -32,67 +32,63 @@
       </div>
     </div>
   {% endif %}
-
+</div>
+<div class="p-strip is-shallow" id="posts-list">
 {%- for post in posts %}
   {% if loop.index0 % 3 == 0 %}
-  <div class="row u-equal-height u-clearfix">
+  <div class="row u-equal-height">
   {% endif %}
   {% if loop.index0 == 2 %}
-  <div class="col-4 p-card--muted">
-    <header class="p-card__header">
+    <div class="col-4 p-card--muted">
       <h5 class="p-muted-heading">Newsletter signup</h5>
-    </header>
-    <div class="p-card__content">
+      <hr>
       <form action="https://pages.canonical.com/index.php/leadCapture/save" method="post" id="mktoForm_1212" novalidate="novalidate" onsubmit="ga('send', 'Newsletter', 'Signup', 'New homepage newsletter signup');">
         <h3 class="p-card--title p-heading--four">Select topics you&rsquo;re interested in</h3>
-        <div class="p-card--content">
-          <ul class="p-list">
-            <li class="p-list__item u-no-margin--top">
-              <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="Cloud and server" />
-              <label class="u-no-margin--top" for="insightscloudserver">Cloud and server</label>
-            </li>
-            <li class="p-list__item u-no-margin--top">
-              <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="Desktop" />
-              <label class="u-no-margin--top" for="insightsdesktop">Desktop</label>
-            </li>
-            <li class="p-list__item u-no-margin--top">
-              <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="Internet of Things" />
-              <label class="u-no-margin--top" for="insightsiot">Internet of Things</label>
-            </li>
-            <li class="p-list__item u-no-margin--top">
-              <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="Tutorials" type="checkbox">
-              <label class="u-no-margin--top" for="insightstutorials">Tutorials</label>
-            </li>
-          </ul>
-          <div class="mktFormReq mktField u-margin-medium--top">
-              <label class="u-no-margin--top" for="Email" class="mktolabel u-no-margin--top">Work email: <span>*</span></label>
-              <input required  id="Email" name="Email" maxlength="255" type="email" class="mktoField mktoEmailField  mktoRequired" />
-          </div>
-          <div class="mktField mktLblRight u-margin-medium--top">
-            <span class="mktInput mktLblRight">
-              <input class="u-no-margin--top mktFormCheckbox" name="canonicalUpdatesOptIn" id="canonicalUpdatesOptIn" value="Receive updates" type="checkbox" />
-              <label class="p-form__label u-no-margin--top" for="canonicalUpdatesOptIn">I would like to receive occasional updates from Canonical by email.</label><span class="mktFormMsg"></span>
-            </span>
-          </div>
-          <div class="u-margin-medium--top">
-            <span class="mktoButtonWrap p-card--content">
-              <button type="submit" class="mktoButton">Subscribe now</button>
-            </span>
-            <input value="1959" class="mktoField mktoFieldDescriptor" name="lpId" type="hidden">
-            <input value="30" class="mktoField mktoFieldDescriptor" name="subId" type="hidden">
-            <input name="lpurl" value="https://pages.canonical.com/Insights-Subscription_Insights-Subscription-test.html?cr={creative}&amp;kw={keyword}" type="hidden">
-            <input value="1212" class="mktoField mktoFieldDescriptor" name="formid" type="hidden">
-            <input type="hidden" name="ret" value="http://{{request.host}}{{request.path}}?newsletter=true" />
-            <input value="066-EOV-335" class="mktoField mktoFieldDescriptor" name="munchkinId" type="hidden">
-            <input name="kw" value="" type="hidden">
-            <input name="cr" value="" type="hidden">
-            <input name="searchstr" value="" type="hidden">
-            <input name="_mkt_disp" value="return" type="hidden">
-            <input name="_mkt_trk" value="id:066-EOV-335&amp;token:_mch-ubuntu.com-1473266321199-95160" type="hidden">
-          </div>
-        </form>
+        <ul class="p-list">
+          <li class="p-list__item">
+            <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="Cloud and server" />
+            <label class="u-no-margin--top" for="insightscloudserver">Cloud and server</label>
+          </li>
+          <li class="p-list__item">
+            <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="Desktop" />
+            <label class="u-no-margin--top" for="insightsdesktop">Desktop</label>
+          </li>
+          <li class="p-list__item">
+            <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="Internet of Things" />
+            <label class="u-no-margin--top" for="insightsiot">Internet of Things</label>
+          </li>
+          <li class="p-list__item">
+            <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="Tutorials" type="checkbox">
+            <label class="u-no-margin--top" for="insightstutorials">Tutorials</label>
+          </li>
+        </ul>
+        <div class="mktFormReq mktField">
+            <label class="u-no-margin--top" for="Email" class="mktolabel">Work email: <span>*</span></label>
+            <input required  id="Email" name="Email" maxlength="255" type="email" class="mktoField mktoEmailField  mktoRequired" />
         </div>
-      </div>
+        <div class="mktField mktLblRight">
+          <span class="mktInput mktLblRight">
+            <input class="u-no-margin--top mktFormCheckbox" name="canonicalUpdatesOptIn" id="canonicalUpdatesOptIn" value="Receive updates" type="checkbox" />
+            <label class="p-form__label" for="canonicalUpdatesOptIn">I would like to receive occasional updates from Canonical by email.</label><span class="mktFormMsg"></span>
+          </span>
+        </div>
+        <div class="">
+          <span class="mktoButtonWrap">
+            <button type="submit" class="mktoButton">Subscribe now</button>
+          </span>
+          <input value="1959" class="mktoField mktoFieldDescriptor" name="lpId" type="hidden">
+          <input value="30" class="mktoField mktoFieldDescriptor" name="subId" type="hidden">
+          <input name="lpurl" value="https://pages.canonical.com/Insights-Subscription_Insights-Subscription-test.html?cr={creative}&amp;kw={keyword}" type="hidden">
+          <input value="1212" class="mktoField mktoFieldDescriptor" name="formid" type="hidden">
+          <input type="hidden" name="ret" value="http://{{request.host}}{{request.path}}?newsletter=true" />
+          <input value="066-EOV-335" class="mktoField mktoFieldDescriptor" name="munchkinId" type="hidden">
+          <input name="kw" value="" type="hidden">
+          <input name="cr" value="" type="hidden">
+          <input name="searchstr" value="" type="hidden">
+          <input name="_mkt_disp" value="return" type="hidden">
+          <input name="_mkt_trk" value="id:066-EOV-335&amp;token:_mch-ubuntu.com-1473266321199-95160" type="hidden">
+        </div>
+      </form>
       <script src="https://assets.ubuntu.com/v1/5d7e5bbf-jquery-2.2.0.min.js"></script>
       <script src="https://assets.ubuntu.com/v1/d55f58bb-jquery.validate.js"></script>
       <script>
@@ -106,26 +102,26 @@
         });
       </script>
     </div>
-  {% else %}
-    <div class="col-4 p-card--post">
-      <header class="p-card__header--{{ post.group.slug }}">
-        <h5 class="p-muted-heading">{{ post.group.name }}</h5>
-      </header>
-      <div class="p-card__content">
-        {% if post.featuredmedia %}
-        <a href="{{post.link}}">
-          <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
-        </a>
-        {% endif %}
-        <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
-        {% if post.author %}
-          <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
-        {% endif %}
-        {% if not post.featuredmedia %}
-        <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
-        {% endif %}
+    {% else %}
+    <div class="col-4 p-card--post--{{ post.group.slug }}">
+      <h5 class="p-muted-heading">{{ post.group.name }}</h5>
+      <hr>
+      {% if post.featuredmedia %}
+      <a href="{{post.link}}">
+        <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
+      </a>
+      {% endif %}
+      <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
+      <div class="p-card__footer">
+      {% if post.author %}
+        <p class="u-align--bottom"><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
+      {% endif %}
+      {% if not post.featuredmedia %}
+      <p class="">{{ post.summary | striptags | urlize(30, true) }}</p>
+      {% endif %}
+        <hr>
+        <small>{{ post.category.name | capitalize }}</small>
       </div>
-      <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
     </div>
   {% endif %}
   {% if loop.index0 % 3 == 2 or loop.last %}
