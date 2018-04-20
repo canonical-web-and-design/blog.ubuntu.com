@@ -1,0 +1,54 @@
+@mixin insights-p-navigation {
+
+  .p-navigation {
+    .hover-menu {
+      display: none;
+    }
+
+    @media (min-width: $breakpoint-navigation-threshold + 1) {
+      &__links {
+        border-right: 1px solid $color-mid-light;
+      }
+
+      &__link:hover .hover-menu {
+        display: block;
+        z-index: 10;
+      }
+
+      .p-search-box {
+        max-width: 14rem;
+      }
+
+      .hover-menu {
+        background: $color-x-light;
+        border: 1px solid $color-mid-light;
+        border-radius: 10px;
+        box-shadow: 0 2px 2px -1px $color-mid-light;
+        margin: 0;
+        padding: $sp-x-small 0 $sp-medium;
+        position: absolute;
+        top: 51px;
+        width: 200px;
+        z-index: 1;
+
+        &::after {
+          background: url('https://assets.ubuntu.com/v1/b70e6370-nav-arrow-white.svg') $sp-large bottom no-repeat;
+          content: '';
+          height: $sp-small;
+          position: absolute;
+          top: -7px;
+          width: 100%;
+        }
+
+        &__item {
+          font-size: .875rem;
+          padding: $sp-small $sp-small 0 $sp-small;
+
+          > a:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
