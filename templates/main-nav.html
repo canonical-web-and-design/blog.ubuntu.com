@@ -4,104 +4,47 @@
   <span class="u-off-screen">
     <a href="#main-content">Jump to main content</a>
   </span>
-  <!-- Mobile nav -->
-  <ul class="p-navigation__links u-hide--nav-large">
-    <li class="p-accordion__group">
-      <button class="p-accordion__tab" id="cloud-tab" role="tab" aria-controls="#cloud" aria-expanded="false">Cloud and Server</button>
-      <div class="p-accordion__panel" id="cloud" role="tabpanel" aria-hidden="true" aria-labelledby="cloud-tab">
-        <ul class="p-navigation__links">
-          <li class="p-navigation__link"><a href="/cloud-and-server">All</a></li>
-          <li class="p-navigation__link"><a href="/cloud-and-server?category=articles">Articles</a></li>
-          <li class="p-navigation__link"><a href="/cloud-and-server?category=case-studies">Case Studies</a></li>
-          <li class="p-navigation__link"><a href="/cloud-and-server?category=videos">Videos</a></li>
-          <li class="p-navigation__link"><a href="/cloud-and-server?category=webinars">Webinars</a></li>
-          <li class="p-navigation__link"><a href="/cloud-and-server?category=white-papers">White papers</a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="p-accordion__group">
-      <button class="p-accordion__tab" id="iot-tab" role="tab" aria-controls="#iot" aria-expanded="false">IoT</button>
-      <div class="p-accordion__panel" id="iot" role="tabpanel" aria-hidden="true" aria-labelledby="iot-tab">
-        <ul class="p-navigation__links">
-          <li class="p-navigation__link"><a href="/internet-of-things">All</a></li>
-          <li class="p-navigation__link"><a href="/internet-of-things?category=articles">Articles</a></li>
-          <li class="p-navigation__link"><a href="/internet-of-things?category=case-studies">Case Studies</a></li>
-          <li class="p-navigation__link"><a href="/internet-of-things?category=videos">Videos</a></li>
-          <li class="p-navigation__link"><a href="/internet-of-things?category=webinars">Webinars</a></li>
-          <li class="p-navigation__link"><a href="/internet-of-things?category=white-papers">White papers</a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="p-accordion__group">
-      <button class="p-accordion__tab" id="desktop-tab" role="tab" aria-controls="#desktop" aria-expanded="false">Desktop</button>
-      <div class="p-accordion__panel" id="desktop" role="tabpanel" aria-hidden="true" aria-labelledby="desktop-tab">
-        <ul class="p-navigation__links">
-          <li class="p-navigation__link"><a href="/desktop">All</a></li>
-          <li class="p-navigation__link"><a href="/desktop?category=articles">Articles</a></li>
-          <li class="p-navigation__link"><a href="/desktop?category=case-studies">Case Studies</a></li>
-          <li class="p-navigation__link"><a href="/desktop?category=videos">Videos</a></li>
-          <li class="p-navigation__link"><a href="/desktop?category=webinars">Webinars</a></li>
-          <li class="p-navigation__link"><a href="/desktop?category=white-papers">White papers</a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="p-accordion__group">
-      <button class="p-accordion__tab" id="topics-tab" role="tab" aria-controls="#topics" aria-expanded="false">Topics</button>
-      <div class="p-accordion__panel" id="topics" role="tabpanel" aria-hidden="true" aria-labelledby="topics-tab">
-        <ul class="p-navigation__links">
-          <li class="p-navigation__link"><a href="/topics/design">Design</a></li>
-          <li class="p-navigation__link"><a href="/topics/juju">Juju</a></li>
-          <li class="p-navigation__link"><a href="/topics/maas">MAAS</a></li>
-          <li class="p-navigation__link"><a href="/topics/snappy">Snappy</a></li>
-        </ul>
-      </div>
-    </li>
-    <li class="p-navigation__link">
-      <a href="/press-centre">Press centre</a>
-    </li>
-  </ul>
-  <!-- Large screen nav -->
-  <ul class="p-navigation__links u-hide--nav-small">
+  <ul class="p-navigation__links">
     <li class="p-navigation__link{%- if page_slug == 'cloud-and-server' %} is-selected{% endif %}">
       <a href="/cloud-and-server">Cloud and Server</a>
       <ul class="hover-menu">
-        <li><a href="/cloud-and-server">All</a></li>
-        <li><a href="/cloud-and-server?category=articles">Articles</a></li>
-        <li><a href="/cloud-and-server?category=case-studies">Case Studies</a></li>
-        <li><a href="/cloud-and-server?category=videos">Videos</a></li>
-        <li><a href="/cloud-and-server?category=webinars">Webinars</a></li>
-        <li><a href="/cloud-and-server?category=white-papers">White papers</a></li>
+        <li class="hover-menu__item"><a href="/cloud-and-server">All</a></li>
+        <li class="hover-menu__item"><a href="/cloud-and-server?category=articles">Articles</a></li>
+        <li class="hover-menu__item"><a href="/cloud-and-server?category=case-studies">Case Studies</a></li>
+        <li class="hover-menu__item"><a href="/cloud-and-server?category=videos">Videos</a></li>
+        <li class="hover-menu__item"><a href="/cloud-and-server?category=webinars">Webinars</a></li>
+        <li class="hover-menu__item"><a href="/cloud-and-server?category=white-papers">White papers</a></li>
       </ul>
     </li>
     <li class="p-navigation__link{%- if page_slug == 'internet-of-things' %} is-selected{% endif %}">
       <a href="/internet-of-things">IoT</a>
       <ul class="hover-menu">
-        <li><a href="/internet-of-things">All</a></li>
-        <li><a href="/internet-of-things?category=articles">Articles</a></li>
-        <li><a href="/internet-of-things?category=case-studies">Case Studies</a></li>
-        <li><a href="/internet-of-things?category=videos">Videos</a></li>
-        <li><a href="/internet-of-things?category=webinars">Webinars</a></li>
-        <li><a href="/internet-of-things?category=white-papers">White papers</a></li>
+        <li class="hover-menu__item"><a href="/internet-of-things">All</a></li>
+        <li class="hover-menu__item"><a href="/internet-of-things?category=articles">Articles</a></li>
+        <li class="hover-menu__item"><a href="/internet-of-things?category=case-studies">Case Studies</a></li>
+        <li class="hover-menu__item"><a href="/internet-of-things?category=videos">Videos</a></li>
+        <li class="hover-menu__item"><a href="/internet-of-things?category=webinars">Webinars</a></li>
+        <li class="hover-menu__item"><a href="/internet-of-things?category=white-papers">White papers</a></li>
       </ul>
     </li>
     <li class="p-navigation__link{%- if page_slug == 'desktop' %} is-selected{% endif %}">
       <a href="/desktop">Desktop</a>
       <ul class="hover-menu">
-        <li><a href="/desktop">All</a></li>
-        <li><a href="/desktop?category=articles">Articles</a></li>
-        <li><a href="/desktop?category=case-studies">Case Studies</a></li>
-        <li><a href="/desktop?category=videos">Videos</a></li>
-        <li><a href="/desktop?category=webinars">Webinars</a></li>
-        <li><a href="/desktop?category=white-papers">White papers</a></li>
+        <li class="hover-menu__item"><a href="/desktop">All</a></li>
+        <li class="hover-menu__item"><a href="/desktop?category=articles">Articles</a></li>
+        <li class="hover-menu__item"><a href="/desktop?category=case-studies">Case Studies</a></li>
+        <li class="hover-menu__item"><a href="/desktop?category=videos">Videos</a></li>
+        <li class="hover-menu__item"><a href="/desktop?category=webinars">Webinars</a></li>
+        <li class="hover-menu__item"><a href="/desktop?category=white-papers">White papers</a></li>
       </ul>
     </li>
     <li class="p-navigation__link{%- if page_slug == 'topics' %} is-selected{% endif %}">
       <a href="#">Topics</a>
       <ul class="hover-menu">
-        <li><a href="/topics/design">Design</a></li>
-        <li><a href="/topics/juju">Juju</a></li>
-        <li><a href="/topics/maas">MAAS</a></li>
-        <li><a href="/topics/snappy">Snapcraft</a></li>
+        <li class="hover-menu__item"><a href="/topics/design">Design</a></li>
+        <li class="hover-menu__item"><a href="/topics/juju">Juju</a></li>
+        <li class="hover-menu__item"><a href="/topics/maas">MAAS</a></li>
+        <li class="hover-menu__item"><a href="/topics/snappy">Snapcraft</a></li>
       </ul>
     </li>
     <li class="p-navigation__link{%- if page_slug == 'press-centre' %} is-selected{% endif %}">
