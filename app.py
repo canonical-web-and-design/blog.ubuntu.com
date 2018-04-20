@@ -171,10 +171,7 @@ def homepage():
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
-        featured_posts=featured_posts,
-        webinars=feeds.get_rss_feed_content(
-            'https://www.brighttalk.com/channel/6793/feed'
-        )
+        featured_posts=featured_posts
     )
 
 
@@ -212,10 +209,7 @@ def alternate_homepage():
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
-        featured_posts=featured_posts,
-        webinars=feeds.get_rss_feed_content(
-            'https://www.brighttalk.com/channel/6793/feed'
-        )
+        featured_posts=featured_posts
     )
 
 
