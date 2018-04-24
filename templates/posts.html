@@ -40,7 +40,7 @@
   {% endif %}
   {% if loop.index0 == 2 %}
     <div class="col-4 p-card--muted">
-      <h5 class="p-muted-heading">Newsletter signup</h5>
+      <h4 class="p-muted-heading">Newsletter signup</h4>
       <hr>
       <form action="https://pages.canonical.com/index.php/leadCapture/save" method="post" id="mktoForm_1212" novalidate="novalidate" onsubmit="ga('send', 'Newsletter', 'Signup', 'New homepage newsletter signup');">
         <h3 class="p-card--title p-heading--four">Select topics you&rsquo;re interested in</h3>
@@ -104,7 +104,7 @@
     </div>
     {% else %}
     <div class="col-4 p-card--post--{{ post.group.slug }}">
-      <h5 class="p-muted-heading">{{ post.group.name }}</h5>
+      <h4 class="p-muted-heading">{{ post.group.name }}</h4>
       <hr>
       {% if post.featuredmedia %}
       <a href="{{post.link}}">

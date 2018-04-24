@@ -7,13 +7,6 @@
 
   .p-card {
 
-    &__date {
-      @extend .p-media-object__meta-list;
-      display: flex;
-      margin-top: auto;
-      padding-top: $sp-medium;
-    }
-
     &__footer {
       margin-top: auto;
     }
@@ -47,12 +40,6 @@
         @extend %flex-column;
         @extend %p-card--highlighted;
         @include vf-m-category-bar($color-mid-light);
-      }
-  
-      &--webinar {
-        @extend %flex-column;
-        @extend %p-card--highlighted;
-        @include vf-m-category-bar(#48929b);
       }
     }
   }

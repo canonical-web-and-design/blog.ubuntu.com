@@ -48,7 +48,7 @@
             {% set endyear = 2015 %}
           {% endif %}
           {% for year in range(now.year, endyear, -1) %}
-            <li class="p-list__item"><h5><a class="p-link--soft" href="/archives?year={{ year }}{{ '&group=' + group.slug if group }}{{ '&category=' + category.slug if category }}">{{ year }}</a></h5>
+            <li class="p-list__item"><h4><a class="p-link--soft" href="/archives?year={{ year }}{{ '&group=' + group.slug if group }}{{ '&category=' + category.slug if category }}">{{ year }}</a></h4>
             {% if not group %}
               <ul class="p-inline-list--middot">
                 {% for month in range(1, 13, 1) %}

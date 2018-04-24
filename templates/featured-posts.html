@@ -3,7 +3,7 @@
 <div class="p-strip is-shallow u-no-padding--top" id="posts-list">
   <div class="row">
     <div class="col-12">
-      <h5 class="p-muted-heading">Featured posts</h5>
+      <h4 class="p-muted-heading">Featured posts</h4>
     </div>
   </div>
   {%- for post in featured_posts %}
@@ -11,7 +11,7 @@
   <div class="row u-equal-height">
   {% endif %}
     <div class="col-4 p-card--post--{{ post.group.slug }}">
-        <h5 class="p-muted-heading">{{ post.group.name }}</h5>
+        <h4 class="p-muted-heading">{{ post.group.name }}</h4>
         <hr>
         {% if post.featuredmedia %}
         <a href="{{post.link}}">
