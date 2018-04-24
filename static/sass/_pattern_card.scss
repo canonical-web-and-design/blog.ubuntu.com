@@ -1,73 +1,59 @@
 @mixin insights-p-card {
 
-  .p-card__category {
-    background: url('#{$assets-path}ed42aefa-icon-resource-hub-icon-document.png') left center no-repeat;
-    color: $color-mid-dark;
-
-    > a:link,
-    > a:visited {
-      color: $color-mid-dark;
-      text-decoration: none;
-    }
-
-    > a:hover,
-    > a:active {
-      color: $color-brand;
-      text-decoration: underline;
-    }
-  }
-
   %flex-column {
     display: flex;
     flex-direction: column;
   }
 
-  .p-card--post {
-    &--cloud-and-server {
-      @extend %p-card--highlighted;
-      @extend %flex-column;
-      @include vf-m-category-bar(#a87ca0);
+  .p-card {
+
+    &__date {
+      @extend .p-media-object__meta-list;
+      display: flex;
+      margin-top: auto;
+      padding-top: $sp-medium;
     }
 
-    &--desktop {
-      @extend %flex-column;
-      @extend %p-card--highlighted;
-      @include vf-m-category-bar(#48929b);
+    &__footer {
+      margin-top: auto;
     }
 
-    &--internet-of-things {
-      @extend %flex-column;
-      @extend %p-card--highlighted;
-      @include vf-m-category-bar(#8db255);
+    &--post {
+      &--cloud-and-server {
+        @extend %flex-column;
+        @extend %p-card--highlighted;
+        @include vf-m-category-bar(#a87ca0);
+      }
+  
+      &--desktop {
+        @extend %flex-column;
+        @extend %p-card--highlighted;
+        @include vf-m-category-bar(#48929b);
+      }
+  
+      &--internet-of-things {
+        @extend %flex-column;
+        @extend %p-card--highlighted;
+        @include vf-m-category-bar(#8db255);
+      }
+  
+      &--canonical-announcements {
+        @extend %flex-column;
+        @extend %p-card--highlighted;
+        @include vf-m-category-bar(#ff8936);
+      }
+  
+      &--phone-and-tablet {
+        @extend %flex-column;
+        @extend %p-card--highlighted;
+        @include vf-m-category-bar($color-mid-light);
+      }
+  
+      &--webinar {
+        @extend %flex-column;
+        @extend %p-card--highlighted;
+        @include vf-m-category-bar(#48929b);
+      }
     }
-
-    &--canonical-announcements {
-      @extend %flex-column;
-      @extend %p-card--highlighted;
-      @include vf-m-category-bar(#ff8936);
-    }
-
-    &--phone-and-tablet {
-      @extend %flex-column;
-      @extend %p-card--highlighted;
-      @include vf-m-category-bar($color-mid-light);
-    }
-
-    &--webinar {
-      @extend %flex-column;
-      @extend %p-card--highlighted;
-      @include vf-m-category-bar(#48929b);
-    }
-  }
-
-  .p-card__footer {
-    margin-top: auto;
-  }
-
-  .p-card__date {
-    @extend .p-media-object__meta-list;
-    display: flex;
-    margin-top: auto;
-    padding-top: $sp-medium;
   }
 }

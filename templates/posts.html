@@ -117,7 +117,7 @@
         <p class="u-align--bottom"><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
       {% endif %}
       {% if not post.featuredmedia %}
-      <p class="">{{ post.summary | striptags | urlize(30, true) }}</p>
+      <p>{{ post.summary | striptags | urlize(30, true) }}</p>
       {% endif %}
         <hr>
         <small>{{ post.category.name | capitalize }}</small>
