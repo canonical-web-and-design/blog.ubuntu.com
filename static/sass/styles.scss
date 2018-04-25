@@ -1,16 +1,22 @@
 @charset 'UTF-8';
 
-$breakpoint-navigation-threshold: 990px;
+// Import custom scss settings
+@import 'settings';
 
+// Import Vanilla
 @import 'vanilla-framework/scss/build';
-@import 'pattern_social-share';
-@import 'pattern_rtp';
+
+// Import and include custom scss
 @import 'pattern_card';
+@import 'pattern_navigation';
+@import 'pattern_rtp';
+@import 'pattern_social-share';
 @import 'pattern_strips';
 
-@include insights-p-social-share;
-@include insights-p-rtp;
 @include insights-p-card;
+@include insights-p-navigation;
+@include insights-p-rtp;
+@include insights-p-social-share;
 @include insights-p-strips;
 
 // Bug fixes
@@ -26,78 +32,6 @@ $breakpoint-navigation-threshold: 990px;
 /// Vanilla issue https://github.com/vanilla-framework/vanilla-framework/issues/1385
 pre {
   margin-top: 1rem;
-}
-
-/// XXX Navigation dropdown
-/// Temporary implementation of nav dropdown until implemented in Vanilla
-@media (min-width: $breakpoint-navigation-threshold + 1) {
-  .p-navigation__link:hover .hover-menu {
-    display: block;
-    z-index: 10;
-  }
-}
-
-.p-navigation .p-navigation__nav ul li:hover ul::after {
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    background: url('https://assets.ubuntu.com/v1/b70e6370-nav-arrow-white.svg') $sp-large bottom no-repeat;
-    content: '';
-    display: block;
-    height: $sp-x-small;
-    left: 0;
-    position: absolute;
-    top: -7px;
-    width: 150px;
-    z-index: 999;
-  }
-}
-
-.hover-menu {
-  display: none;
-
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    background: $color-x-light;
-    border: 1px solid $color-mid-light;
-    border-radius: 10px;
-    box-shadow: 0 2px 2px -1px $color-mid-light;
-    display: none;
-    float: none;
-    margin: 0;
-    padding: $sp-x-small 0 $sp-medium;
-    position: absolute;
-    top: 50px;
-    width: 150px;
-    z-index: 1;
-
-    li {
-      font-size: .875rem;
-      padding: $sp-x-small $sp-small 0 $sp-small;
-
-      &:last-child {
-        padding-bottom: 0;
-      }
-    }
-
-    a {
-      color: $color-dark;
-    }
-  }
-}
-
-/// XXX Small screen accordion
-/// Temporary fix until small screen nav accordion implemented in Vanilla
-.p-accordion__tab {
-  background-color: #f7f7f7;
-  font-size: 0.875rem;
-  padding: 1rem 2.5rem 1rem 8px;
-}
-
-.p-accordion__panel {
-  border: none;
-  padding: 0;
-
-  > .p-navigation__links > .p-navigation__link {
-    padding-left: 1rem;
-  }
 }
 
 .design-image {
@@ -121,27 +55,6 @@ pre {
   }
 }
 
-// XXX Caleb - 30.01.18 Nav search box styling fixes
-.p-navigation .p-navigation__nav > .p-search-box {
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    margin-top: 2px;
-    max-width: 15rem;
-  }
-}
-
-// XXX Caleb - 30.01.18 Custom hide utilities for navigation breakpoints
-.u-hide--nav-large {
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    display: none !important;
-  }
-}
-
-.u-hide--nav-small {
-  @media (max-width: $breakpoint-navigation-threshold) {
-    display: none !important;
-  }
-}
-
 .p-topic-image {
   height: 2.5rem;
 
@@ -150,22 +63,9 @@ pre {
   }
 }
 
-// XXX Ant: 06.02.2018
-// Can be removed when upgrading to vanilla v1.6.6 >
-.p-navigation .p-navigation__link {
-  > a {
-    border-bottom: 3px solid transparent;
-  }
-
-  &.is-selected > a {
-    border-bottom-color: $color-mid-dark;
-  }
-}
-
 .p-post__content {
   max-width: 35em;
 }
-
 
 .link-cta-ubuntu {
   @extend .p-button--positive;

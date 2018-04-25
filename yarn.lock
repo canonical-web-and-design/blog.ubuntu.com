@@ -391,9 +391,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
-cookie-policy@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/cookie-policy/-/cookie-policy-0.0.1.tgz#98d876c0c52282144cdddccff127446a2a65897d"
+cookie-policy@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/cookie-policy/-/cookie-policy-1.0.5.tgz#be71abae448c07fe97e5a0b1234d628e835072c3"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -2490,9 +2490,9 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
 
-vanilla-framework@1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-1.6.5.tgz#e6ea7ab6de38c8172e362474258981a57eec0993"
+vanilla-framework@1.7.0-beta-2.1:
+  version "1.7.0-beta-2.1"
+  resolved "https://registry.yarnpkg.com/vanilla-framework/-/vanilla-framework-1.7.0-beta-2.1.tgz#36ffb4461b7431d2aa245ff3c43010469751a231"
 
 verbalize@^0.1.2:
   version "0.1.2"

@@ -5,9 +5,9 @@
     <div class="row u-equal-height u-vertically-center">
       <div class="col-6 p-card--suru">
         <h1 class="p-heading--one">Press centre</h1>
-        <h5 style="line-height: 1.75rem;">
+        <h4>
           The home of Ubuntu media resources, news stories and press releases. Journalists seeking further information can contact <a class='p-link--inverted' href='mailto:pr@canonical.com'>pr@canonical.com</a>
-        </h5>
+        </h4>
 
       </div>
       <div id="rtp-banner" class="rtp-banner"></div>
@@ -18,18 +18,18 @@
     <div class="row">
       <div class="col-8">
         {%- for post in posts %}
-        <div class="p-card--post">
-          <header class="p-card__header--{{ post.group.slug }}">
-            <h5 class="p-muted-heading">{{ post.group.name }}</h5>
-          </header>
-          <div class="p-card__content">
-            <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
-            {% if post.author %}
-              <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
-            {% endif %}
-            <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
-          </div>
-          <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
+        <div class="p-card--post--canonical-announcements">
+          <h5 class="p-muted-heading">{{ post.group.name }}</h5>
+          <hr>
+          <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
+          {% if post.author %}
+            <p class="u-align--bottom"><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
+          {% endif %}
+          {% if not post.featuredmedia %}
+            <p>{{ post.summary | striptags | urlize(30, true) }}</p>
+          {% endif %}
+          <hr>
+          <small>{{ post.category.name | capitalize }}</small>
         </div>
         {%- endfor %}
       </div>
@@ -102,7 +102,7 @@
           <h4>Archives</h4>
           <ul class="p-list">
             {% for year in range(current_year, 2015, -1) %}
-              <li class="p-list__item"><h5><a class="p-link--soft" href="/archives?group=canonical-announcements&amp;year={{ year }}">{{ year }}</a></h5></li>
+              <li class="p-list__item"><h4><a class="p-link--soft" href="/archives?group=canonical-announcements&amp;year={{ year }}">{{ year }}</a></h4></li>
             {% endfor %}
           </ul>
         </div>

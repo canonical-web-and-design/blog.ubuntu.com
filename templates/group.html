@@ -7,9 +7,9 @@
         <h1 class="p-heading--one">
           {{ group_details.name }}
         </h1>
-        <h5 style="line-height: 1.75rem;">
+        <h4>
           {{ group_details.description | safe }}
-        </h5>
+        </h4>
         {% if group_details.url %}
         <p>
           <a class="p-link--external p-link--inverted" href="{{ group_details.url }}">Learn more about {{ group_details.name }}</a>

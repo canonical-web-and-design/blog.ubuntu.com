@@ -41,7 +41,7 @@
 <div class="p-strip--light">
   <div class="row">
     <div class="col-8 prefix-1">
-      <h3 class="p-heading--five">Recently posted by {{ author.name }}</h3>
+      <h3 class="p-heading--four">Recently posted by {{ author.name }}</h3>
       <ul class="p-list--divided">
       {% for post in recent_posts %}
         <li class="p-list__item"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></li>
