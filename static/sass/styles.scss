@@ -238,3 +238,13 @@ pre {
 .u-margin-large--top {
   margin-top: $sp-large !important;
 }
+
+.p-navigation {
+
+  &__logo {
+    @media (min-width: $breakpoint-navigation-threshold + 1) {
+      margin-top: .75rem !important;
+      margin-bottom: .25rem !important;
+    }
+  }
+}
