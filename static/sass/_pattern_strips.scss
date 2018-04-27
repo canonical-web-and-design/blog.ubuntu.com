@@ -1,9 +1,9 @@
-@mixin insights-p-strips {
-  @include insights-p-strips-suru;
+@mixin blog-p-strips {
   @include insights-p-strips-featured;
+  @include blog-p-strips-suru;
 }
 
-@mixin insights-p-strips-suru {
+@mixin blog-p-strips-suru {
   .p-strip--suru {
     position: relative;
     overflow: hidden;

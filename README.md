@@ -1,2 +1,2 @@
 # blog.ubuntu.com
-A Flask frontend for the insights.ubuntu.com website.
+A Flask frontend for the blog.ubuntu.com website.

@@ -23,14 +23,14 @@
       {% if post.title %}
         <meta property="og:title" content="{{post.title.rendered | safe}}" />
       {% else %}
-        <meta property="og:title" content="Ubuntu Insights" />
+        <meta property="og:title" content="Ubuntu blog" />
       {% endif %}
     {% endif %}
 
     {% if self.title() %}
-      <title>{% block title %}{% endblock %} | Ubuntu Insights</title>
+      <title>{% block title %}{% endblock %} | Ubuntu blog</title>
     {% else %}
-      <title>Ubuntu Insights</title>
+      <title>Ubuntu blog</title>
     {% endif %}
 
     <link rel="icon" type="image/png" href="https://assets.ubuntu.com/v1/cb22ba5d-favicon-16x16.png" sizes="16x16" />
@@ -66,7 +66,7 @@
     ga('require', 'GTM-KWL5RDF');
     ga('require', 'linker');
     ga('linker:autoLink', ['conjure-up.io', 'login.ubuntu.com', 'www.ubuntu.com',
-    'ubuntu.com', 'insights.ubuntu.com', 'developer.ubuntu.com', 'cn.ubuntu.com',
+    'ubuntu.com', 'blog.ubuntu.com', 'developer.ubuntu.com', 'cn.ubuntu.com',
     'design.ubuntu.com', 'maas.io', 'canonical.com', 'landscape.canonical.com',
     'pages.ubuntu.com', 'tutorials.ubuntu.com', 'docs.ubuntu.com']);
     </script>

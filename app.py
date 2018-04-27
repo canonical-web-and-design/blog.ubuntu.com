@@ -15,7 +15,7 @@ import helpers
 import redirects
 
 
-INSIGHTS_ADMIN_URL = 'https://admin.insights.ubuntu.com'
+BLOG_ADMIN_URL = 'https://admin.blog.ubuntu.com'
 
 app = flask.Flask(__name__)
 app.jinja_env.filters['monthname'] = helpers.monthname
@@ -386,14 +386,14 @@ def archives():
 @app.route('/<slug>/feed')
 @app.route('/feed')
 def feed(type=None, slug=None): # noqa
-    feed_url = ''.join([INSIGHTS_ADMIN_URL, flask.request.full_path])
+    feed_url = ''.join([BLOG_ADMIN_URL, flask.request.full_path])
     feed_text = feeds.cached_request(
         feed_url
     ).text
 
     feed_text = feed_text.replace(
-        'admin.insights.ubuntu.com',
-        'insights.ubuntu.com'
+        'admin.blog.ubuntu.com',
+        'blog.ubuntu.com'
     )
 
     return flask.Response(feed_text, mimetype='text/xml')
