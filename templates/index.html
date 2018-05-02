@@ -23,7 +23,9 @@
   </div>
 </section>
 
-{% if featured_posts %}{% include "featured-posts.html" %}{% endif %}
+{% if current_page and current_page == 1 %}
+  {% if featured_posts %}{% include "featured-posts.html" %}{% endif %}
+{% endif %}
 
 {% include "posts.html" %}
 
