@@ -37,7 +37,7 @@
   {% if loop.index0 % 3 == 0 %}
   <div class="row u-equal-height u-clearfix">
   {% endif %}
-  {% if loop.index0 == 2 %}
+  {% if loop.index0 == 2 and current_page == 1 %}
   <div class="col-4 p-card--muted">
     <header class="p-card__header">
       <h5 class="p-muted-heading">Newsletter signup</h5>
@@ -47,19 +47,19 @@
         <h3 class="p-card--title p-heading--four">Select topics you&rsquo;re interested in</h3>
         <div class="p-card--content">
           <ul class="p-list">
-            <li class="p-list__item u-no-margin--top">
+            <li class="p-list__item u-no-margin--top u-clearfix">
               <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightscloudserver" name="insightscloudserver" value="Cloud and server" />
               <label class="u-no-margin--top" for="insightscloudserver">Cloud and server</label>
             </li>
-            <li class="p-list__item u-no-margin--top">
+            <li class="p-list__item u-no-margin--top u-clearfix">
               <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsdesktop" name="insightsdesktop" value="Desktop" />
               <label class="u-no-margin--top" for="insightsdesktop">Desktop</label>
             </li>
-            <li class="p-list__item u-no-margin--top">
+            <li class="p-list__item u-no-margin--top u-clearfix">
               <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" type="checkbox" id="insightsiot" name="insightsiot" value="Internet of Things" />
               <label class="u-no-margin--top" for="insightsiot">Internet of Things</label>
             </li>
-            <li class="p-list__item u-no-margin--top">
+            <li class="p-list__item u-no-margin--top u-clearfix">
               <input class="mktoLogicalField mktoCheckboxList mktoHasWidth" id="insightstutorials" name="insightstutorials" value="Tutorials" type="checkbox">
               <label class="u-no-margin--top" for="insightstutorials">Tutorials</label>
             </li>
