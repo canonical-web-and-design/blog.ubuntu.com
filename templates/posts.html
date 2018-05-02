@@ -112,7 +112,7 @@
         <h5 class="p-muted-heading">{{ post.group.name }}</h5>
       </header>
       <div class="p-card__content">
-        {% if post.featuredmedia %}
+        {% if post.featuredmedia and post.featuredmedia.code != 'rest_forbidden' %}
         <a href="{{post.link}}">
           <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
         </a>
@@ -121,7 +121,7 @@
         {% if post.author %}
           <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
         {% endif %}
-        {% if not post.featuredmedia %}
+        {% if not post.featuredmedia or post.featuredmedia.code == 'rest_forbidden' %}
         <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
         {% endif %}
       </div>

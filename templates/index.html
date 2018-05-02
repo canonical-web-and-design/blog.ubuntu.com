@@ -23,7 +23,7 @@
   </div>
 </section>
 
-{% if featured_posts %}{% include "featured-posts.html" %}{% endif %}
+{% if featured_posts and current_page == 1 %}{% include "featured-posts.html" %}{% endif %}
 
 {% include "posts.html" %}
 
