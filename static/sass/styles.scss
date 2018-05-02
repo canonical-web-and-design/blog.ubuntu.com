@@ -251,3 +251,11 @@ pre {
 .insightera-bar-shadow-bottom {
   background-image: none !important;
 }
+
+// Crop to 16:9
+.u-crop--16-9 {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 56.25%;
+}
