@@ -238,3 +238,13 @@ pre {
 .u-margin-large--top {
   margin-top: $sp-large !important;
 }
+
+// Marketo insightera-bar-widget styling
+.insightera-bar-content {
+  margin-top: 0;
+  font-size: 14px !important;
+}
+.insightera-content-arrow {
+  position: relative;
+  top: -5px;
+}
