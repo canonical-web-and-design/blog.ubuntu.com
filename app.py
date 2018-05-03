@@ -1,4 +1,5 @@
 # Core
+import dateutil.parser
 from datetime import datetime
 from urllib.parse import urlparse, urlunparse, unquote
 
@@ -405,10 +406,22 @@ def feed(type=None, slug=None): # noqa
     '/<slug>'
 )
 @app.route(
+    '/<regex("[0-9]{4}"):year>'
+    '/<regex("[0-9]{2}"):month>'
+    '/<slug>'
+)
+@app.route(
     '/webinar/<slug>'
 )
-def post(slug, year=None, month=None, day=None):
+def post(slug, year, month, day=None):
     posts, total_posts, total_pages = helpers.get_formatted_posts(slugs=[slug])
+
+    if not day and posts:
+        pubdate = dateutil.parser.parse(posts[0]['date_gmt'])
+        day = pubdate.day
+        return flask.redirect(
+            '/{year}/{month}/{day}/{slug}'.format(**locals())
+        )
 
     if not posts:
         flask.abort(404)
