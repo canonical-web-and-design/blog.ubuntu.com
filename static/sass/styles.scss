@@ -251,3 +251,33 @@ pre {
 .insightera-bar-shadow-bottom {
   background-image: none !important;
 }
+
+// Crop to 16:9
+.u-crop--16-9 {
+  position: relative;
+
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: 56.25%;
+  }
+
+  // Incase img isn't wrapped in a link
+  > a,
+  > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  > a {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+}
