@@ -3,6 +3,7 @@ import re
 import textwrap
 import warnings
 from urllib.parse import urlencode, urlsplit
+import datetime
 
 # External
 import dateutil.parser
@@ -41,7 +42,12 @@ def get_formatted_expanded_posts(**kwargs):
 
     for post in posts:
         post = format_post(post)
-        post['group'] = get_first_group(post['group'], force_group=force_group)
+
+        post['group'] = get_first_group(
+            post.get('group', ''),
+            force_group=force_group
+        )
+
         post['category'] = get_first_category(post['categories'])
 
     return posts, total_posts, total_pages
@@ -86,7 +92,28 @@ def format_post(post):
     post['summary'] = format_summary(post['excerpt']['rendered'])
     post['date'] = format_date(post['date'])
 
+    if post['_start_month']:
+        start_month_name = get_month_name(int(post['_start_month']))
+        post['start_date'] = '{} {} {}'.format(
+           post['_start_day'], start_month_name, post['_start_year']
+        )
+
+    if post['_end_month']:
+        end_month_name = get_month_name(int(post['_end_month']))
+        post['end_date'] = '{} {} {}'.format(
+            post['_end_day'], end_month_name, post['_end_year']
+        )
+
     return post
+
+
+def get_month_name(month_index):
+    """
+    Get the month name from it's number, e.g.:
+    January
+    """
+
+    return datetime.date(1900, month_index, 1).strftime('%B')
 
 
 def format_date(date):

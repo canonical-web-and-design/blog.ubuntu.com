@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}What&rsquo;s coming up&hellip;{% endblock %}
+{% block body %}
+
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="p-heading--two">
+        What&rsquo;s coming up&hellip;
+      </h1>
+    </div>
+  </div>
+</section>
+
+{% include "upcoming_posts.html" %}
+
+{% include "pagination.html" %}
+
+{% endblock %}
