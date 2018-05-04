@@ -33,7 +33,9 @@
     padding: 0;
 
     .p-strip--featured & {
+      position: relative;
       background-color: rgba(255,255,255,.9);
+      z-index: 1;
     }
 
     > .p-card__content {
