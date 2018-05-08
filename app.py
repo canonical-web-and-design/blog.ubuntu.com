@@ -369,11 +369,10 @@ def archives():
 
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
-
-    def get_category_id(category):
-        return category.id
-
-    category_ids = list(map(lambda category: category['id'], categories))
+        category_ids = list(map(lambda category: category['id'], categories))
+    else:
+        categories = []
+        category_ids = []
 
     posts, total_posts, total_pages = helpers.get_formatted_posts(
         page=page,
@@ -388,7 +387,7 @@ def archives():
         posts=posts,
         group=group,
         category_slug=category_slug if category_slug else None,
-        categories=categories if categories else [],
+        categories=categories,
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
