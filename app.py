@@ -418,7 +418,7 @@ def post(slug, year, month, day=None):
 
     if not day and posts:
         pubdate = dateutil.parser.parse(posts[0]['date_gmt'])
-        day = pubdate.day
+        day = pubdate.strftime('%d')
         return flask.redirect(
             '/{year}/{month}/{day}/{slug}'.format(**locals())
         )
