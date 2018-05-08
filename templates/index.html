@@ -13,21 +13,15 @@
 </div>
 {% endif %}
 
-<section class="p-strip is-shallow">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="p-heading--two">
-        Ubuntu news and resources
-      </h1>
-    </div>
-  </div>
-</section>
-
-{% if current_page and current_page == 1 %}
-  {% if featured_posts %}{% include "featured-posts.html" %}{% endif %}
+{% if current_page and current_page == 1 and featured_posts %}
+  {% include "featured-posts.html" %}
 {% endif %}
 
 {% include "posts.html" %}
+
+{% if current_page and current_page == 1 and upcoming_events %}
+  {%  include "whats-coming-up.html" %}
+{% endif %}
 
 {% include "pagination.html" %}
 

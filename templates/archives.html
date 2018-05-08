@@ -13,7 +13,21 @@
         </h1>
         <p>
           {{ total_posts }}
-          {{ category.name | lower if category else 'posts' }}
+          {% if categories %}
+            {% for category in categories %}
+              {% if loop.length > 1 %}
+                {% if not loop.last %}
+                  {{ category.name | lower }}{% if not loop.last and loop.index < loop.length - 1 %},{% endif %}
+                {% else %}
+                  and {{ category.name | lower }}
+                {% endif %}
+              {% else %}
+                {{ category.name | lower }}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            posts
+          {% endif %}
           {{ ' from ' + friendly_date if friendly_date }}
         </p>
       </div>
@@ -48,13 +62,13 @@
             {% set endyear = 2015 %}
           {% endif %}
           {% for year in range(now.year, endyear, -1) %}
-            <li class="p-list__item"><h5><a class="p-link--soft" href="/archives?year={{ year }}{{ '&group=' + group.slug if group }}{{ '&category=' + category.slug if category }}">{{ year }}</a></h5>
+            <li class="p-list__item"><h5><a class="p-link--soft" href="/archives?year={{ year }}{{ '&group=' + group.slug if group }}{{ '&category=' + category_slug if category_slug }}">{{ year }}</a></h5>
             {% if not group %}
               <ul class="p-inline-list--middot">
                 {% for month in range(1, 13, 1) %}
                   {# need to skip months in the current year that haven't occured #}
                   {% if now.year != year or (now.year == year and month <= now.month) %}
-                    <li class="p-inline-list__item"><a class="p-link--soft" href="/archives?year={{ year }}&amp;month={{ month }}{{ '&category=' + category.slug if category }}">{{ month | monthname }}</a></li>
+                    <li class="p-inline-list__item"><a class="p-link--soft" href="/archives?year={{ year }}&amp;month={{ month }}{{ '&category=' + category_slug if category_slug }}">{{ month | monthname }}</a></li>
                   {% endif %}
                 {% endfor %}
               </li>
