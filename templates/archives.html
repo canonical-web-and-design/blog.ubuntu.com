@@ -13,7 +13,21 @@
         </h1>
         <p>
           {{ total_posts }}
-          {{ category.name | lower if category else 'posts' }}
+          {% if categories %}
+            {% for category in categories %}
+              {% if loop.length > 1 %}
+                {% if not loop.last %}
+                  {{ category.name | lower }}{% if not loop.last %},{% endif %}
+                {% else %}
+                  and {{ category.name | lower }}
+                {% endif %}
+              {% else %}
+                {{ category.name | lower }}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            posts
+          {% endif %}
           {{ ' from ' + friendly_date if friendly_date }}
         </p>
       </div>
