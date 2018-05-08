@@ -17,7 +17,7 @@
             {% for category in categories %}
               {% if loop.length > 1 %}
                 {% if not loop.last %}
-                  {{ category.name | lower }}{% if not loop.last %},{% endif %}
+                  {{ category.name | lower }}{% if not loop.last and loop.index < loop.length - 1 %},{% endif %}
                 {% else %}
                   and {{ category.name | lower }}
                 {% endif %}
