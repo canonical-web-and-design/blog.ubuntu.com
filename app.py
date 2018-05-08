@@ -387,7 +387,7 @@ def archives():
         'archives.html',
         posts=posts,
         group=group,
-        categories=categories,
+        category_slug=category_slug if category_slug else None,
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
