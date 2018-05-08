@@ -341,6 +341,7 @@ def archives():
     month = helpers.to_int(flask.request.args.get('month'))
     group_slug = flask.request.args.get('group')
     category_slug = flask.request.args.get('category')
+    categories_slug = flask.request.args.get('categories')
 
     if month and month > 12:
         month = None
@@ -348,6 +349,7 @@ def archives():
     friendly_date = None
     group = None
     category = None
+    categorie = None
     after = None
     before = None
 
@@ -477,47 +479,6 @@ def user(slug):
         'author.html',
         author=author,
         recent_posts=recent_posts
-    )
-
-
-@app.route('/upcoming')
-def upcoming():
-    category_slug = flask.request.args.get('category')
-
-    category = None
-
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
-    posts_per_page = 12
-
-    upcoming_categories = api.get_categories(slugs=['events', 'webinars'])
-    upcoming_category_ids = []
-
-    for upcoming_category_id in upcoming_categories:
-        upcoming_category_ids.append(upcoming_category_id['id'])
-
-    upcoming_events, _, _ = helpers.get_formatted_expanded_posts(
-        per_page=3,
-        category_ids=upcoming_category_ids
-    )
-
-    if category_slug:
-        categories = api.get_categories(slugs=[category_slug])
-
-        if categories:
-            category = categories[0]
-
-    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        per_page=posts_per_page,
-        category_ids=upcoming_category_ids,
-        page=page
-    )
-
-    return flask.render_template(
-        'upcoming.html',
-        posts=posts,
-        current_page=page,
-        total_posts=total_posts,
-        total_pages=total_pages
     )
 
 
