@@ -388,6 +388,7 @@ def archives():
         posts=posts,
         group=group,
         category_slug=category_slug if category_slug else None,
+        categories=categories if categories else [],
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
