@@ -347,7 +347,6 @@ def archives():
 
     friendly_date = None
     group = None
-    category = None
     after = None
     before = None
 
@@ -496,4 +495,3 @@ def page_deleted(e):
 @app.errorhandler(500)
 def server_error(e):
     return flask.render_template('500.html'), 500
-
