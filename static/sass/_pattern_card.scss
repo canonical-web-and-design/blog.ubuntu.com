@@ -32,6 +32,12 @@
     flex-direction: column;
     padding: 0;
 
+    .p-strip--featured & {
+      position: relative;
+      background-color: rgba(255,255,255,.9);
+      z-index: 1;
+    }
+
     > .p-card__content {
       border-top: 1px dotted $color-mid-light;
       display: flex;
@@ -85,7 +91,7 @@
 
     &--desktop {
       @extend %post-card-header;
-      border-top: 3px solid #48929b;
+      border-top: 3px solid #faba54;
     }
 
     &--internet-of-things {

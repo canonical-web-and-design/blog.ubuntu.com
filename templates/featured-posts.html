@@ -1,9 +1,9 @@
 {% block featured_posts %}
 
-<div class="p-strip is-shallow u-no-padding--top" id="posts-list">
+<div class="p-strip--featured is-dark is-shallow u-no-margin--top" id="posts-list">
   <div class="row">
     <div class="col-12">
-      <h5 class="p-muted-heading">Featured posts</h5>
+      <h5>Featured posts</h5>
     </div>
   </div>
   {%- for post in featured_posts %}
@@ -17,12 +17,16 @@
       <div class="p-card__content">
         {% if post.featuredmedia %}
         <div class="u-crop--16-9">
-          <a href="{{post.link}}">
+          <a href="{{post.link}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured post', 'eventAction' : 'Blog homepage', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
             <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
           </a>
         </div>
         {% endif %}
-        <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
+        <h3 class="p-heading--four">
+          <a href="{{ post.link }}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured post', 'eventAction' : 'Blog homepage', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
+            {{ post.title.rendered | safe }}
+          </a>
+        </h3>
         {% if post.author %}
           <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
         {% endif %}
