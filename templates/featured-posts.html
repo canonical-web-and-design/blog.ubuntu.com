@@ -17,13 +17,13 @@
       <div class="p-card__content">
         {% if post.featuredmedia %}
         <div class="u-crop--16-9">
-          <a href="{{post.link}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured post', 'eventAction' : 'Blog homepage', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
+          <a href="{{post.link}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured post', 'eventAction' : 'from:https://blog.ubuntu.com, to:https://blog.ubuntu.com{{post.link}}', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
             <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
           </a>
         </div>
         {% endif %}
         <h3 class="p-heading--four">
-          <a href="{{ post.link }}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured post', 'eventAction' : 'Blog homepage', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
+          <a href="{{ post.link }}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Featured post', 'eventAction' : 'from:https://blog.ubuntu.com, to:https://blog.ubuntu.com{{post.link}}', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
             {{ post.title.rendered | safe }}
           </a>
         </h3>
