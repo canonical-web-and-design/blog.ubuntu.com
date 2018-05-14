@@ -6,7 +6,7 @@ import helpers
 import feeds
 
 
-API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
+API_URL = 'https://admin.blog.ubuntu.com/wp-json/wp/v2'
 
 
 def _embed_resource_data(resource):
@@ -27,7 +27,7 @@ def _normalise_resources(posts):
 
 def get(endpoint, parameters={}):
     """
-    Query the Insights API (admin.insights.ubuntu.com) using the cache
+    Query the blog API (admin.blog.ubuntu.com) using the cache
     """
 
     return feeds.cached_request(

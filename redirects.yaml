@@ -1,6 +1,6 @@
 # Wordpress CMS pages & resources
-/admin(?P<page>/.*)?: https://admin.insights.ubuntu.com/admin{page}
-/wp-(?P<page>.*)?: https://admin.insights.ubuntu.com/wp-{page}
+/admin(?P<page>/.*)?: https://admin.blog.ubuntu.com/admin{page}
+/wp-(?P<page>.*)?: https://admin.blog.ubuntu.com/wp-{page}
 
 # Archive pages
 /page/(?P<page>[0-9]+)/?: /archives?page={page}

@@ -8,10 +8,10 @@ $breakpoint-navigation-threshold: 990px;
 @import 'pattern_card';
 @import 'pattern_strips';
 
-@include insights-p-social-share;
-@include insights-p-rtp;
-@include insights-p-card;
-@include insights-p-strips;
+@include blog-p-social-share;
+@include blog-p-rtp;
+@include blog-p-card;
+@include blog-p-strips;
 
 // Bug fixes
 // Each of the the rules below are bug fixes which need to be addressed further upstream
@@ -22,7 +22,7 @@ $breakpoint-navigation-threshold: 990px;
 // the bug
 
 /// XXX Code block top margin
-/// Temporary fix for https://github.com/canonical-websites/insights.ubuntu.com/issues/5
+/// Temporary fix for https://github.com/canonical-websites/blog.ubuntu.com/issues/5
 /// Vanilla issue https://github.com/vanilla-framework/vanilla-framework/issues/1385
 pre {
   margin-top: 1rem;
