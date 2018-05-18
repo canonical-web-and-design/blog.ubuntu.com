@@ -3,7 +3,7 @@
 <div class="p-strip--light">
   <div class="row">
     <div class="col-12">
-      <h3>What&rsquo;s coming up&hellip;</h3>
+      <h5>Upcoming events and webinars</h5>
     </div>
   </div>
 
@@ -24,14 +24,11 @@
       </div>
       {% endif %}
       <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
-      {% if post.author %}
-        <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
-      {% endif %}
       {% if not post.featuredmedia %}
       <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
       {% endif %}
     </div>
-    <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
+    <p class="p-card__footer">{% include 'singular-category.html' %}</p>
   </div>
   {% if loop.index0 % 3 == 2 or loop.last %}
   </div>
