@@ -34,7 +34,9 @@
         <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
         {% endif %}
       </div>
-      <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
+      <p class="p-card__footer">
+        {% include 'singular-category.html' %}
+      </p>
     </div>
   {% if loop.index0 % 3 == 2 or loop.last %}
   </div>

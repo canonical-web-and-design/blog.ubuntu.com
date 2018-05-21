@@ -1,0 +1,13 @@
+{% if post.category.name == 'Articles' %}
+  Article
+{% elif post.category.name == 'Case studies' %}
+  Case study
+{% elif post.category.name == 'News' %}
+  News
+{% elif post.category.name == 'Webinars' %}
+  Webinar
+{% elif post.category.name == 'White papers' %}
+  White paper
+{% else %}
+  {{ post.category.name }}
+{% endif %}
