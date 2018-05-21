@@ -29,7 +29,7 @@
             {% endif %}
             <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
           </div>
-          <p class="p-card__footer">{{ post.category.name | capitalize }}</p>
+          <p class="p-card__footer">{% include 'singular-category.html' %}</p>
         </div>
         {%- endfor %}
       </div>
