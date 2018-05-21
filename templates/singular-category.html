@@ -1,9 +1,13 @@
-{% if post.category.name == 'Articles' %}Article{% endif %}
-
-{% if post.category.name == 'Case studies' %}Case study{% endif %}
-
-{% if post.category.name == 'News' %}News{% endif %}
-
-{% if post.category.name == 'Webinars' %}Webinar{% endif %}
-
-{% if post.category.name == 'White papers' %}White paper{% endif %}
+{% if post.category.name == 'Articles' %}
+  Article
+{% elif post.category.name == 'Case studies' %}
+  Case study
+{% elif post.category.name == 'News' %}
+  News
+{% elif post.category.name == 'Webinars' %}
+  Webinar
+{% elif post.category.name == 'White papers' %}
+  White paper
+{% else %}
+  {{ post.category.name }}
+{% endif %}
