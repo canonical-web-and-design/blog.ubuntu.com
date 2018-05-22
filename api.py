@@ -6,7 +6,8 @@ import helpers
 import feeds
 
 
-API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
+# API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
+API_URL = 'http://insights.canonicalwebteam.com/wp-json/wp/v2'
 
 
 def _embed_resource_data(resource):

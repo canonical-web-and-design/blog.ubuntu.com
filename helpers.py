@@ -41,7 +41,12 @@ def get_formatted_expanded_posts(**kwargs):
 
     for post in posts:
         post = format_post(post)
-        post['group'] = get_first_group(post['group'], force_group=force_group)
+        # This line needs testing before going live
+        post['group'] = get_first_group(
+            post.get('group', ''),
+            force_group=force_group
+        )
+        # post['group'] = get_first_group(post['group'], force_group=force_group)
         post['category'] = get_first_category(post['categories'])
 
     return posts, total_posts, total_pages
