@@ -180,7 +180,7 @@ def alternate_homepage():
     sticky_posts, _, _ = helpers.get_formatted_expanded_posts(sticky=True)
     featured_posts = sticky_posts[:3] if sticky_posts else None
     page = helpers.to_int(flask.request.args.get('page'), default=1)
-    posts_per_page = 13 if page == 1 else 12
+    posts_per_page = 12
 
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
@@ -191,13 +191,9 @@ def alternate_homepage():
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         per_page=posts_per_page,
         category_ids=[category['id']] if category else [],
-        page=page
+        page=page,
+        sticky=False
     )
-
-    if featured_posts:
-        for post in featured_posts:
-            if post in posts:
-                posts.remove(post)
 
     return flask.render_template(
         'alternate_index.html',
