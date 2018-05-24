@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 
+{% block head_extra %}<meta name="robots" content="noindex" />{% endblock %}
+
 {% block body %}
   <section id="main-content" class="p-strip--accent is-dark is-deep">
     {% if query %}

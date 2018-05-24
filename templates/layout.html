@@ -27,6 +27,8 @@
       {% endif %}
     {% endif %}
 
+    {% block head_extra %}{% endblock %}
+
     {% if self.title() %}
       <title>{% block title %}{% endblock %} | Ubuntu blog</title>
     {% else %}
