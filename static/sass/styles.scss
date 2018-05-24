@@ -187,6 +187,10 @@ pre {
     font: inherit;
     padding: $sp-large 0;
 
+    &:focus {
+      outline: none;
+    }
+
     &[aria-expanded='false'],
     &[aria-expanded='true'] {
       background-image: none;
