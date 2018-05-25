@@ -148,6 +148,17 @@ def homepage():
     page = helpers.to_int(flask.request.args.get('page'), default=1)
     posts_per_page = 12
 
+    upcoming_categories = api.get_categories(slugs=['events', 'webinars'])
+    upcoming_category_ids = []
+
+    for upcoming_category_id in upcoming_categories:
+        upcoming_category_ids.append(upcoming_category_id['id'])
+
+    upcoming_events, _, _ = helpers.get_formatted_expanded_posts(
+        per_page=3,
+        category_ids=upcoming_category_ids
+    )
+
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
 
@@ -168,7 +179,8 @@ def homepage():
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
-        featured_posts=featured_posts
+        featured_posts=featured_posts,
+        upcoming_events=upcoming_events
     )
 
 
@@ -331,7 +343,6 @@ def archives():
 
     friendly_date = None
     group = None
-    category = None
     after = None
     before = None
 
@@ -353,28 +364,31 @@ def archives():
 
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
-
-        if categories:
-            category = categories[0]
+        category_ids = list(map(lambda category: category['id'], categories))
+    else:
+        categories = []
+        category_ids = []
 
     posts, total_posts, total_pages = helpers.get_formatted_posts(
         page=page,
         after=after,
         before=before,
         group_ids=[group['id']] if group else [],
-        category_ids=[category['id']] if category else [],
+        category_ids=category_ids if category_ids else [],
     )
 
     return flask.render_template(
         'archives.html',
         posts=posts,
         group=group,
-        category=category,
+        category_slug=category_slug if category_slug else None,
+        categories=categories,
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
         friendly_date=friendly_date,
         now=datetime.now(),
+        category_ids=category_ids
     )
 
 
@@ -464,6 +478,47 @@ def user(slug):
     )
 
 
+@app.route('/upcoming')
+def upcoming():
+    category_slug = flask.request.args.get('category')
+
+    category = None
+
+    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    posts_per_page = 12
+
+    upcoming_categories = api.get_categories(slugs=['events', 'webinars'])
+    upcoming_category_ids = []
+
+    for upcoming_category_id in upcoming_categories:
+        upcoming_category_ids.append(upcoming_category_id['id'])
+
+    upcoming_events, _, _ = helpers.get_formatted_expanded_posts(
+        per_page=3,
+        category_ids=upcoming_category_ids
+    )
+
+    if category_slug:
+        categories = api.get_categories(slugs=[category_slug])
+
+        if categories:
+            category = categories[0]
+
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        per_page=posts_per_page,
+        category_ids=upcoming_category_ids,
+        page=page
+    )
+
+    return flask.render_template(
+        'upcoming.html',
+        posts=posts,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages
+    )
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return flask.render_template('404.html'), 404
@@ -477,3 +532,4 @@ def page_deleted(e):
 @app.errorhandler(500)
 def server_error(e):
     return flask.render_template('500.html'), 500
+
