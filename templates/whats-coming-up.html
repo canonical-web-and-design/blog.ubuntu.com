@@ -31,7 +31,7 @@
         {% if post.start_date and post.end_date %}
         <li class="p-list__item">
           <i class="p-icon--calendar"></i>&nbsp;
-          {{ post.start_date }} &ndash; {{ post.end_date }}
+          {{ post.start_date }}{% if post.start_date != post.end_date %} &ndash; {{ post.end_date }}{% endif %}
         </li>
         {% endif %}
 
