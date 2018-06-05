@@ -432,7 +432,8 @@ def post(slug, year, month, day=None):
     tags = api.get_tags(post_id=post['id'])
     related_posts, total_posts, total_pages = helpers.get_formatted_posts(
         tag_ids=[tag['id'] for tag in tags],
-        per_page=3
+        per_page=3,
+        exclude=post['id']
     )
 
     return flask.render_template(
