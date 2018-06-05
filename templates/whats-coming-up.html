@@ -18,12 +18,12 @@
     <div class="p-card__content">
       {% if post.featuredmedia %}
       <div class="u-crop--16-9">
-        <a href="{{post.link}}">
+        <a href="{{post.link}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Upcoming event', 'eventAction' : 'from:https://blog.ubuntu.com, to:https://blog.ubuntu.com{{post.link}}', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
           <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
         </a>
       </div>
       {% endif %}
-      <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
+      <h3 class="p-heading--four"><a href="{{ post.link }}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Upcoming event', 'eventAction' : 'from:https://blog.ubuntu.com, to:https://blog.ubuntu.com{{post.link}}', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">{{ post.title.rendered | safe }}</a></h3>
       {% if not post.featuredmedia %}
       <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
       {% endif %}
