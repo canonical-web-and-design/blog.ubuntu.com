@@ -65,7 +65,7 @@ def get_tags(slugs=[], post_id=''):
 def get_posts(
     page=1, per_page=12, query='', sticky=None,
     slugs=[], group_ids=[], category_ids=[], tag_ids=[], author_ids=[],
-    before=None, after=None
+    before=None, after=None, exclude=None
 ):
     """
     Get posts by querying the Wordpress API,
@@ -92,7 +92,8 @@ def get_posts(
                 'tags': helpers.join_ids(tag_ids),
                 'author': helpers.join_ids(author_ids),
                 'before': before.isoformat() if before else None,
-                'after': after.isoformat() if after else None
+                'after': after.isoformat() if after else None,
+                'exclude': exclude
             }
         )
     except requests.exceptions.HTTPError as request_error:
