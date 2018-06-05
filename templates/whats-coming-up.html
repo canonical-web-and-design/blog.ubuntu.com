@@ -27,7 +27,7 @@
       {% if not post.featuredmedia %}
       <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
       {% endif %}
-      <ul class="p-list--event-data">
+      <ul class="p-list u-no-margin--top">
         {% if post.start_date and post.end_date %}
         <li class="p-list__item">
           <i class="p-icon--calendar"></i>&nbsp;

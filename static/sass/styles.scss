@@ -300,12 +300,3 @@ pre {
     }
   }
 }
-
-
-.p-list--event-data {
-  @extend .p-list;
-
-  .p-list__item {
-    margin-top: 0;
-  }
-}
