@@ -364,7 +364,7 @@ def archives():
 
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
-        category_ids = list(map(lambda category: category['id'], categories))
+        category_ids = [category['id'] for category in categories]
     else:
         categories = []
         category_ids = []
@@ -379,16 +379,16 @@ def archives():
 
     return flask.render_template(
         'archives.html',
-        posts=posts,
-        group=group,
-        category_slug=category_slug if category_slug else None,
         categories=categories,
+        category_ids=category_ids,
+        category_slug=category_slug if category_slug else None,
         current_page=page,
-        total_posts=total_posts,
-        total_pages=total_pages,
         friendly_date=friendly_date,
+        group=group,
         now=datetime.now(),
-        category_ids=category_ids
+        posts=posts,
+        total_pages=total_pages,
+        total_posts=total_posts,
     )
 
 
