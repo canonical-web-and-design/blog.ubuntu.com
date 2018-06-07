@@ -1,0 +1,65 @@
+{% block upcoming_events %}
+
+<div class="p-strip--light">
+  <div class="row">
+    <div class="col-12">
+      <h5>Upcoming events and webinars</h5>
+    </div>
+  </div>
+
+  {%- for post in upcoming_events %}
+  {% if loop.index0 % 3 == 0 %}
+  <div class="row u-equal-height u-clearfix">
+  {% endif %}
+  <div class="col-4 p-card--post">
+    <header class="p-card__header--{{ post.group.slug }}">
+      <h5 class="p-muted-heading">{{ post.group.name }}</h5>
+    </header>
+    <div class="p-card__content">
+      {% if post.featuredmedia %}
+      <div class="u-crop--16-9">
+        <a href="{{post.link}}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Upcoming event', 'eventAction' : 'from:https://blog.ubuntu.com, to:https://blog.ubuntu.com{{post.link}}', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">
+          <img src="{{post.featuredmedia.source_url}}" alt="{{post.featuredmedia.alt_text}}" />
+        </a>
+      </div>
+      {% endif %}
+      <h3 class="p-heading--four"><a href="{{ post.link }}" onclick="dataLayer.push({'event' : 'GAEvent', 'eventCategory' : 'Upcoming event', 'eventAction' : 'from:https://blog.ubuntu.com, to:https://blog.ubuntu.com{{post.link}}', 'eventLabel' : '{{ post.title.rendered | safe }}', 'eventValue' : undefined });">{{ post.title.rendered | safe }}</a></h3>
+      {% if not post.featuredmedia %}
+      <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
+      {% endif %}
+      <ul class="p-list u-no-margin--top">
+        {% if post.start_date and post.end_date %}
+        <li class="p-list__item">
+          <i class="p-icon--calendar"></i>&nbsp;
+          {{ post.start_date }}{% if post.start_date != post.end_date %} &ndash; {{ post.end_date }}{% endif %}
+        </li>
+        {% endif %}
+
+        {% if post._event_location %}
+        <li class="p-list__item">
+          <i class="p-icon--location"></i>&nbsp;{{ post._event_location }}
+        </li>
+        {% endif %}
+
+        {% if post._event_venue %}
+        <li class="p-list__item">
+          <i class="p-icon--location-alt"></i>&nbsp;{{ post._event_venue }}
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    <p class="p-card__footer">{% include 'singular-category.html' %}</p>
+  </div>
+  {% if loop.index0 % 3 == 2 or loop.last %}
+  </div>
+  {% endif %}
+  {%- endfor %}
+
+  <div class="row">
+    <div class="col-12">
+      <p><a href="/archives?category=events,webinars">See more&nbsp;&rsaquo;</a></p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

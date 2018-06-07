@@ -1,6 +1,6 @@
 {% block posts %}
 
-<div class="p-strip is-shallow u-no-padding--bottom" id="posts-list">
+<div class="p-strip is-shallow{% if current_page and current_page == 1 and upcoming_events %} is-bordered{% endif %}" id="posts-list">
   {% if not tag %}
     <div class="row">
       <div class="col-12 u-align--right">
