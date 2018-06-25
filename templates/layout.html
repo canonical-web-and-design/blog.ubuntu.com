@@ -27,6 +27,10 @@
       {% endif %}
     {% endif %}
 
+    {% if canonical_link %}
+      <link rel="canonical" href="{{ canonical_link }}" />
+    {% endif %}
+
     {% block head_extra %}{% endblock %}
 
     {% if self.title() %}

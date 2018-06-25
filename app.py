@@ -450,11 +450,19 @@ def post(slug, year, month, day=None):
         exclude=post['id']
     )
 
+    snapcraft_io_tag = list(filter(lambda tag: tag['id'] == 2996, tags))
+
+    if snapcraft_io_tag:
+        canonical_link = 'https://snapcraft.io/blog/' + slug
+    else:
+        canonical_link = None
+
     return flask.render_template(
         'post.html',
         post=post,
         tags=tags,
         related_posts=related_posts,
+        canonical_link=canonical_link,
     )
 
 
