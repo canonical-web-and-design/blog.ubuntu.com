@@ -24,3 +24,6 @@
 
 # temporary redirect for a bad link in an email
 /event/mobile-world-congress-2018/?:  /2018/03/14/nvidia-gtc-2018
+
+# alternative homepage used for a/b test
+/home?: /
