@@ -184,40 +184,6 @@ def homepage():
     )
 
 
-@app.route('/home')
-def alternate_homepage():
-    category_slug = flask.request.args.get('category')
-
-    category = None
-    sticky_posts, _, _ = helpers.get_formatted_expanded_posts(sticky=True)
-    featured_posts = sticky_posts[:3] if sticky_posts else None
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
-    posts_per_page = 12
-
-    if category_slug:
-        categories = api.get_categories(slugs=[category_slug])
-
-        if categories:
-            category = categories[0]
-
-    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        per_page=posts_per_page,
-        category_ids=[category['id']] if category else [],
-        page=page,
-        sticky=False
-    )
-
-    return flask.render_template(
-        'alternate_index.html',
-        posts=posts,
-        category=category,
-        current_page=page,
-        total_posts=total_posts,
-        total_pages=total_pages,
-        featured_posts=featured_posts
-    )
-
-
 @app.route('/search')
 def search():
     query = flask.request.args.get('q') or ''
