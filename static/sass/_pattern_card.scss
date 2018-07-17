@@ -113,6 +113,11 @@
       @extend %post-card-header;
       border-top: 3px solid #48929b;
     }
+
+    &--tutorials {
+      @extend %post-card-header;
+      border-top: 3px solid #47919e;
+    }
   }
 
   .p-card__date {
