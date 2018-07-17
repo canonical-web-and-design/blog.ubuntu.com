@@ -63,7 +63,7 @@
         {% endif %}
         {% if current_page == 1 %}
           {% if loop.index0 == 0 or loop.index0 == 1 %}
-            <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
+            <p class="u-no-padding--bottom u-hide--small">{{ post.summary | striptags | urlize(30, true) }}</p>
           {% endif %}
         {% endif %}
       </div>
