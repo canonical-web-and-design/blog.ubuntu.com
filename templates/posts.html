@@ -61,6 +61,11 @@
         {% if not post.featuredmedia or not post.featuredmedia.source_url %}
         <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
         {% endif %}
+        {% if current_page == 1 %}
+          {% if loop.index0 == 0 or loop.index0 == 1 %}
+            <p class="u-no-padding--bottom u-hide--small">{{ post.summary | striptags | urlize(30, true) }}</p>
+          {% endif %}
+        {% endif %}
       </div>
       <p class="p-card__footer">{% include 'singular-category.html' %}</p>
     </div>
