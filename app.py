@@ -416,17 +416,20 @@ def post(slug, year, month, day=None):
         exclude=post['id']
     )
 
+    # Even though we're filtering tags below, we need to know the snapcraft.io
+    # tag, specifically to add the canonical meta tag
     snapcraft_io_tag = list(filter(lambda tag: tag['id'] == 2996, tags))
-
     if snapcraft_io_tag:
         canonical_link = 'https://snapcraft.io/blog/' + slug
     else:
         canonical_link = None
 
+    display_tags = helpers.filter_tags_for_display(tags)
+
     return flask.render_template(
         'post.html',
         post=post,
-        tags=tags,
+        tags=display_tags,
         related_posts=related_posts,
         canonical_link=canonical_link,
     )
