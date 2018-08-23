@@ -212,6 +212,20 @@ def to_int(value_to_convert, default=None):
         return default
 
 
+def filter_tags_for_display(tags):
+    """
+    Filter out specific tags to remove noise
+
+    :param tags: list of wordpress tags
+    :return: list of wordpress tags
+    """
+    # snapcraft tags
+    def is_snapcraft(tag):
+        return tag['name'].startswith('sc:')
+
+    return [tag for tag in tags if not is_snapcraft(tag)]
+
+
 class RegexConverter(werkzeug.routing.BaseConverter):
     def __init__(self, url_map, *items):
         super(RegexConverter, self).__init__(url_map)
