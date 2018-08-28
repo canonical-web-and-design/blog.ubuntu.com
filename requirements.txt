@@ -16,4 +16,6 @@ Werkzeug==0.12.2
 yamlordereddictloader==0.4.0
 pyyaml==3.12
 prometheus-flask-exporter==0.2.0
-talisker==0.9.6
+gunicorn[gevent]
+statsd<3.3.0
+talisker==0.9.14

@@ -19,5 +19,5 @@ ADD . .
 RUN pip3 install -r requirements.txt
 
 # Setup commands to run server
-ENTRYPOINT ["talisker.gunicorn", "app:app", "--access-logfile", "-", "--error-logfile", "-", "--bind"]
+ENTRYPOINT ["./entrypoint"]
 CMD ["0.0.0.0:80"]
