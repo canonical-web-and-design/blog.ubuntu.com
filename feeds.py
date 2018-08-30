@@ -104,7 +104,7 @@ def cached_request(url):
     If it gets an error, it will use the cached response, if it exists.
     """
 
-    response = cached_session.get(url, timeout=2)
+    response = cached_session.get(url, timeout=3)
 
     try:
         response.raise_for_status()
