@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 
 # System dependencies
-RUN apt-get update && apt-get install --yes python3-pip
+RUN apt-get update && apt-get install --yes python3-pip net-tools
 
 # Python dependencies
 ENV LANG C.UTF-8
