@@ -104,6 +104,14 @@ def format_post(post):
             post['_end_day'], end_month_name, post['_end_year']
         )
 
+    if post['content']:
+        CLOUDINARY = "https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,"
+        post['content']['rendered'] = re.sub(
+            r'img(.*)src=\"(.[^\"]*)\"',
+            r'img\1 src="{url}w_560/\2"  srcset="{url}w_375/\2 375w, {url}w_480/\2 480w, {url}w_560/\2 560w" sizes="(max-width: 375px) 280px, (max-width: 480px) 440px, 560px"'.format(
+                url=CLOUDINARY),
+            post['content']['rendered'])
+
     return post
 
 

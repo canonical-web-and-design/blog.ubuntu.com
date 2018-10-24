@@ -42,17 +42,17 @@
           Share on:
         </li>
         <li class="p-inline-list__item">
-          <a class="p-icon--facebook" title="Share on Facebook" href="http://www.facebook.com/sharer.php?s=100&amp;p[url]=https://blog.ubuntu.com/?p={{ post.id }}&#9;&#9;&#9;&amp;p[title]={{ post.title.rendered }}&amp;p[summary]={{ post.summary }}%26hellip%3B&amp;p[images][0]=">
+          <a class="p-icon--facebook" title="Share on Facebook" href="http://www.facebook.com/sharer.php?s=100&amp;p[url]=https://blog.ubuntu.com/?p={{ post.id }}&#9;&#9;&#9;&amp;p[title]={{ post.title.rendered | safe | urlencode }}&amp;p[summary]={{ post.summary | safe | urlencode}}%26hellip%3B&amp;p[images][0]={{ post.featuredmedia.source_url }}">
             Facebook
           </a>
         </li>
         <li class="p-inline-list__item">
-          <a class="p-icon--twitter" title="Share on Twitter" href="http://twitter.com/share?text={{ post.title.rendered | safe }}&amp;url=https://blog.ubuntu.com/?p={{ post.id }}&amp;hashtags=ubuntu">
+          <a class="p-icon--twitter" title="Share on Twitter" href="http://twitter.com/share?text={{ post.title.rendered | safe | urlencode }}&amp;url=https://blog.ubuntu.com/?p={{ post.id }}&amp;hashtags=ubuntu">
             Twitter
           </a>
         </li>
         <li class="p-inline-list__item">
-          <a class="p-icon--linkedin" title="Share on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://blog.ubuntu.com/?p={{ post.id }}&amp;title={{ post.title.rendered | safe }}">
+          <a class="p-icon--linkedin" title="Share on LinkedIn" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://blog.ubuntu.com/?p={{ post.id }}&amp;title={{ post.title.rendered | safe | urlencode }}">
           LinkedIn
         </a>
         </li>
