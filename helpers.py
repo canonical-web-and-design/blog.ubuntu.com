@@ -37,18 +37,17 @@ def get_formatted_expanded_posts(**kwargs):
 
     force_group = None
 
-    if kwargs.get('group_ids'):
-        force_group = kwargs.get('group_ids')[0]
+    if kwargs.get("group_ids"):
+        force_group = kwargs.get("group_ids")[0]
 
     for post in posts:
         post = format_post(post)
 
-        post['group'] = get_first_group(
-            post.get('group', ''),
-            force_group=force_group
+        post["group"] = get_first_group(
+            post.get("group", ""), force_group=force_group
         )
 
-        post['category'] = get_first_category(post['categories'])
+        post["category"] = get_first_category(post["categories"])
 
     return posts, total_posts, total_pages
 
@@ -83,25 +82,41 @@ def format_post(post):
     - Making the link relative
     """
 
-    if 'author' in post['_embedded'] and post['_embedded']['author']:
-        post['author'] = post['_embedded']['author'][0]
-        post['author']['link'] = urlsplit(
-            post['author']['link']
-        ).path.rstrip('/')
-    post['link'] = urlsplit(post['link']).path.rstrip('/')
-    post['summary'] = format_summary(post['excerpt']['rendered'])
-    post['date'] = format_date(post['date'])
+    if "author" in post["_embedded"] and post["_embedded"]["author"]:
+        post["author"] = post["_embedded"]["author"][0]
+        post["author"]["link"] = urlsplit(post["author"]["link"]).path.rstrip(
+            "/"
+        )
+    post["link"] = urlsplit(post["link"]).path.rstrip("/")
+    post["summary"] = format_summary(post["excerpt"]["rendered"])
+    post["date"] = format_date(post["date"])
 
-    if post['_start_month']:
-        start_month_name = get_month_name(int(post['_start_month']))
-        post['start_date'] = '{} {} {}'.format(
-           post['_start_day'], start_month_name, post['_start_year']
+    if post["_start_month"]:
+        start_month_name = get_month_name(int(post["_start_month"]))
+        post["start_date"] = "{} {} {}".format(
+            post["_start_day"], start_month_name, post["_start_year"]
         )
 
-    if post['_end_month']:
-        end_month_name = get_month_name(int(post['_end_month']))
-        post['end_date'] = '{} {} {}'.format(
-            post['_end_day'], end_month_name, post['_end_year']
+    if post["_end_month"]:
+        end_month_name = get_month_name(int(post["_end_month"]))
+        post["end_date"] = "{} {} {}".format(
+            post["_end_day"], end_month_name, post["_end_year"]
+        )
+
+    if post["content"]:
+        CLOUDINARY = (
+            "https://res.cloudinary.com/"
+            "canonical/image/fetch/q_auto,f_auto,"
+        )
+        post["content"]["rendered"] = re.sub(
+            r"img(.*)src=\"(.[^\"]*)\"",
+            r'img\1 src="{url}w_560/\2"'
+            r'srcset="{url}w_375/\2 375w,'
+            r'{url}w_480/\2 480w, {url}w_560/\2 560w"'
+            r'sizes="(max-width: 375px) 280px,'
+            r"(max-width: 480px) 440px,"
+            r'560px"'.format(url=CLOUDINARY),
+            post["content"]["rendered"],
         )
 
     return post
@@ -113,7 +128,7 @@ def get_month_name(month_index):
     January
     """
 
-    return datetime.date(1900, month_index, 1).strftime('%B')
+    return datetime.date(1900, month_index, 1).strftime("%B")
 
 
 def format_date(date):
@@ -122,7 +137,7 @@ def format_date(date):
     1 January 2017
     """
 
-    return dateutil.parser.parse(date).strftime('%-d %B %Y')
+    return dateutil.parser.parse(date).strftime("%-d %B %Y")
 
 
 def format_summary(excerpt):
@@ -158,7 +173,7 @@ def join_ids(ids):
     - including casting all types to a string
     """
 
-    return ','.join([str(item) for item in ids])
+    return ",".join([str(item) for item in ids])
 
 
 def build_url(base_url, endpoint, parameters):
@@ -179,7 +194,7 @@ def build_url(base_url, endpoint, parameters):
     if parameters:
         query_string = "?" + urlencode(parameters)
 
-    return base_url.rstrip('/') + '/' + endpoint.lstrip('/') + query_string
+    return base_url.rstrip("/") + "/" + endpoint.lstrip("/") + query_string
 
 
 def ignore_warnings(warning_to_ignore):
@@ -221,7 +236,7 @@ def filter_tags_for_display(tags):
     """
     # snapcraft tags
     def is_snapcraft(tag):
-        return tag['name'].startswith('sc:')
+        return tag["name"].startswith("sc:")
 
     return [tag for tag in tags if not is_snapcraft(tag)]
 
