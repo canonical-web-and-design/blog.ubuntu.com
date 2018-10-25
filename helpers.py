@@ -43,7 +43,9 @@ def get_formatted_expanded_posts(**kwargs):
     for post in posts:
         post = format_post(post)
 
-        post["group"] = get_first_group(post.get("group", ""), force_group=force_group)
+        post["group"] = get_first_group(
+            post.get("group", ""), force_group=force_group
+        )
 
         post["category"] = get_first_category(post["categories"])
 
@@ -82,7 +84,9 @@ def format_post(post):
 
     if "author" in post["_embedded"] and post["_embedded"]["author"]:
         post["author"] = post["_embedded"]["author"][0]
-        post["author"]["link"] = urlsplit(post["author"]["link"]).path.rstrip("/")
+        post["author"]["link"] = urlsplit(post["author"]["link"]).path.rstrip(
+            "/"
+        )
     post["link"] = urlsplit(post["link"]).path.rstrip("/")
     post["summary"] = format_summary(post["excerpt"]["rendered"])
     post["date"] = format_date(post["date"])
@@ -101,7 +105,8 @@ def format_post(post):
 
     if post["content"]:
         CLOUDINARY = (
-            "https://res.cloudinary.com/" "canonical/image/fetch/q_auto,f_auto,"
+            "https://res.cloudinary.com/"
+            "canonical/image/fetch/q_auto,f_auto,"
         )
         post["content"]["rendered"] = re.sub(
             r"img(.*)src=\"(.[^\"]*)\"",
