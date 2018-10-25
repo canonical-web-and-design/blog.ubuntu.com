@@ -108,6 +108,18 @@ def format_post(post):
             "https://res.cloudinary.com/"
             "canonical/image/fetch/q_auto,f_auto,"
         )
+        """
+        Remove existing cloudinary urls
+        """
+        post["content"]["rendered"] = re.sub(
+            r'img(.*)src="https://res.cloudinary.com/canonical'
+            r'(.[^http]*)/http(.[^"]*)"',
+            r'img\1 src="\3"',
+            post["content"]["rendered"],
+        )
+        """
+        Add cloudinary urls with a srcset
+        """
         post["content"]["rendered"] = re.sub(
             r"img(.*)src=\"(.[^\"]*)\"",
             r'img\1 src="{url}w_560/\2"'
