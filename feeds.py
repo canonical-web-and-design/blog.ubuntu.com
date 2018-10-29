@@ -115,7 +115,7 @@ def cached_request(url):
         ).inc()
         raise request_error
 
-    if response.from_cache:
+    if hasattr(response, 'from_cache') and response.from_cache:
         requested_from_cache_counter.labels(
             domain=urlparse(url).netloc,
         ).inc()
