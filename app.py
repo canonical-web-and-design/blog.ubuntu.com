@@ -5,7 +5,6 @@ from urllib.parse import urlparse, urlunparse, unquote
 
 # Third-party
 import flask
-import prometheus_flask_exporter
 from dateutil.relativedelta import relativedelta
 
 # Local
@@ -21,15 +20,6 @@ app = flask.Flask(__name__)
 app.jinja_env.filters['monthname'] = helpers.monthname
 app.url_map.strict_slashes = False
 app.url_map.converters['regex'] = helpers.RegexConverter
-
-if not app.debug:
-    metrics = prometheus_flask_exporter.PrometheusMetrics(
-        app,
-        group_by_endpoint=True,
-        buckets=[0.25, 0.5, 0.75, 1, 2],
-        path=None
-    )
-    metrics.start_http_server(port=9990, endpoint='/')
 
 apply_redirects = redirects.prepare_redirects(
     permanent_redirects_path='permanent-redirects.yaml',
