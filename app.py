@@ -389,18 +389,21 @@ def feed(type=None, slug=None): # noqa
 @app.route(
     '/webinar/<slug>'
 )
-def post(slug, year, month, day=None):
+def post(slug, year=None, month=None, day=None):
     posts, total_posts, total_pages = helpers.get_formatted_posts(slugs=[slug])
-
-    if not day and posts:
-        pubdate = dateutil.parser.parse(posts[0]['date_gmt'])
-        day = pubdate.strftime('%d')
-        return flask.redirect(
-            '/{year}/{month}/{day}/{slug}'.format(**locals())
-        )
 
     if not posts:
         flask.abort(404)
+
+    if not (day and month and year):
+        pubdate = dateutil.parser.parse(posts[0]['date_gmt'])
+        day = pubdate.strftime('%d')
+        month = pubdate.strftime('%m')
+        year = pubdate.strftime('%Y')
+
+        return flask.redirect(
+            '/{year}/{month}/{day}/{slug}'.format(**locals())
+        )
 
     post = posts[0]
 
