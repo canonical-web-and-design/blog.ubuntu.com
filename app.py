@@ -15,17 +15,17 @@ import helpers
 import redirects
 
 
-INSIGHTS_ADMIN_URL = 'https://admin.insights.ubuntu.com'
+INSIGHTS_ADMIN_URL = "https://admin.insights.ubuntu.com"
 
 app = flask.Flask(__name__)
-app.jinja_env.filters['monthname'] = helpers.monthname
+app.jinja_env.filters["monthname"] = helpers.monthname
 app.url_map.strict_slashes = False
-app.url_map.converters['regex'] = helpers.RegexConverter
+app.url_map.converters["regex"] = helpers.RegexConverter
 talisker.flask.register(app)
 
 apply_redirects = redirects.prepare_redirects(
-    permanent_redirects_path='permanent-redirects.yaml',
-    redirects_path='redirects.yaml'
+    permanent_redirects_path="permanent-redirects.yaml",
+    redirects_path="redirects.yaml",
 )
 app.before_request(apply_redirects)
 
@@ -36,7 +36,7 @@ def _tag_view(tag_slug, page_slug, template):
     and returns a response loading those posts with the template provided
     """
 
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    page = helpers.to_int(flask.request.args.get("page"), default=1)
     tags = api.get_tags(slugs=[tag_slug])
 
     if not tags:
@@ -44,7 +44,7 @@ def _tag_view(tag_slug, page_slug, template):
 
     tag = tags[0]
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        tag_ids=[tag['id']], page=page
+        tag_ids=[tag["id"]], page=page
     )
 
     return flask.render_template(
@@ -64,8 +64,8 @@ def _group_view(group_slug, page_slug, template):
     and returns a response loading those posts with the template provided
     """
 
-    page = int(flask.request.args.get('page') or '1')
-    category_slug = flask.request.args.get('category')
+    page = int(flask.request.args.get("page") or "1")
+    category_slug = flask.request.args.get("category")
 
     groups = api.get_groups(slugs=[group_slug])
     category = None
@@ -82,10 +82,10 @@ def _group_view(group_slug, page_slug, template):
             category = categories[0]
 
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        group_ids=[group['id']],
-        category_ids=[category['id']] if category else [],
+        group_ids=[group["id"]],
+        category_ids=[category["id"]] if category else [],
         page=page,
-        per_page=12
+        per_page=12,
     )
 
     return flask.render_template(
@@ -110,15 +110,13 @@ def clear_trailing():
     parsed_url = urlparse(unquote(flask.request.url))
     path = parsed_url.path
 
-    if path != '/' and path.endswith('/'):
-        new_uri = urlunparse(
-            parsed_url._replace(path=path[:-1])
-        )
+    if path != "/" and path.endswith("/"):
+        new_uri = urlunparse(parsed_url._replace(path=path[:-1]))
 
         return flask.redirect(new_uri)
 
 
-@app.route('/status')
+@app.route("/status")
 def status():
     """
     A simple response to test that the app is alive and working.
@@ -127,28 +125,27 @@ def status():
     https://github.com/canonical-websites/snapcraft.io/pull/327/files
     """
 
-    return 'alive'
+    return "alive"
 
 
-@app.route('/')
+@app.route("/")
 def homepage():
-    category_slug = flask.request.args.get('category')
+    category_slug = flask.request.args.get("category")
 
     category = None
     sticky_posts, _, _ = helpers.get_formatted_expanded_posts(sticky=True)
     featured_posts = sticky_posts[:3] if sticky_posts else None
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    page = helpers.to_int(flask.request.args.get("page"), default=1)
     posts_per_page = 12
 
-    upcoming_categories = api.get_categories(slugs=['events', 'webinars'])
+    upcoming_categories = api.get_categories(slugs=["events", "webinars"])
     upcoming_category_ids = []
 
     for upcoming_category_id in upcoming_categories:
-        upcoming_category_ids.append(upcoming_category_id['id'])
+        upcoming_category_ids.append(upcoming_category_id["id"])
 
     upcoming_events, _, _ = helpers.get_formatted_expanded_posts(
-        per_page=3,
-        category_ids=upcoming_category_ids
+        per_page=3, category_ids=upcoming_category_ids
     )
 
     if category_slug:
@@ -159,27 +156,27 @@ def homepage():
 
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         per_page=posts_per_page,
-        category_ids=[category['id']] if category else [],
+        category_ids=[category["id"]] if category else [],
         page=page,
-        sticky=False
+        sticky=False,
     )
 
     return flask.render_template(
-        'index.html',
+        "index.html",
         posts=posts,
         category=category,
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,
         featured_posts=featured_posts,
-        upcoming_events=upcoming_events
+        upcoming_events=upcoming_events,
     )
 
 
-@app.route('/search')
+@app.route("/search")
 def search():
-    query = flask.request.args.get('q') or ''
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    query = flask.request.args.get("q") or ""
+    page = helpers.to_int(flask.request.args.get("page"), default=1)
     posts = []
     total_pages = None
     total_posts = None
@@ -190,7 +187,7 @@ def search():
         )
 
     return flask.render_template(
-        'search.html',
+        "search.html",
         posts=posts,
         query=query,
         current_page=page,
@@ -199,102 +196,88 @@ def search():
     )
 
 
-@app.route('/press-centre')
+@app.route("/press-centre")
 def press_centre():
-    group = api.get_groups(slugs=['canonical-announcements'])[0]
+    group = api.get_groups(slugs=["canonical-announcements"])[0]
 
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        group_ids=[group['id']]
+        group_ids=[group["id"]]
     )
 
     return flask.render_template(
-        'press-centre.html',
+        "press-centre.html",
         posts=posts,
-        page_slug='press-centre',
+        page_slug="press-centre",
         group=group,
-        current_year=datetime.now().year
+        current_year=datetime.now().year,
     )
 
 
-@app.route('/cloud-and-server')
+@app.route("/cloud-and-server")
 def cloud_and_server():
     return _group_view(
-        page_slug='cloud-and-server',
-        group_slug='cloud-and-server',
-        template='cloud-and-server.html'
+        page_slug="cloud-and-server",
+        group_slug="cloud-and-server",
+        template="cloud-and-server.html",
     )
 
 
-@app.route('/internet-of-things')
+@app.route("/internet-of-things")
 def internet_of_things():
     return _group_view(
-        page_slug='internet-of-things',
-        group_slug='internet-of-things',
-        template='internet-of-things.html'
+        page_slug="internet-of-things",
+        group_slug="internet-of-things",
+        template="internet-of-things.html",
     )
 
 
-@app.route('/desktop')
+@app.route("/desktop")
 def desktop():
     return _group_view(
-        page_slug='desktop',
-        group_slug='desktop',
-        template='desktop.html'
+        page_slug="desktop", group_slug="desktop", template="desktop.html"
     )
 
 
-@app.route('/tag/<slug>')
+@app.route("/tag/<slug>")
 def tag(slug):
-    return _tag_view(
-        tag_slug=slug,
-        page_slug='tag',
-        template='tag.html'
-    )
+    return _tag_view(tag_slug=slug, page_slug="tag", template="tag.html")
 
 
-@app.route('/topics/design')
+@app.route("/topics/design")
 def design():
     return _tag_view(
-        tag_slug='design',
-        page_slug='topics',
-        template='topics/design.html'
+        tag_slug="design", page_slug="topics", template="topics/design.html"
     )
 
 
-@app.route('/topics/juju')
+@app.route("/topics/juju")
 def juju():
     return _tag_view(
-        tag_slug='juju',
-        page_slug='topics',
-        template='topics/juju.html'
+        tag_slug="juju", page_slug="topics", template="topics/juju.html"
     )
 
 
-@app.route('/topics/maas')
+@app.route("/topics/maas")
 def maas():
     return _tag_view(
-        tag_slug='maas',
-        page_slug='topics',
-        template='topics/maas.html'
+        tag_slug="maas", page_slug="topics", template="topics/maas.html"
     )
 
 
-@app.route('/topics/snappy')
+@app.route("/topics/snappy")
 def snappy():
     return _tag_view(
-        tag_slug='snappy',
-        page_slug='topics',
-        template='topics/snappy.html'
+        tag_slug="snappy", page_slug="topics", template="topics/snappy.html"
     )
 
 
-@app.route('/archives')
+@app.route("/archives")
 def archives():
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
-    year = helpers.to_int(flask.request.args.get('year'))
-    month = helpers.to_int(flask.request.args.get('month'))
-    group_slug = flask.request.args.get('group')
-    category_slug = flask.request.args.get('category')
+    page = helpers.to_int(flask.request.args.get("page"), default=1)
+    year = helpers.to_int(flask.request.args.get("year"))
+    month = helpers.to_int(flask.request.args.get("month"))
+    group_slug = flask.request.args.get("group")
+    category_slug = flask.request.args.get("category")
 
     if month and month > 12:
         month = None
@@ -308,11 +291,11 @@ def archives():
         if month:
             after = datetime(year=year, month=month, day=1)
             before = after + relativedelta(months=1)
-            friendly_date = after.strftime('%B %Y')
+            friendly_date = after.strftime("%B %Y")
         if not month:
             after = datetime(year=year, month=1, day=1)
             before = after + relativedelta(years=1)
-            friendly_date = after.strftime('%Y')
+            friendly_date = after.strftime("%Y")
 
     if group_slug:
         groups = api.get_groups(slugs=[group_slug])
@@ -322,7 +305,7 @@ def archives():
 
     if category_slug:
         categories = api.get_categories(slugs=[category_slug])
-        category_ids = [category['id'] for category in categories]
+        category_ids = [category["id"] for category in categories]
     else:
         categories = []
         category_ids = []
@@ -331,12 +314,12 @@ def archives():
         page=page,
         after=after,
         before=before,
-        group_ids=[group['id']] if group else [],
+        group_ids=[group["id"]] if group else [],
         category_ids=category_ids if category_ids else [],
     )
 
     return flask.render_template(
-        'archives.html',
+        "archives.html",
         categories=categories,
         category_ids=category_ids,
         category_slug=category_slug if category_slug else None,
@@ -350,87 +333,21 @@ def archives():
     )
 
 
-@app.route('/<type>/<slug>/feed')
-@app.route('/<slug>/feed')
-@app.route('/feed')
-def feed(type=None, slug=None): # noqa
-    feed_url = ''.join([INSIGHTS_ADMIN_URL, flask.request.full_path])
-    feed_text = feeds.cached_request(
-        feed_url
-    ).text
+@app.route("/<type>/<slug>/feed")
+@app.route("/<slug>/feed")
+@app.route("/feed")
+def feed(type=None, slug=None):  # noqa
+    feed_url = "".join([INSIGHTS_ADMIN_URL, flask.request.full_path])
+    feed_text = feeds.cached_request(feed_url).text
 
     feed_text = feed_text.replace(
-        'admin.insights.ubuntu.com',
-        'insights.ubuntu.com'
+        "admin.insights.ubuntu.com", "insights.ubuntu.com"
     )
 
-    return flask.Response(feed_text, mimetype='text/xml')
+    return flask.Response(feed_text, mimetype="text/xml")
 
 
-@app.route(
-    '/<regex("[0-9]{4}"):year>'
-    '/<regex("[0-9]{2}"):month>'
-    '/<regex("[0-9]{2}"):day>'
-    '/<slug>'
-)
-@app.route(
-    '/<regex("[0-9]{4}"):year>'
-    '/<regex("[0-9]{2}"):month>'
-    '/<slug>'
-)
-@app.route(
-    '/webinar/<slug>'
-)
-def post(slug, year=None, month=None, day=None):
-    posts, total_posts, total_pages = helpers.get_formatted_posts(slugs=[slug])
-
-    if not posts:
-        flask.abort(404)
-
-    if not (day and month and year):
-        pubdate = dateutil.parser.parse(posts[0]['date_gmt'])
-        day = pubdate.strftime('%d')
-        month = pubdate.strftime('%m')
-        year = pubdate.strftime('%Y')
-
-        return flask.redirect(
-            '/{year}/{month}/{day}/{slug}'.format(**locals())
-        )
-
-    post = posts[0]
-
-    topics = api.get_topics(post_id=post['id'])
-
-    if topics:
-        post['topic'] = topics[0]
-
-    tags = api.get_tags(post_id=post['id'])
-    related_posts, total_posts, total_pages = helpers.get_formatted_posts(
-        tag_ids=[tag['id'] for tag in tags],
-        per_page=3,
-        exclude=post['id']
-    )
-
-    # Even though we're filtering tags below, we need to know the snapcraft.io
-    # tag, specifically to add the canonical meta tag
-    snapcraft_io_tag = list(filter(lambda tag: tag['id'] == 2996, tags))
-    if snapcraft_io_tag:
-        canonical_link = 'https://snapcraft.io/blog/' + slug
-    else:
-        canonical_link = None
-
-    display_tags = helpers.filter_tags_for_display(tags)
-
-    return flask.render_template(
-        'post.html',
-        post=post,
-        tags=display_tags,
-        related_posts=related_posts,
-        canonical_link=canonical_link,
-    )
-
-
-@app.route('/author/<slug>')
+@app.route("/author/<slug>")
 def user(slug):
     authors = api.get_users(slugs=[slug])
 
@@ -440,58 +357,107 @@ def user(slug):
     author = authors[0]
 
     recent_posts, total_posts, total_pages = helpers.get_formatted_posts(
-        author_ids=[author['id']],
-        per_page=5
+        author_ids=[author["id"]], per_page=5
     )
 
     return flask.render_template(
-        'author.html',
-        author=author,
-        recent_posts=recent_posts
+        "author.html", author=author, recent_posts=recent_posts
     )
 
 
-@app.route('/upcoming')
+@app.route(
+    '/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/'
+    '<regex("[0-9]{2}"):day>/<slug>'
+)
+@app.route('/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/<slug>')
+@app.route('/<regex("[0-9]{4}"):year>/<slug>')
+@app.route('/webinar/<slug>')
+@app.route('/<slug>')
+def post(slug, year=None, month=None, day=None):
+    posts, total_posts, total_pages = helpers.get_formatted_posts(slugs=[slug])
+
+    if not posts:
+        flask.abort(404)
+
+    if not (day and month and year):
+        pubdate = dateutil.parser.parse(posts[0]["date_gmt"])
+        day = pubdate.strftime("%d")
+        month = pubdate.strftime("%m")
+        year = pubdate.strftime("%Y")
+
+        return flask.redirect(
+            "/{year}/{month}/{day}/{slug}".format(**locals())
+        )
+
+    post = posts[0]
+
+    topics = api.get_topics(post_id=post["id"])
+
+    if topics:
+        post["topic"] = topics[0]
+
+    tags = api.get_tags(post_id=post["id"])
+    related_posts, total_posts, total_pages = helpers.get_formatted_posts(
+        tag_ids=[tag["id"] for tag in tags], per_page=3, exclude=post["id"]
+    )
+
+    # Even though we're filtering tags below, we need to know the snapcraft.io
+    # tag, specifically to add the canonical meta tag
+    snapcraft_io_tag = list(filter(lambda tag: tag["id"] == 2996, tags))
+    if snapcraft_io_tag:
+        canonical_link = "https://snapcraft.io/blog/" + slug
+    else:
+        canonical_link = None
+
+    display_tags = helpers.filter_tags_for_display(tags)
+
+    return flask.render_template(
+        "post.html",
+        post=post,
+        tags=display_tags,
+        related_posts=related_posts,
+        canonical_link=canonical_link,
+    )
+
+
+@app.route("/upcoming")
 def upcoming():
-    page = helpers.to_int(flask.request.args.get('page'), default=1)
+    page = helpers.to_int(flask.request.args.get("page"), default=1)
     posts_per_page = 12
 
-    upcoming_categories = api.get_categories(slugs=['events', 'webinars'])
+    upcoming_categories = api.get_categories(slugs=["events", "webinars"])
     upcoming_category_ids = []
 
     for upcoming_category_id in upcoming_categories:
-        upcoming_category_ids.append(upcoming_category_id['id'])
+        upcoming_category_ids.append(upcoming_category_id["id"])
 
     upcoming_events, _, _ = helpers.get_formatted_expanded_posts(
-        per_page=3,
-        category_ids=upcoming_category_ids
+        per_page=3, category_ids=upcoming_category_ids
     )
 
     posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
-        per_page=posts_per_page,
-        category_ids=upcoming_category_ids,
-        page=page
+        per_page=posts_per_page, category_ids=upcoming_category_ids, page=page
     )
 
     return flask.render_template(
-        'upcoming.html',
+        "upcoming.html",
         posts=posts,
         current_page=page,
         total_posts=total_posts,
-        total_pages=total_pages
+        total_pages=total_pages,
     )
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return flask.render_template('404.html'), 404
+    return flask.render_template("404.html"), 404
 
 
 @app.errorhandler(410)
 def page_deleted(e):
-    return flask.render_template('410.html'), 410
+    return flask.render_template("410.html"), 410
 
 
 @app.errorhandler(500)
 def server_error(e):
-    return flask.render_template('500.html'), 500
+    return flask.render_template("500.html"), 500
