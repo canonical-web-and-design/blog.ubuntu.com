@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-
+{% block description %}{{ post.summary | striptags | urlize(30, true) }}{% endblock %}
 {% block body %}
 {% if request.args.get('newsletter') == 'true' %}
 <div class="p-strip--light is-shallow">

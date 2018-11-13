@@ -10,16 +10,15 @@
             <img class="p-topic-image" src="{{ topic.logo_url }}" alt=""/>
             {% else %}
             <img class="p-heading-icon__img" src="{{ topic.logo_url }}" alt=""/>
-            <h1 class="p-heading--one p-heading-icon__title">{{ topic.name }}</h1>
+            <h1 class="p-heading--one p-heading-icon__title">{% block title %}{{ topic.name }}{% endblock %}</h1>
             {% endif %}
           </div>
           <h2 class="p-heading--two">{{ topic.subtitle }}</h2>
-          <p class="p-heading--five">{{ topic.description | safe }}</p>
+          <p class="p-heading--five">{% block description %}{{ topic.description | safe }}{% endblock %}</p>
         </div>
-          <p>
-            <a class="p-link--external{% if topic.strip_css == 'p-strip--accent is-dark' %} p-link--inverted{% endif %}" href="{{ topic.url }}">Learn more about {{ topic.name }}</a>
-          </p>
-        </ul>
+        <p>
+          <a class="p-link--external{% if topic.strip_css == 'p-strip--accent is-dark' %} p-link--inverted{% endif %}" href="{{ topic.url }}">Learn more about {{ topic.name }}</a>
+        </p>
       </div>
       <div class="col-5 prefix-1">
         <img src="{{ topic.hero_url }}"
