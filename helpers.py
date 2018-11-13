@@ -121,8 +121,8 @@ def format_post(post):
         Add cloudinary urls with a srcset
         """
         post["content"]["rendered"] = re.sub(
-            r"img(.*)src=\"(.[^\"]*)\"",
-            r'img\1 src="{url}w_560/\2"'
+            r"img(.*) src=\"(.[^\"]*)\"",
+            r'img\1 decoding="async" src="{url}w_560/\2"'
             r'srcset="{url}w_375/\2 375w,'
             r'{url}w_480/\2 480w, {url}w_560/\2 560w"'
             r'sizes="(max-width: 375px) 280px,'

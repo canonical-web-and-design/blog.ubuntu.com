@@ -16,39 +16,43 @@
     })(window,document,'script','dataLayer','GTM-K92JCQ');</script>
     <!-- End Google Tag Manager -->
 
-    {% if post %}
-      {% if post.featuredmedia %}
-        <meta property="og:image" content="{{post.featuredmedia.source_url}}" />
-      {% else %}
-        <meta property="og:image" content="https://assets.ubuntu.com/v1/55a39964-ubuntublog-facebook.png" />
-      {% endif %}
+    {% if post and post.featuredmedia %}
+      <meta property="og:image" content="{{post.featuredmedia.source_url}}" />
+    {% else %}
+      <meta property="og:image" content="https://assets.ubuntu.com/v1/55a39964-ubuntublog-facebook.png" />
+    {% endif %}
 
-      {% if post.link %}
-        <meta property="og:url" content="{{post.link}}" />
-      {% endif %}
+    {% if post and post.link %}
+      <meta property="og:url" content="{{post.link}}" />
+    {% endif %}
 
-      {% if post.summary %}
-        <meta property="og:description" content="{{post.summary | striptags}}" />
-      {% endif %}
+    {% if post and post.summary %}
+      <meta name="description" content="{{post.summary | striptags}}" />
+      <meta property="og:description" content="{{post.summary | striptags}}" />
+    {% else %}
+      <meta name="description" content="{% block description %}Your source for Ubuntu news, articles, tutorials, e-books and everything else in-between.{% endblock %}" />
+      <meta property="og:description" content="{{ self.description() }}" />
+    {% endif %}
 
-      {% if post.title %}
-        <meta property="og:title" content="{{post.title.rendered | safe}}" />
-      {% else %}
-        <meta property="og:title" content="Ubuntu blog" />
-      {% endif %}
+    {% if post and post.title %}
+      <title>{{post.title.rendered | safe}} | Ubuntu blog</title>
+      <meta property="og:title" content="{{post.title.rendered | safe}}" />
+    {% elif self.title and self.title() %}
+      <title>{% block title %}{% endblock %} | Ubuntu blog</title>
+      <meta property="og:title" content="{{self.title.rendered | safe}} | Ubuntu blog" />
+    {% else %}
+      <title>Ubuntu blog</title>
+      <meta property="og:title" content="Ubuntu blog" />
     {% endif %}
 
     {% if canonical_link %}
       <link rel="canonical" href="{{ canonical_link }}" />
     {% endif %}
 
-    {% block head_extra %}{% endblock %}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ubuntu" />
 
-    {% if self.title() %}
-      <title>{% block title %}{% endblock %} | Ubuntu blog</title>
-    {% else %}
-      <title>Ubuntu blog</title>
-    {% endif %}
+    {% block head_extra %}{% endblock %}
 
     <link rel="icon" type="image/png" href="https://assets.ubuntu.com/v1/cb22ba5d-favicon-16x16.png" sizes="16x16" />
     <link rel="icon" type="image/png" href="https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png" sizes="32x32" />
@@ -110,10 +114,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </footer>
     </div>
-    <script src="/static/js/modules/cookie-policy.js"></script>
-    <script src="/static/js/aria-controls.js"></script>
-    <script src="/static/js/search.js"></script>
-    <script src="/static/js/modules/global.js"></script>
+    <script src="/static/js/modules/cookie-policy.js" async></script>
+    <script src="/static/js/aria-controls.js" async></script>
+    <script src="/static/js/search.js" async></script>
+    <script src="/static/js/modules/global.js" async></script>
     <script>
       var options = {
         'content': 'We use cookies to improve your experience. By your continued use of this site you accept such use.<br /> This notice will disappear by itself. To change your settings please <a href="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy#cookies">see our policy</a>.',

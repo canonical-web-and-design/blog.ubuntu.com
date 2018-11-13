@@ -14,7 +14,7 @@
       {% if post.featuredmedia and post.featuredmedia.source_url %}
       <div class="u-crop--16-9">
         <a href="{{post.link}}">
-          <img src="https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_460/{{post.featuredmedia.source_url}}"
+          <img decoding="async" src="https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_460/{{post.featuredmedia.source_url}}"
             srcset="https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_460/{{post.featuredmedia.source_url}} 460w,
                     https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_620/{{post.featuredmedia.source_url}} 620w,
                     https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_875/{{post.featuredmedia.source_url}} 875w"
