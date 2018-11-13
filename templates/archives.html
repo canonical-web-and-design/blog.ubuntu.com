@@ -5,11 +5,13 @@
     <div class="row">
       <div class="col-10">
         <h1>
-          {% if group %}
-            {{ group.name }} archives
-          {% else %}
-            Archives
-          {% endif %}
+          {% block title %}
+            {% if group %}
+              {{ group.name }} archives
+            {% else %}
+              Archives
+            {% endif %}
+          {% endblock %}
         </h1>
         <p>
           {{ total_posts }}

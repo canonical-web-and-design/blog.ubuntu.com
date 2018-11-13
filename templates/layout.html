@@ -16,6 +16,20 @@
     })(window,document,'script','dataLayer','GTM-K92JCQ');</script>
     <!-- End Google Tag Manager -->
 
+    {% if post and post.title %}
+      <title>{{post.title.rendered | safe}} | Ubuntu blog</title>
+      <meta property="og:title" content="{{post.title.rendered | safe}}" />
+    {% elif self.title and self.title() %}
+      <title>{{ self.title() }} | Ubuntu blog</title>
+      <meta property="og:title" content="{{ self.title() }} | Ubuntu blog" />
+    {% else %}
+      <title>Ubuntu blog</title>
+      <meta property="og:title" content="Ubuntu blog" />
+    {% endif %}
+
+      <meta name="description" content="{% block description %}Your source for Ubuntu news, articles, tutorials, e-books and everything else in-between.{% endblock %}" />
+      <meta property="og:description" content="{{ self.description() }}" />
+
     {% if post and post.featuredmedia %}
       <meta property="og:image" content="{{post.featuredmedia.source_url}}" />
     {% else %}
@@ -23,26 +37,7 @@
     {% endif %}
 
     {% if post and post.link %}
-      <meta property="og:url" content="{{post.link}}" />
-    {% endif %}
-
-    {% if post and post.summary %}
-      <meta name="description" content="{{post.summary | striptags}}" />
-      <meta property="og:description" content="{{post.summary | striptags}}" />
-    {% else %}
-      <meta name="description" content="{% block description %}Your source for Ubuntu news, articles, tutorials, e-books and everything else in-between.{% endblock %}" />
-      <meta property="og:description" content="{{ self.description() }}" />
-    {% endif %}
-
-    {% if post and post.title %}
-      <title>{{post.title.rendered | safe}} | Ubuntu blog</title>
-      <meta property="og:title" content="{{post.title.rendered | safe}}" />
-    {% elif self.title and self.title() %}
-      <title>{% block title %}{% endblock %} | Ubuntu blog</title>
-      <meta property="og:title" content="{{self.title.rendered | safe}} | Ubuntu blog" />
-    {% else %}
-      <title>Ubuntu blog</title>
-      <meta property="og:title" content="Ubuntu blog" />
+      <meta property="og:url" content="https://blog.ubuntu.com{{post.link}}" />
     {% endif %}
 
     {% if canonical_link %}

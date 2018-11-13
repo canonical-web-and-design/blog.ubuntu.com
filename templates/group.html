@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% block title %}{{ group_details.name }}{% endblock %}
+{% block description %}{{ group_details.description | safe }}{% endblock %}
 {% block body %}
 
   <section class="p-strip--image is-dark p-strip--suru" style="background-position: center center; background-image:url('{{ group_details.hero_url }}')">

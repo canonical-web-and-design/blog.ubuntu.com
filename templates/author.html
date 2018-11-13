@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% block title %}{{ author.name }}{% endblock %}
+{% block description %}{% if author.id == 217 %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% else %}{{ author.description | safe }}{% endif %}{% endblock %}
 {% block body %}
 <div class="p-strip">
   <div class="row">
