@@ -161,6 +161,12 @@ def homepage():
         sticky=False,
     )
 
+    ## Manipulate the posts to add a newsletter placeholder
+    if page == 1:
+        print('page: ' + str(page))
+        posts.insert(2, 'newsletter')
+        posts.pop(11)
+
     return flask.render_template(
         "index.html",
         posts=posts,
