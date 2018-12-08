@@ -161,7 +161,7 @@ def homepage():
         sticky=False,
     )
 
-    ## Manipulate the posts to add a newsletter placeholder
+    # Manipulate the posts to add a newsletter placeholder
     if page == 1:
         print('page: ' + str(page))
         posts.insert(2, 'newsletter')
