@@ -37,7 +37,7 @@
   {% if loop.index0 % 3 == 0 %}
   <div class="row u-equal-height u-clearfix">
   {% endif %}
-  {% if loop.index0 == 2 and current_page == 1 %}
+  {% if post == 'newsletter' and current_page == 1 %}
   <div class="col-4">
     {% include 'newsletter-form.html' %}
   </div>
