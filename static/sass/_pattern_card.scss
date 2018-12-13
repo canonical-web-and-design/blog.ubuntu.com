@@ -23,7 +23,7 @@
 
   %post-card-header {
     border-radius: 2px;
-    padding: $sp-small $sp-medium;
+    padding: $sp-medium $sp-medium $sp-small;
   }
 
   .p-card--post {
@@ -43,21 +43,21 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-      margin: 0 $sp-x-small;
-      padding: $sp-x-small;
+      margin: 0 $sp-small;
+      padding: $sp-medium $sp-small $sp-small;
 
       > a, h3, p {
         display: block;
-        margin: $sp-x-small 0;
+        margin: $sp-small 0;
       }
     }
 
     .p-card__footer {
       border-top: 1px dotted $color-mid-light;
       font-size: .875rem;
-      margin: auto $sp-x-small 0;
+      margin: auto $sp-small 0;
       max-width: inherit;
-      padding: $sp-medium $sp-x-small;
+      padding: $sp-medium $sp-small;
     }
   }
 
@@ -75,8 +75,8 @@
     }
 
     > .p-card__content {
-      margin: 0 $sp-x-small $sp-x-small;
-      padding: $sp-medium $sp-x-small $sp-x-small;
+      margin: 0 $sp-small $sp-small;
+      padding: $sp-medium $sp-small $sp-small;
       border-top: 1px dotted $color-mid-light;
     }
   }
