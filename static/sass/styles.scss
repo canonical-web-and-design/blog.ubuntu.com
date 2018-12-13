@@ -232,3 +232,12 @@ pre {
     }
   }
 }
+
+// XXX KW 2018-12-13 - Fix required until vanilla-framework is updated to 2.0
+p + p:not(.p-muted-heading),
+h5 + p:not(.p-muted-heading),
+h6 + p:not(.p-muted-heading),
+.p-heading--five + p:not(.p-muted-heading),
+.p-heading--six + p:not(.p-muted-heading) {
+    margin-top: 1rem;
+}
