@@ -1,0 +1,29 @@
+@mixin blog-p-navigation {
+  // XXX Caleb - 30.01.18 Nav search box styling fixes
+  .p-navigation .p-navigation__nav > .p-search-box {
+    @media (min-width: $breakpoint-navigation-threshold + 1) {
+      margin-top: .4rem;
+      max-width: 15rem;
+    }
+  }
+
+  // XXX Caleb - 30.01.18 Custom hide utilities for navigation breakpoints
+  .u-hide--nav-large {
+    @media (min-width: $breakpoint-navigation-threshold + 1) {
+      display: none !important;
+    }
+  }
+
+  .u-hide--nav-small {
+    @media (max-width: $breakpoint-navigation-threshold) {
+      display: none !important;
+    }
+  }
+
+  // XXX Steve: 27.04.18 - Vertically align the logo in the navigation.
+  // https://github.com/vanilla-framework/vanilla-framework/issues/1782
+  .p-navigation__logo {
+    margin-top: .75rem;
+    height: auto;
+  }
+}

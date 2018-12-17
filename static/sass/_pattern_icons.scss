@@ -10,7 +10,7 @@
   background-image: url("data:image/svg+xml,%3Csvg id='Layer_1' xmlns='http://www.w3.org/2000/svg' height='87' width='84'%3E%3Cstyle%3E.st1%7Bfill:currentColor%7D%3C/style%3E%3Cg transform='translate%28-111.97 -929.34%29'%3E%3Cpath d='M109 929.3h90v90h-90v-90z' fill='none'/%3E%3Ccircle cy='974.3' cx='154' r='12' class='st1'/%3E%3Ccircle cy='974.4' cx='154' r='30' fill='none' stroke='currentColor' stroke-width='4.2' stroke-linejoin='round'/%3E%3Cpath class='st1' d='M150 931.7l8-2.4v15h-8v-12.6zm8 84.6h-8v-12h8v12zm38-46v8h-12v-8h12zm-84 8v-8h12v8h-12z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-@mixin insights-p-icons {
+@mixin blog-p-icons {
   .p-icon {
     &--calendar {
       @extend %icon;
