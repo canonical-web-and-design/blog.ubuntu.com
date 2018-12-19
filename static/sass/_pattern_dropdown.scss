@@ -1,0 +1,56 @@
+@mixin blog-p-dropdown {
+  /// XXX Navigation dropdown
+  /// Temporary implementation of nav dropdown until implemented in Vanilla
+  @media (min-width: $breakpoint-navigation-threshold + 1) {
+    .p-navigation__link:hover .hover-menu {
+      display: block;
+      z-index: 10;
+    }
+  }
+
+  .p-navigation .p-navigation__nav ul li:hover ul::after {
+    @media (min-width: $breakpoint-navigation-threshold + 1) {
+      background: url('https://assets.ubuntu.com/v1/b70e6370-nav-arrow-white.svg') $sp-large bottom no-repeat;
+      content: '';
+      display: block;
+      height: $sp-small;
+      left: 0;
+      position: absolute;
+      top: -7px;
+      width: 150px;
+      z-index: 999;
+    }
+  }
+
+  .hover-menu {
+    display: none;
+
+    @media (min-width: $breakpoint-navigation-threshold + 1) {
+      background: $color-x-light;
+      border: 1px solid $color-mid-light;
+      border-radius: 10px;
+      box-shadow: 0 2px 2px -1px $color-mid-light;
+      display: none;
+      float: none;
+      margin: 0;
+      padding: $sp-x-small 0 $sp-medium;
+      position: absolute;
+      top: 50px;
+      width: 150px;
+      z-index: 1;
+
+      li {
+        font-size: .875rem;
+        padding: $sp-x-small $sp-small 0 $sp-small;
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+      }
+
+      a {
+        color: $color-dark;
+      }
+    }
+  }
+}

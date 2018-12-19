@@ -1,9 +1,9 @@
-@mixin insights-p-strips {
-  @include insights-p-strips-suru;
-  @include insights-p-strips-featured;
+@mixin blog-p-strips {
+  @include blog-p-strips-suru;
+  @include blog-p-strips-featured;
 }
 
-@mixin insights-p-strips-suru {
+@mixin blog-p-strips-suru {
   .p-strip--suru {
     position: relative;
     overflow: hidden;
@@ -29,7 +29,7 @@
   }
 }
 
-@mixin insights-p-strips-featured {
+@mixin blog-p-strips-featured {
   .p-strip--featured {
     position: relative;
     background-color: #0d5777;

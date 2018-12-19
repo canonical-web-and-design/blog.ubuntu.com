@@ -83,7 +83,11 @@
     <div class="col-4">
       {# right rail #}
       {% include 'product-cards.html' %}
-      <div style="position: sticky; top: 2rem;">{% include 'newsletter-form.html' %}</div>
+      <div style="position: sticky; top: 2rem;">
+        <div class="p-card--muted">
+          {% include 'newsletter-form.html' %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

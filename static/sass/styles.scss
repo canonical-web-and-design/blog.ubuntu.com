@@ -3,17 +3,23 @@
 $breakpoint-navigation-threshold: 990px;
 
 @import 'vanilla-framework/scss/build';
-@import 'pattern_social-share';
-@import 'pattern_rtp';
 @import 'pattern_card';
-@import 'pattern_strips';
+@import 'pattern_dropdown';
 @import 'pattern_icons';
+@import 'pattern_navigation';
+@import 'pattern_rtp';
+@import 'pattern_social-share';
+@import 'pattern_strips';
+@import 'utility_crop';
 
-@include insights-p-social-share;
-@include insights-p-rtp;
-@include insights-p-card;
-@include insights-p-strips;
-@include insights-p-icons;
+@include blog-p-card;
+@include blog-u-crop;
+@include blog-p-dropdown;
+@include blog-p-icons;
+@include blog-p-navigation;
+@include blog-p-rtp;
+@include blog-p-social-share;
+@include blog-p-strips;
 
 // Bug fixes
 // Each of the the rules below are bug fixes which need to be addressed further upstream
@@ -22,68 +28,6 @@ $breakpoint-navigation-threshold: 990px;
 // Before any feature branch is merged, these bugs should be raised in their
 // respective repos and referenced here, accompanied with a breif description of
 // the bug
-
-/// XXX Code block top margin
-/// Temporary fix for https://github.com/canonical-websites/insights.ubuntu.com/issues/5
-/// Vanilla issue https://github.com/vanilla-framework/vanilla-framework/issues/1385
-pre {
-  margin-top: 1rem;
-}
-
-/// XXX Navigation dropdown
-/// Temporary implementation of nav dropdown until implemented in Vanilla
-@media (min-width: $breakpoint-navigation-threshold + 1) {
-  .p-navigation__link:hover .hover-menu {
-    display: block;
-    z-index: 10;
-  }
-}
-
-.p-navigation .p-navigation__nav ul li:hover ul::after {
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    background: url('https://assets.ubuntu.com/v1/b70e6370-nav-arrow-white.svg') $sp-large bottom no-repeat;
-    content: '';
-    display: block;
-    height: $sp-x-small;
-    left: 0;
-    position: absolute;
-    top: -7px;
-    width: 150px;
-    z-index: 999;
-  }
-}
-
-.hover-menu {
-  display: none;
-
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    background: $color-x-light;
-    border: 1px solid $color-mid-light;
-    border-radius: 10px;
-    box-shadow: 0 2px 2px -1px $color-mid-light;
-    display: none;
-    float: none;
-    margin: 0;
-    padding: $sp-x-small 0 $sp-medium;
-    position: absolute;
-    top: 50px;
-    width: 150px;
-    z-index: 1;
-
-    li {
-      font-size: .875rem;
-      padding: $sp-x-small $sp-small 0 $sp-small;
-
-      &:last-child {
-        padding-bottom: 0;
-      }
-    }
-
-    a {
-      color: $color-dark;
-    }
-  }
-}
 
 /// XXX Small screen accordion
 /// Temporary fix until small screen nav accordion implemented in Vanilla
@@ -123,27 +67,6 @@ pre {
   }
 }
 
-// XXX Caleb - 30.01.18 Nav search box styling fixes
-.p-navigation .p-navigation__nav > .p-search-box {
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    margin-top: 2px;
-    max-width: 15rem;
-  }
-}
-
-// XXX Caleb - 30.01.18 Custom hide utilities for navigation breakpoints
-.u-hide--nav-large {
-  @media (min-width: $breakpoint-navigation-threshold + 1) {
-    display: none !important;
-  }
-}
-
-.u-hide--nav-small {
-  @media (max-width: $breakpoint-navigation-threshold) {
-    display: none !important;
-  }
-}
-
 .p-topic-image {
   height: 2.5rem;
 
@@ -152,22 +75,9 @@ pre {
   }
 }
 
-// XXX Ant: 06.02.2018
-// Can be removed when upgrading to vanilla v1.6.6 >
-.p-navigation .p-navigation__link {
-  > a {
-    border-bottom: 3px solid transparent;
-  }
-
-  &.is-selected > a {
-    border-bottom-color: $color-mid-dark;
-  }
-}
-
 .p-post__content {
   max-width: 35em;
 }
-
 
 .link-cta-ubuntu {
   @extend .p-button--positive;
@@ -190,45 +100,11 @@ pre {
   background-image: none !important;
 }
 
-// Crop to 16:9
-.u-crop--16-9 {
-  position: relative;
-
-  &:before {
-    display: block;
-    content: "";
-    width: 100%;
-    padding-top: 56.25%;
-  }
-
-  // Incase img isn't wrapped in a link
-  > a,
-  > img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-  }
-
-  > a {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-
-// XXX Steve: 27.04.18 - Vertically align the logo in the navigation.
-// https://github.com/vanilla-framework/vanilla-framework/issues/1782
-.p-navigation {
-
-  &__logo {
-    @media (min-width: $breakpoint-navigation-threshold + 1) {
-      margin-top: .75rem !important;
-      margin-bottom: .25rem !important;
-    }
-  }
+// XXX KW 2018-12-13 - Fix required until vanilla-framework is updated to 2.0
+p + p:not(.p-muted-heading),
+h5 + p:not(.p-muted-heading),
+h6 + p:not(.p-muted-heading),
+.p-heading--five + p:not(.p-muted-heading),
+.p-heading--six + p:not(.p-muted-heading) {
+    margin-top: 1rem;
 }
