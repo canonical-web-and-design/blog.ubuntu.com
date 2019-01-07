@@ -17,6 +17,5 @@ yamlordereddictloader==0.4.0
 pyyaml==3.13
 prometheus-flask-exporter==0.2.0
 raven[flask]==6.5.0
-statsd==3.2.2
 prometheus_client==0.3.1
-talisker==0.9.16
+talisker==0.11.0
