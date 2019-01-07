@@ -150,7 +150,7 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-autoprefixer@^7.1.3:
+autoprefixer@7.2.6:
   version "7.2.6"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-7.2.6.tgz#256672f86f7c735da849c4f07d008abb056067dc"
   dependencies:
@@ -404,7 +404,7 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
-cookie-policy@^1.0.5:
+cookie-policy@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/cookie-policy/-/cookie-policy-1.0.5.tgz#be71abae448c07fe97e5a0b1234d628e835072c3"
 
@@ -959,7 +959,7 @@ glob@~3.1.21:
     inherits "1"
     minimatch "~0.2.11"
 
-global-nav@^0.2.3:
+global-nav@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/global-nav/-/global-nav-0.2.3.tgz#8f61296bbf3803fdcff1540399c0fcc526f355ed"
 
@@ -1668,7 +1668,7 @@ node-pre-gyp@^0.9.0:
     semver "^5.3.0"
     tar "^4"
 
-node-sass@^4.5.3:
+node-sass@4.9.0:
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.9.0.tgz#d1b8aa855d98ed684d6848db929a20771cc2ae52"
   dependencies:
@@ -1931,7 +1931,7 @@ pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
 
-postcss-cli@^4.1.0:
+postcss-cli@4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/postcss-cli/-/postcss-cli-4.1.1.tgz#b94bd8fffbb7ac1f62f2607e78fc9397f7f63a5d"
   dependencies:
@@ -2264,7 +2264,7 @@ sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sass-lint@^1.10.2:
+sass-lint@1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/sass-lint/-/sass-lint-1.12.1.tgz#630f69c216aa206b8232fb2aa907bdf3336b6d83"
   dependencies:
@@ -2617,7 +2617,7 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-watch-cli@^0.2.2:
+watch-cli@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/watch-cli/-/watch-cli-0.2.3.tgz#60a7e2989a15673711c85bfa158b41801e518cbe"
   dependencies:
