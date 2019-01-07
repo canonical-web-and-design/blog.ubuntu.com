@@ -1,5 +1,12 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    "schedule:weekends"
+  ],
+  "packageRules": [
+    {
+      "depTypeList": ["devDependencies"],
+      "extends": [":automergeMinor"]
+    }
   ]
 }
