@@ -19,7 +19,7 @@
     "autoprefixer": "7.2.6",
     "cookie-policy": "1.0.5",
     "global-nav": "0.2.3",
-    "node-sass": "4.9.0",
+    "node-sass": "4.11.0",
     "postcss-cli": "4.1.1",
     "sass-lint": "1.12.1",
     "vanilla-framework": "1.8.0",
