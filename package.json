@@ -22,7 +22,7 @@
     "node-sass": "4.11.0",
     "postcss-cli": "4.1.1",
     "sass-lint": "1.12.1",
-    "vanilla-framework": "1.8.0",
+    "vanilla-framework": "1.8.1",
     "watch-cli": "0.2.3"
   }
 }
