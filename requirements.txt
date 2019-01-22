@@ -4,7 +4,7 @@ click==6.7
 feedparser==5.2.1
 Flask==1.0.2
 humanize==0.5.1
-idna==2.6
+idna==2.8
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
