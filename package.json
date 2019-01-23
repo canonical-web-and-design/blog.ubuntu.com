@@ -16,7 +16,7 @@
   },
   "author": "Canonical webteam",
   "devDependencies": {
-    "autoprefixer": "7.2.6",
+    "autoprefixer": "9.4.6",
     "cookie-policy": "1.0.5",
     "global-nav": "0.2.3",
     "node-sass": "4.11.0",
