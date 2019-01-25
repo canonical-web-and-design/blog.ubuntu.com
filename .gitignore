@@ -59,4 +59,4 @@ env[23]/
 
 # Project specific ignores
 static/js/modules/cookie-policy.js
-static/js/modules/global.js
+static/js/modules/global-nav.js
