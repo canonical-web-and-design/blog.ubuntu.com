@@ -18,7 +18,7 @@
   "devDependencies": {
     "autoprefixer": "9.4.6",
     "cookie-policy": "1.0.5",
-    "global-nav": "0.2.3",
+    "global-nav": "1.2.1",
     "node-sass": "4.11.0",
     "postcss-cli": "6.1.1",
     "sass-lint": "1.12.1",
