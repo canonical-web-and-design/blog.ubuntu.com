@@ -6,10 +6,10 @@
     "test-py": "python3 -m unittest discover tests",
     "build": "yarn run build-js && yarn run build-css",
     "build-dev": "yarn run build-js && yarn run build-dev-css",
-    "copy-css": "cp node_modules/cookie-policy/build/css/cookie-policy.css static/css/modules && cp node_modules/global-nav/build/css/main.css static/css/modules",
+    "copy-css": "cp node_modules/cookie-policy/build/css/cookie-policy.css static/css/modules",
     "build-dev-css": "yarn run copy-css && node-sass --include-path node_modules static/sass --output static/css && postcss --use autoprefixer --replace 'static/css/**/*.css'",
     "build-css": "yarn run copy-css && node-sass --include-path node_modules static/sass --output-style compressed --output static/css && postcss --use autoprefixer --no-map --replace 'static/css/**/*.css'",
-    "build-js": "cp node_modules/cookie-policy/build/js/cookie-policy.js static/js/modules && cp node_modules/global-nav/build/js/global.js static/js/modules",
+    "build-js": "cp node_modules/cookie-policy/build/js/cookie-policy.js static/js/modules && cp node_modules/global-nav/dist/index.js static/js/modules/global-nav.js",
     "serve": "./entrypoint 0.0.0.0:${PORT}",
     "watch": "watch -p 'static/sass/**/*.scss' -c 'yarn run build-dev'",
     "clean": "rm -rf node_modules yarn-error.log static/css/**/*.css *.log *.sqlite _site/ build/ .jekyll-metadata .bundle static/js/modules/*.js"
@@ -18,7 +18,7 @@
   "devDependencies": {
     "autoprefixer": "9.4.6",
     "cookie-policy": "1.0.5",
-    "global-nav": "0.2.3",
+    "global-nav": "1.2.1",
     "node-sass": "4.11.0",
     "postcss-cli": "6.1.1",
     "sass-lint": "1.12.1",

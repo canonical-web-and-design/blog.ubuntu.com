@@ -86,6 +86,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </header>
 
+    <script src="/static/js/modules/global-nav.js"></script>
+    <script>canonicalGlobalNav.createNav({maxWidth: '64.875rem'});</script>
+
     {% block body %}{% endblock %}
 
     <div class="p-strip u-no-padding">
@@ -112,15 +115,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="/static/js/aria-controls.js" async></script>
     <script src="/static/js/search.js" async></script>
     <script src="/static/js/modules/cookie-policy.js" defer></script>
-    <script src="/static/js/modules/global.js" defer></script>
     <script>
+
       document.addEventListener("DOMContentLoaded", function(event) {
         var options = {
           'content': 'We use cookies to improve your experience. By your continued use of this site you accept such use.<br /> This notice will disappear by itself. To change your settings please <a href="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy#cookies">see our policy</a>.',
           'duration': 5000
         }
         ubuntu.cookiePolicy.setup(options);
-        ubuntu.globalNav.setup();
       });
     </script>
 
