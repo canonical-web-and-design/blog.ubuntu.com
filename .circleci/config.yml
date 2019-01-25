@@ -5,6 +5,16 @@ defaults: &defaults
     - image: canonicalwebteam/dev
 
 jobs:
+  test-build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Check the site builds
+          command: yarn build
   python-tests:
     <<: *defaults
     steps:
@@ -37,6 +47,7 @@ workflows:
   version: 2
   build:
     jobs:
+      - test-build
       - scss-lint
       - python-lint
       - python-tests
