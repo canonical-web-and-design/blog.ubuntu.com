@@ -1193,9 +1193,9 @@ convert-source-map@^1.1.0:
   dependencies:
     safe-buffer "~5.1.1"
 
-cookie-policy@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/cookie-policy/-/cookie-policy-1.0.6.tgz#8dbaf12bd5b0c300a4147e8e1ce95eb911741725"
+cookie-policy@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/cookie-policy/-/cookie-policy-1.1.0.tgz#759380282c8af118560a99bcb37c50ab039dd899"
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.2.2"

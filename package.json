@@ -17,7 +17,7 @@
   "author": "Canonical webteam",
   "devDependencies": {
     "autoprefixer": "9.4.7",
-    "cookie-policy": "1.0.6",
+    "cookie-policy": "1.1.0",
     "global-nav": "2.0.0",
     "node-sass": "4.11.0",
     "postcss-cli": "6.1.1",
