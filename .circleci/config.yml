@@ -2,7 +2,7 @@ version: 2
 
 defaults: &defaults
   docker:
-    - image: canonicalwebteam/dev
+    - image: canonicalwebteam/dev:v1.6.3
 
 jobs:
   test-site:
@@ -36,9 +36,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: pip install flake8 black
       - run:
           name: Lint python code
           command: yarn lint-python

@@ -16,6 +16,3 @@ raven[flask]==6.10.0
 prometheus_client==0.3.1
 talisker==0.11.1
 
-# Development dependencies
-flake8
-black
