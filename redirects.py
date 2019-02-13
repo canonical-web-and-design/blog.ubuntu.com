@@ -29,14 +29,13 @@ class YamlRegexMap:
         if os.path.isfile(filepath):
             with open(filepath) as redirects_file:
                 lines = yaml.load(
-                    redirects_file,
-                    Loader=yamlordereddictloader.Loader
+                    redirects_file, Loader=yamlordereddictloader.Loader
                 )
 
                 if lines:
                     for url_match, target_url in lines.items():
-                        if url_match[0] != '/':
-                            url_match = '/' + url_match
+                        if url_match[0] != "/":
+                            url_match = "/" + url_match
 
                         self.matches.append(
                             (re.compile(url_match), target_url)
@@ -49,21 +48,21 @@ class YamlRegexMap:
             if result:
                 parts = {}
                 for name, value in result.groupdict().items():
-                    parts[name] = value or ''
+                    parts[name] = value or ""
 
                 target_url = target.format(**parts)
 
                 if flask.request.query_string:
-                    target_url += (
-                        '?' + flask.request.query_string.decode('utf-8')
+                    target_url += "?" + flask.request.query_string.decode(
+                        "utf-8"
                     )
 
                 return target_url
 
 
 def prepare_redirects(
-    permanent_redirects_path='permanent-redirects.yaml',
-    redirects_path='redirects.yaml'
+    permanent_redirects_path="permanent-redirects.yaml",
+    redirects_path="redirects.yaml",
 ):
     """
     Create a regex map from the provided yaml files,

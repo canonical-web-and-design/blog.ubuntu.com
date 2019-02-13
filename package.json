@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "test": "yarn run build && yarn run lint-scss && yarn run lint-py && yarn run test-py",
-    "lint-py": "flake8 --exclude '*env*,node_modules'",
+    "test": "yarn run build && yarn run lint-scss && yarn run lint-python && yarn run test-python",
     "lint-scss": "sass-lint 'static/**/*.scss' --verbose --no-exit",
-    "test-py": "python3 -m unittest discover tests",
+    "lint-python": "flake8 --exclude '*env*,node_modules' && black --exclude '(node_modules/.*|[^/]*env[0-9]?/.*)' --check --line-length 79 .",
+    "test-python": "python3 -m unittest discover tests",
     "build": "yarn run build-js && yarn run build-css",
     "build-dev": "yarn run build-js && yarn run build-dev-css",
     "copy-css": "cp node_modules/cookie-policy/build/css/cookie-policy.css static/css/modules",
