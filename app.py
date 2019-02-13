@@ -163,8 +163,8 @@ def homepage():
 
     # Manipulate the posts to add a newsletter placeholder
     if page == 1:
-        print('page: ' + str(page))
-        posts.insert(2, 'newsletter')
+        print("page: " + str(page))
+        posts.insert(2, "newsletter")
         posts.pop(11)
 
     return flask.render_template(
@@ -377,8 +377,8 @@ def user(slug):
 )
 @app.route('/<regex("[0-9]{4}"):year>/<regex("[0-9]{2}"):month>/<slug>')
 @app.route('/<regex("[0-9]{4}"):year>/<slug>')
-@app.route('/webinar/<slug>')
-@app.route('/<slug>')
+@app.route("/webinar/<slug>")
+@app.route("/<slug>")
 def post(slug, year=None, month=None, day=None):
     posts, total_posts, total_pages = helpers.get_formatted_posts(slugs=[slug])
 

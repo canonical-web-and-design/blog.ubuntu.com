@@ -6,16 +6,16 @@ import helpers
 import feeds
 
 
-API_URL = 'https://admin.insights.ubuntu.com/wp-json/wp/v2'
+API_URL = "https://admin.insights.ubuntu.com/wp-json/wp/v2"
 
 
 def _embed_resource_data(resource):
-    if '_embedded' not in resource:
+    if "_embedded" not in resource:
         return resource
-    embedded = resource['_embedded']
-    if 'wp:featuredmedia' not in embedded:
+    embedded = resource["_embedded"]
+    if "wp:featuredmedia" not in embedded:
         return resource
-    resource['featuredmedia'] = embedded['wp:featuredmedia'][0]
+    resource["featuredmedia"] = embedded["wp:featuredmedia"][0]
     return resource
 
 
@@ -40,32 +40,37 @@ def get_topics(post_id):
     Get the topics for a post
     """
 
-    response = get('topic', {'post': post_id})
+    response = get("topic", {"post": post_id})
 
     return response.json()
 
 
-def get_tags(slugs=[], post_id=''):
+def get_tags(slugs=[], post_id=""):
     """
     Get tag data from API,
     optionally filtering by slug or post_id
     """
 
     response = get(
-        endpoint='tags',
-        parameters={
-            "slug": ','.join(slugs),
-            "post": post_id
-        }
+        endpoint="tags", parameters={"slug": ",".join(slugs), "post": post_id}
     )
 
     return response.json()
 
 
 def get_posts(
-    page=1, per_page=12, query='', sticky=None,
-    slugs=[], group_ids=[], category_ids=[], tag_ids=[], author_ids=[],
-    before=None, after=None, exclude=None
+    page=1,
+    per_page=12,
+    query="",
+    sticky=None,
+    slugs=[],
+    group_ids=[],
+    category_ids=[],
+    tag_ids=[],
+    author_ids=[],
+    before=None,
+    after=None,
+    exclude=None,
 ):
     """
     Get posts by querying the Wordpress API,
@@ -79,29 +84,29 @@ def get_posts(
 
     try:
         response = get(
-            'posts',
+            "posts",
             {
-                '_embed': True,
-                'per_page': per_page,
-                'page': page,
-                'search': query,
-                'sticky': sticky,
-                'slug': ','.join(slugs),
-                'group': helpers.join_ids(group_ids),
-                'categories': helpers.join_ids(category_ids),
-                'tags': helpers.join_ids(tag_ids),
-                'author': helpers.join_ids(author_ids),
-                'before': before.isoformat() if before else None,
-                'after': after.isoformat() if after else None,
-                'exclude': exclude
-            }
+                "_embed": True,
+                "per_page": per_page,
+                "page": page,
+                "search": query,
+                "sticky": sticky,
+                "slug": ",".join(slugs),
+                "group": helpers.join_ids(group_ids),
+                "categories": helpers.join_ids(category_ids),
+                "tags": helpers.join_ids(tag_ids),
+                "author": helpers.join_ids(author_ids),
+                "before": before.isoformat() if before else None,
+                "after": after.isoformat() if after else None,
+                "exclude": exclude,
+            },
         )
     except requests.exceptions.HTTPError as request_error:
         response = request_error.response.json()
 
         if (
-            type(response) is dict and
-            response.get('code') == 'rest_post_invalid_page_number'
+            type(response) is dict
+            and response.get("code") == "rest_post_invalid_page_number"
         ):
             # The page doesn't exist, so set everything to empty
             posts = []
@@ -113,13 +118,9 @@ def get_posts(
     else:
         posts = response.json()
         total_pages = helpers.to_int(
-            response.headers.get('X-WP-TotalPages'),
-            None
+            response.headers.get("X-WP-TotalPages"), None
         )
-        total_posts = helpers.to_int(
-            response.headers.get('X-WP-Total'),
-            None
-        )
+        total_posts = helpers.to_int(response.headers.get("X-WP-Total"), None)
 
     posts = _normalise_resources(posts)
 
@@ -127,24 +128,24 @@ def get_posts(
 
 
 def get_category(category_id):
-    return get('categories/' + str(category_id)).json()
+    return get("categories/" + str(category_id)).json()
 
 
 def get_categories(slugs=[]):
-    response = get('categories', {'slug': ','.join(slugs)})
+    response = get("categories", {"slug": ",".join(slugs)})
 
     return response.json()
 
 
 def get_users(slugs=[]):
-    response = get('users', {'slug': ','.join(slugs)})
+    response = get("users", {"slug": ",".join(slugs)})
 
     return response.json()
 
 
 def get_group(group_id):
-    return get('group/' + str(group_id)).json()
+    return get("group/" + str(group_id)).json()
 
 
 def get_groups(slugs=[]):
-    return get('group', {'slug': ','.join(slugs)}).json()
+    return get("group", {"slug": ",".join(slugs)}).json()
