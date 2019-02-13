@@ -1,5 +1,4 @@
 # Core
-import os
 import time
 import datetime
 from urllib.parse import urlparse
@@ -36,7 +35,7 @@ request_latency_seconds = prometheus_client.Histogram(
 cached_session = requests_cache.CachedSession(
     name="hour-cache",
     expire_after=datetime.timedelta(hours=1),
-    backend=os.environ.get('REQUEST_CACHE_BACKEND') or 'memory',
+    backend='sqlite',
     old_data_on_error=True
 )
 cached_session.mount(
