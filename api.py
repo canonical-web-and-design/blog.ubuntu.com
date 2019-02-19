@@ -67,6 +67,8 @@ def get_posts(
     group_ids=[],
     category_ids=[],
     tag_ids=[],
+    # Exclude "lang:jp" tagged posts
+    tags_exclude_ids=[3184],
     author_ids=[],
     before=None,
     after=None,
@@ -95,6 +97,7 @@ def get_posts(
                 "group": helpers.join_ids(group_ids),
                 "categories": helpers.join_ids(category_ids),
                 "tags": helpers.join_ids(tag_ids),
+                "tags_exclude": helpers.join_ids(tags_exclude_ids),
                 "author": helpers.join_ids(author_ids),
                 "before": before.isoformat() if before else None,
                 "after": after.isoformat() if after else None,
