@@ -119,4 +119,6 @@ def cached_request(url):
             domain=urlparse(url).netloc, code=response.status_code
         ).observe(response.elapsed.total_seconds())
 
+    cached_session.remove_expired_responses()
+
     return response
