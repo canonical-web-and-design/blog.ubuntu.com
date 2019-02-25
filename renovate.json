@@ -9,6 +9,11 @@
       "extends": [":automergeMinor"]
     },
     {
+      "managers": ["pip_requirements"],
+      "packageNames": ["prometheus_client"],
+      "allowedVersions": "<0.5"
+    },
+    {
       "packagePatterns": ["*"],
       "minor": {
         "groupName": "all non-major dependencies",
@@ -17,3 +22,4 @@
     }
   ]
 }
+
