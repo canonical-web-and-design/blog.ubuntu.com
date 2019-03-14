@@ -27,3 +27,6 @@
 
 # alternative homepage used for a/b test
 /home?: /
+
+# specific article redirects
+/2019/02/05/ubuntu-14-04-trusty-tahr-end-of-life/?: /2019/02/05/ubuntu-14-04-trusty-tahr
