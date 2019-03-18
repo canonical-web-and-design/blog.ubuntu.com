@@ -108,3 +108,9 @@ h6 + p:not(.p-muted-heading),
 .p-heading--six + p:not(.p-muted-heading) {
     margin-top: 1rem;
 }
+
+// XXX Steve: 21.06.18
+// https://github.com/vanilla-framework/vanilla-framework/issues/1794
+.u-no-max-width {
+  max-width: none !important;
+}
