@@ -282,7 +282,7 @@ def robotics():
     return _tag_view(
         tag_slug="robotics",
         page_slug="topics",
-        template="topics/robotics.html"
+        template="topics/robotics.html",
     )
 
 
