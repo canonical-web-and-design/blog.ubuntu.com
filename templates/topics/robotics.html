@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Robotics{% endblock %}
+{% block description %}All the latest news on robotics from Canonical{% endblock %}
+{% block body %}
+
+  <div class="p-strip is-shallow is-bordered">
+    <div class="row u-equal-height">
+      <div class="col-6">
+        <div class="p-heading-icon">
+          <div class="p-heading-icon__header">
+            <img class="p-heading-icon__img" src="https://assets.ubuntu.com/v1/c5cb0f8e-picto-ubuntu.svg" alt=""/>
+            <h1 class="p-heading--one u-no-margin--top">Robotics</h1>
+          </div>
+          <p class="p-heading--five">Whether you’re starting in the lab or already in production, Canonical can help manage the complexity of the open-source software underpinning your robot’s brains and personality.</p>
+        </div>
+        <p>
+          <a class="p-link--external" href="https://wwww.ubuntu.com/internet-of-things/robotics">Learn more about robotics from Canonical</a>
+        </p>
+      </div>
+      <div class="col-5 prefix-1 u-align--center u-vertically-center">
+        <img src="https://assets.ubuntu.com/v1/5b16cbb9-robot_2px.svg" alt="" />
+      </div>
+    </div>
+  </div>
+
+  {% include "posts.html" %}
+
+  {% include "pagination.html" %}
+
+{% endblock %}
