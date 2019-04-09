@@ -277,6 +277,15 @@ def snappy():
     )
 
 
+@app.route("/topics/robotics")
+def robotics():
+    return _tag_view(
+        tag_slug="robotics",
+        page_slug="topics",
+        template="topics/robotics.html",
+    )
+
+
 @app.route("/archives")
 def archives():
     page = helpers.to_int(flask.request.args.get("page"), default=1)
