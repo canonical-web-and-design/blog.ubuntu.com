@@ -1,35 +1,14 @@
 # Core
 import time
 import datetime
-from urllib.parse import urlparse
 
 # Third-party
 import feedparser
 import logging
 import requests_cache
-import prometheus_client
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
-from requests.exceptions import RequestException
 
-
-# Prometheus metric exporters
-requested_from_cache_counter = prometheus_client.Counter(
-    "feed_requested_from_cache",
-    "A counter of requests retrieved from the cache",
-    ["domain"],
-)
-failed_requests = prometheus_client.Counter(
-    "feed_failed_requests",
-    "A counter of requests retrieved from the cache",
-    ["error_name", "domain"],
-)
-request_latency_seconds = prometheus_client.Histogram(
-    "feed_request_latency_seconds",
-    "Feed requests retrieved",
-    ["domain", "code"],
-    buckets=[0.25, 0.5, 0.75, 1, 2],
-)
 
 # Cache session settings
 cached_session = requests_cache.CachedSession(
@@ -103,20 +82,6 @@ def cached_request(url):
 
     response = cached_session.get(url, timeout=3)
 
-    try:
-        response.raise_for_status()
-    except RequestException as request_error:
-        failed_requests.labels(
-            error_name=type(request_error).__name__,
-            domain=urlparse(url).netloc,
-        ).inc()
-        raise request_error
-
-    if hasattr(response, "from_cache") and response.from_cache:
-        requested_from_cache_counter.labels(domain=urlparse(url).netloc).inc()
-    else:
-        request_latency_seconds.labels(
-            domain=urlparse(url).netloc, code=response.status_code
-        ).observe(response.elapsed.total_seconds())
+    response.raise_for_status()
 
     return response
