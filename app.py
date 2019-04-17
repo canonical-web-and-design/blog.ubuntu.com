@@ -6,6 +6,7 @@ from urllib.parse import urlparse, urlunparse, unquote
 # Third-party
 import flask
 import talisker.flask
+import talisker.requests
 from dateutil.relativedelta import relativedelta
 
 # Local
@@ -22,6 +23,9 @@ app.jinja_env.filters["monthname"] = helpers.monthname
 app.url_map.strict_slashes = False
 app.url_map.converters["regex"] = helpers.RegexConverter
 talisker.flask.register(app)
+
+if not app.testing:
+    talisker.requests.configure(feeds.cached_session)
 
 apply_redirects = redirects.prepare_redirects(
     permanent_redirects_path="permanent-redirects.yaml",
