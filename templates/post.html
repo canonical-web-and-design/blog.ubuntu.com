@@ -91,6 +91,25 @@
     </div>
   </div>
 </div>
+{% for tag in tags %}
+  {% if tag.slug == 'robotics' %}
+    <div class="p-strip--cta is-deep">
+      <div class="row">
+        <div class="col-8">
+          <h3>Are you building a robot on top of Ubuntu and looking for a partner? Talk to us!</h3>
+          <p>
+            <a href="https://www.ubuntu.com/internet-of-things/contact-us?product=robotics" class="p-button--positive">
+              Contact Us
+            </a>
+          </p>
+        </div>
+        <div class="col-4 u-align--center u-vertically-center u-hide--small">
+          <img width="100" src="https://assets.ubuntu.com/v1/39ebd977-robot.svg" alt="" />
+        </div>
+      </div>  
+    </div>
+  {% endif %}
+{% endfor %}
 <div class="p-strip--light is-shallow">
   <div class="row">
     <div class="col-8">
