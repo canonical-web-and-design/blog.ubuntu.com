@@ -67,8 +67,8 @@ def get_posts(
     group_ids=[],
     category_ids=[],
     tag_ids=[],
-    # Exclude "lang:jp" tagged posts
-    tags_exclude_ids=[3184],
+    # Exclude "lang:jp, lang:cn" tagged posts
+    tags_exclude_ids=[3184, 3265],
     author_ids=[],
     before=None,
     after=None,
