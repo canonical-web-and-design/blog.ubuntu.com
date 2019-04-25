@@ -8,6 +8,8 @@
   Webinar
 {% elif post.category.name == 'White papers' %}
   White paper
-{% else %}
+{% elif post.category.name %}
   {{ post.category.name }}
+{% else %}
+  Article
 {% endif %}

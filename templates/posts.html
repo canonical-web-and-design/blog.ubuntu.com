@@ -43,8 +43,8 @@
   </div>
   {% else %}
     <div class="col-4 p-card--post">
-      <header class="p-card__header--{{ post.group.slug }}">
-        <h5 class="p-muted-heading">{{ post.group.name }}</h5>
+      <header class="p-card__header p-card__header--{{ post.group.slug }}">
+        <h5 class="p-muted-heading">{% if post.group.name %}{{ post.group.name }}{% else %}Ubuntu{% endif %}</h5>
       </header>
       <div class="p-card__content">
         {% if post.featuredmedia and post.featuredmedia.source_url %}
