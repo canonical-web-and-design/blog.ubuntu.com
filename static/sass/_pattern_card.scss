@@ -82,6 +82,10 @@
 
   .p-card__header {
     @extend %post-card-header;
+    border-bottom: 0;
+    border-top: 3px solid #666666;
+    margin-bottom: 0;
+    padding: $sp-medium $sp-medium $sp-small;
 
     &--cloud-and-server {
       @extend %post-card-header;
