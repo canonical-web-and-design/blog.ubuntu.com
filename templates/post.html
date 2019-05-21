@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block description %}{{ post.summary | striptags | urlize(30, true) }}{% endblock %}
+{% block description %}{{ post.summary | striptags }}{% endblock %}
 {% block body %}
 {% if request.args.get('newsletter') == 'true' %}
 <div class="p-strip--light is-shallow">
@@ -93,7 +93,7 @@
 </div>
 {% for tag in tags %}
   {% if tag.slug == 'robotics' %}
-    <div class="p-strip--image is-dark" 
+    <div class="p-strip--image is-dark"
       style="background-image: linear-gradient(44deg, #171717 0%, #181818 9%, #262626 34%, #2D2D2D 67%, #383838 88%, #2E2E2E 100%, #393939 100%);">
       <div class="row">
         <div class="col-8">
@@ -107,7 +107,7 @@
         <div class="col-4 u-align--center u-vertically-center u-hide--small">
           <img width="100" src="https://assets.ubuntu.com/v1/39ebd977-robot.svg" alt="" />
         </div>
-      </div>  
+      </div>
     </div>
   {% endif %}
 {% endfor %}
