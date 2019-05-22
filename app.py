@@ -7,6 +7,7 @@ from urllib.parse import urlparse, urlunparse, unquote
 import flask
 import talisker.flask
 import talisker.requests
+import xmltodict
 from dateutil.relativedelta import relativedelta
 
 # Local
@@ -363,7 +364,17 @@ def feed(type=None, slug=None):  # noqa
         "admin.insights.ubuntu.com", "insights.ubuntu.com"
     )
 
-    return flask.Response(feed_text, mimetype="text/xml")
+    feed = xmltodict.parse(feed_text)
+
+    new_feed = feed.copy()
+    for index, item in enumerate(feed["rss"]["channel"]["item"]):
+        for category in item["category"]:
+            if "lang:cn" in category or "lang:jp" in category:
+                del new_feed["rss"]["channel"]["item"][index]
+
+    return flask.Response(
+        xmltodict.unparse(new_feed, pretty=True), mimetype="text/xml"
+    )
 
 
 @app.route("/author/<slug>")
