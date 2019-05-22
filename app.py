@@ -367,14 +367,20 @@ def feed(type=None, slug=None):  # noqa
     feed = xmltodict.parse(feed_text)
 
     new_feed = feed.copy()
-    for index, item in enumerate(feed["rss"]["channel"]["item"]):
-        for category in item["category"]:
-            if "lang:cn" in category or "lang:jp" in category:
-                del new_feed["rss"]["channel"]["item"][index]
 
-    return flask.Response(
-        xmltodict.unparse(new_feed, pretty=True), mimetype="text/xml"
-    )
+    if (
+        "rss" in feed
+        and "channel" in feed["rss"]
+        and "item" in feed["rss"]["channel"]
+    ):
+        for index, item in enumerate(feed["rss"]["channel"]["item"]):
+            if "category" in item:
+                for category in item["category"]:
+                    if "lang:cn" in category or "lang:jp" in category:
+                        del new_feed["rss"]["channel"]["item"][index]
+    feed = xmltodict.unparse(new_feed, pretty=True)
+
+    return flask.Response(feed, mimetype="text/xml")
 
 
 @app.route("/author/<slug>")
