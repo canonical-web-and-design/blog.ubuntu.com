@@ -366,19 +366,28 @@ def feed(type=None, slug=None):  # noqa
 
     feed = xmltodict.parse(feed_text)
 
-    new_feed = feed.copy()
-
     if (
         "rss" in feed
         and "channel" in feed["rss"]
         and "item" in feed["rss"]["channel"]
     ):
+        indexes_to_delete = []
         for index, item in enumerate(feed["rss"]["channel"]["item"]):
             if "category" in item:
                 for category in item["category"]:
                     if "lang:cn" in category or "lang:jp" in category:
-                        del new_feed["rss"]["channel"]["item"][index]
-    feed = xmltodict.unparse(new_feed, pretty=True)
+                        indexes_to_delete.append(index)
+
+        # the original dict will change in size
+        # so whenever we remove an item we need to decrease
+        # all following index accesses by 1
+        for index, index_to_delete_at in enumerate(indexes_to_delete):
+
+            temp = dict(feed)
+            del temp["rss"]["channel"]["item"][index_to_delete_at - index]
+            feed = temp
+
+    feed = xmltodict.unparse(feed, pretty=True)
 
     return flask.Response(feed, mimetype="text/xml")
 
