@@ -6,6 +6,7 @@ from urllib.parse import urlparse, urlunparse, unquote
 # Third-party
 import flask
 import talisker.flask
+import talisker.logs
 import talisker.requests
 import xmltodict
 from dateutil.relativedelta import relativedelta
@@ -24,6 +25,7 @@ app.jinja_env.filters["monthname"] = helpers.monthname
 app.url_map.strict_slashes = False
 app.url_map.converters["regex"] = helpers.RegexConverter
 talisker.flask.register(app)
+talisker.logs.set_global_extra({"service": "blog.ubuntu.com"})
 
 if not app.testing:
     talisker.requests.configure(feeds.cached_session)
