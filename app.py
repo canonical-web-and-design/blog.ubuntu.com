@@ -404,14 +404,14 @@ def user(slug):
 
     author = authors[0]
 
-    recent_posts, total_posts, total_pages = helpers.get_formatted_posts(
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
         author_ids=[author["id"]], page=page
     )
 
     return flask.render_template(
         "author.html",
         author=author,
-        recent_posts=recent_posts,
+        posts=posts,
         current_page=page,
         total_posts=total_posts,
         total_pages=total_pages,

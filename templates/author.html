@@ -39,7 +39,7 @@
   <div class="row">
     <div class="col-12">
       <h3 class="p-heading--five">{{ total_posts }} posts by {{ author.name }}</h3>
-      {% for post in recent_posts %}
+      {% for post in posts %}
       {% if loop.index0 % 3 == 0 %}
       <div class="row u-equal-height u-clearfix">
       {% endif %}
@@ -76,6 +76,7 @@
               {% endif %}
             {% endif %}
           </div>
+          <p class="p-card__footer">{% include 'singular-category.html' %}</p>
         </div>
       {% if loop.index0 % 3 == 2 or loop.last %}
       </div>
