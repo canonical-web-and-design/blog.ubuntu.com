@@ -397,18 +397,24 @@ def feed(type=None, slug=None):  # noqa
 @app.route("/author/<slug>")
 def user(slug):
     authors = api.get_users(slugs=[slug])
+    page = helpers.to_int(flask.request.args.get("page"), default=1)
 
     if not authors:
         flask.abort(404)
 
     author = authors[0]
 
-    recent_posts, total_posts, total_pages = helpers.get_formatted_posts(
-        author_ids=[author["id"]], per_page=5
+    posts, total_posts, total_pages = helpers.get_formatted_expanded_posts(
+        author_ids=[author["id"]], page=page
     )
 
     return flask.render_template(
-        "author.html", author=author, recent_posts=recent_posts
+        "author.html",
+        author=author,
+        posts=posts,
+        current_page=page,
+        total_posts=total_posts,
+        total_pages=total_pages,
     )
 
 

@@ -5,7 +5,7 @@
 <div class="p-strip">
   <div class="row">
     <div class="col-8">
-      <div class="p-media-object">
+      <div class="p-media-object u-no-margin--bottom">
         {# author.id 217 is Canonical, which needs the icon and description added manually #}
         <img src="{% if author.id == 217 %}https://assets.ubuntu.com/v1/60d9b81e-picto-canonical.svg{% elif author.user_photo %}{{ author.user_photo }}{% else %}{{ author.avatar_urls['96'] }}{% endif %}" class="p-media-object__image is-round">
         <div class="p-media-object__details">
@@ -14,14 +14,9 @@
           </h1>
           {% if author.user_job_title %}<p class="p-media-object__content"><em>{{ author.user_job_title }}</em></p>{% endif %}
 
-          <p class="p-media-object__content">{% if author.id == 217 %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% else %}{{ author.description | safe }}{% endif %}</p>
+          <p class="p-media-object__content u-sv2">{% if author.id == 217 %}Canonical produces Ubuntu, provides commercial services for Ubuntu’s users, and works with hardware manufacturers, software vendors and cloud partners to certify Ubuntu.{% else %}{{ author.description | safe }}{% endif %}</p>
 
-          <ul class="p-inline-list">
-            {% if author.user_google %}
-            <li class="p-inline-list__item">
-              <a href="https://plus.google.com/{{ author.user_google | replace("https://plus.google.com/", "") | replace("plus.google.com/", "") | replace("/", "") }}"><i class="p-icon--google"></i></a>
-            </li>
-            {% endif %}
+          <ul class="p-inline-list u-no-margin--bottom">
             {% if author.user_twitter %}
             <li class="p-inline-list__item">
               <a href="https://twitter.com/{{ author.user_twitter | replace("@", "") }}"><i class="p-icon--twitter"></i></a>
@@ -42,14 +37,53 @@
 
 <div class="p-strip--light">
   <div class="row">
-    <div class="col-8 prefix-1">
-      <h3 class="p-heading--five">Recently posted by {{ author.name }}</h3>
-      <ul class="p-list--divided">
-      {% for post in recent_posts %}
-        <li class="p-list__item"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></li>
-        {% endfor %}
-      </ul>
+    <div class="col-12">
+      <h3 class="p-heading--five">{{ total_posts }} posts by {{ author.name }}</h3>
+      {% for post in posts %}
+      {% if loop.index0 % 3 == 0 %}
+      <div class="row u-equal-height u-clearfix">
+      {% endif %}
+        <div class="col-4 p-card--post">
+          <header class="p-card__header p-card__header--{{ post.group.slug }}">
+            <h5 class="p-muted-heading">{% if post.group.name %}{{ post.group.name }}{% else %}Ubuntu{% endif %}</h5>
+          </header>
+          <div class="p-card__content">
+            {% if post.featuredmedia and post.featuredmedia.source_url %}
+            <div class="u-crop--16-9">
+              <a href="{{post.link}}">
+                <img decoding="async" src="https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_460/{{post.featuredmedia.source_url}}"
+                srcset="https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_460/{{post.featuredmedia.source_url}} 460w,
+                        https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_620/{{post.featuredmedia.source_url}} 620w,
+                        https://res.cloudinary.com/canonical/image/fetch/q_auto,f_auto,w_875/{{post.featuredmedia.source_url}} 875w"
+                sizes="(min-width: 1031px) 460px,
+                        (max-width: 1030px) and (min-width: 876px) 460px,
+                        (max-width: 875px) and (min-width: 621px) 875px,
+                        (max-width: 620px) and (min-width: 461px) 620px,
+                        (max-width: 460px) 460px" alt="{{post.featuredmedia.alt_text}}">
+              </a>
+            </div>
+            {% endif %}
+            <h3 class="p-heading--four"><a href="{{ post.link }}">{{ post.title.rendered | safe }}</a></h3>
+            {% if post.author %}
+              <p><em>By <a href="{{ post.author.link }}" title="More about {{ post.author.name }}">{{ post.author.name }}</a> on {{ post.date }}</em></p>
+            {% endif %}
+            {% if not post.featuredmedia or not post.featuredmedia.source_url %}
+            <p class="u-no-padding--bottom">{{ post.summary | striptags | urlize(30, true) }}</p>
+            {% endif %}
+            {% if current_page == 1 %}
+              {% if loop.index0 == 0 or loop.index0 == 1 %}
+                <p class="u-no-padding--bottom u-hide--small">{{ post.summary | striptags | urlize(30, true) }}</p>
+              {% endif %}
+            {% endif %}
+          </div>
+          <p class="p-card__footer">{% include 'singular-category.html' %}</p>
+        </div>
+      {% if loop.index0 % 3 == 2 or loop.last %}
+      </div>
+      {% endif %}
+      {% endfor %}
     </div>
   </div>
+  {% include "pagination.html" %}
 </div>
 {% endblock %}
